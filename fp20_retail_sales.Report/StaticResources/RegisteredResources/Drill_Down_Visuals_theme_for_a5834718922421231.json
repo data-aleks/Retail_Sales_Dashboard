@@ -1,0 +1,20 @@
+{
+  "name": "Drill Down Visuals theme for a.ivanov@dtadynamics.onmicrosoft.com",
+  "visualStyles": {
+    "*": {
+      "*": {
+        "paid": [
+          {
+            "show": true
+          }
+        ],
+        "license": [
+          {
+            "key": "ZoomCharts Drill Down Visuals Developer License (valid until: 2026-12-19);PBID-59k3gu2t5#L5yyhUSmBCRONdKjxr0YibNK0X2cBdq8T7axbjhqNvxSqFSJhTWCios8sRvPW20RMTUxTzdQDVC+ywlWiRpra0NQ5jAYjWSgbG//BOI537Q74AaxFjZPoiZQB8pNK/TJF8AitzLlMJFTEv5aJmcAvAWcfbtR0Ue48",
+            "hash": "PLFJ+QUbHWlHZoGOJiatU6jn/aVyhct0RmUHIAL5A9qd101Ybg9AcUT3IHJNy1rLNeR9kkEH7/jF2R/VgahalRtS7faxsQ262FHs/UDRdEfgBVJ1cF64C0ltlP+KqijsvB+/rxUW5ziL1PrmjqrswR/ea6qiDbPMG8rVx+sBFsSp7Timq6c3Q=="
+          }
+        ]
+      }
+    }
+  }
+}

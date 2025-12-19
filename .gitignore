@@ -1,0 +1,8 @@
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# Ignore all files in the retail dataset folder...
+data/FP20_33_Retail_Dataset/*
+
+# ...but do not ignore the .xlsx files inside it.
+!data/FP20_33_Retail_Dataset/*.xlsx
