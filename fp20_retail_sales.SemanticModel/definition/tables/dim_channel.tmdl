@@ -1,0 +1,39 @@
+table dim_channel
+	excludeFromModelRefresh
+	lineageTag: 1124a63e-6018-467d-8602-b6b978e1ff89
+
+	column channel_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 23122237-9fd6-4951-94c7-24e3069b4f9f
+		summarizeBy: none
+		sourceColumn: channel_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column channel
+		dataType: string
+		lineageTag: f8377c3a-0dd5-4402-98f9-abc152ff1ede
+		summarizeBy: none
+		sourceColumn: channel
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_channel = m
+		mode: import
+		queryGroup: orders_star_schema
+		source =
+				let
+				    Source = OrderHeader,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"ChannelID"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 0, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "ChannelID"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"Index", "channel_key"}, {"ChannelID", "channel"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

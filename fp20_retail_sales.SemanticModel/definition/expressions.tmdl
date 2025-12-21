@@ -1,0 +1,134 @@
+expression Date =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\dataa\Documents\Data Analytics\Projects\Challenges\FP20_Retail_Sales\data\FP20_33_Retail_Dataset\Christmas_Retail_Sales_and_Marketing_Analysis_Dataset_Challenge_33.xlsx"), null, true),
+		    Calendar_Sheet = Source{[Item="Calendar",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Calendar_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"DateKey", Int64.Type}, {"Date", type date}, {"Week", Int64.Type}, {"FiscalMonth", type text}, {"HolidayFlag", type text}, {"EventName", type text}}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"DateKey", "date_key"}, {"Date", "date"}, {"Week", "week"}, {"FiscalMonth", "fiscal_month"}, {"HolidayFlag", "holiday_flag"}, {"EventName", "event_name"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: b5514450-c873-4563-b69b-16d1f1fc32d9
+	queryGroup: 'Original Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Fulfillment =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\dataa\Documents\Data Analytics\Projects\Challenges\FP20_Retail_Sales\data\FP20_33_Retail_Dataset\Christmas_Retail_Sales_and_Marketing_Analysis_Dataset_Challenge_33.xlsx"), null, true),
+		    Fulfillment_Sheet = Source{[Item="Fulfillment",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Fulfillment_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ShipmentID", type text}, {"OrderID", type text}, {"WarehouseID", type text}, {"Carrier", type text}, {"ServiceLevel", type text}, {"PromisedDate", type date}, {"ShipDate", type date}, {"DeliveryDate", type date}, {"ShipCost$", type number}, {"DeliveryStatus", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: f98a3d9a-baf1-43a8-ad97-1e4c56bbc406
+	queryGroup: 'Original Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression OrderHeader =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\dataa\Documents\Data Analytics\Projects\Challenges\FP20_Retail_Sales\data\FP20_33_Retail_Dataset\Christmas_Retail_Sales_and_Marketing_Analysis_Dataset_Challenge_33.xlsx"), null, true),
+		    OrderHeader_Sheet = Source{[Item="OrderHeader",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(OrderHeader_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"OrderID", type text}, {"OrderDateTime", type datetime}, {"CustomerID", type text}, {"ChannelID", type text}, {"StoreID", type text}, {"PromotionID", type text}, {"CouponCode", type text}, {"PaymentType", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: 592d54a7-ee5c-47f8-902e-53bd11b8582d
+	queryGroup: 'Original Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression OrderLine =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\dataa\Documents\Data Analytics\Projects\Challenges\FP20_Retail_Sales\data\FP20_33_Retail_Dataset\Christmas_Retail_Sales_and_Marketing_Analysis_Dataset_Challenge_33.xlsx"), null, true),
+		    OrderLine_Sheet = Source{[Item="OrderLine",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(OrderLine_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"OrderLineID", type text}, {"OrderID", type text}, {"ProductID", type text}, {"Qty", Int64.Type}, {"UnitPrice", type number}, {"LineDiscount$", type number}, {"LineCost$", type number}, {"LineRevenue$", type number}}),
+		    #"Sorted Rows" = Table.Sort(#"Changed Type",{{"ProductID", Order.Ascending}})
+		in
+		    #"Sorted Rows"
+	lineageTag: 22749858-6c8d-4f10-a5e3-5c39997c3b2d
+	queryGroup: 'Original Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Promotion =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\dataa\Documents\Data Analytics\Projects\Challenges\FP20_Retail_Sales\data\FP20_33_Retail_Dataset\Christmas_Retail_Sales_and_Marketing_Analysis_Dataset_Challenge_33.xlsx"), null, true),
+		    Promotion_Sheet = Source{[Item="Promotion",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Promotion_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PromotionID", type text}, {"Name", type text}, {"CampaignType", type text}, {"StartDate", type date}, {"EndDate", type date}, {"TargetSegment", type text}, {"DiscountType", type text}, {"PlannedLift%", type number}, {"PlannedBudget", type number}})
+		in
+		    #"Changed Type"
+	lineageTag: d0850508-917f-444c-9765-ee8d00755086
+	queryGroup: 'Original Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Product =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\dataa\Documents\Data Analytics\Projects\Challenges\FP20_Retail_Sales\data\FP20_33_Retail_Dataset\Christmas_Retail_Sales_and_Marketing_Analysis_Dataset_Challenge_33.xlsx"), null, true),
+		    Product_Sheet = Source{[Item="Product",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Product_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductID", type text}, {"Category", type text}, {"Subcategory", type text}, {"StandardCost", type number}, {"MSRP", type number}, {"Vendor", type text}, {"SeasonalityTag", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: 9007c1a5-dc4a-40e7-a7f6-7b3c3c9ea058
+	queryGroup: 'Original Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression Returns =
+		let
+		    Source = Excel.Workbook(File.Contents("C:\Users\dataa\Documents\Data Analytics\Projects\Challenges\FP20_Retail_Sales\data\FP20_33_Retail_Dataset\Christmas_Retail_Sales_and_Marketing_Analysis_Dataset_Challenge_33.xlsx"), null, true),
+		    Returns_Sheet = Source{[Item="Returns",Kind="Sheet"]}[Data],
+		    #"Promoted Headers" = Table.PromoteHeaders(Returns_Sheet, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ReturnID", type text}, {"OrderLineID", type text}, {"ReturnDate", type date}, {"ReasonCode", type text}, {"Condition", type text}, {"Refund$", type number}, {"RestockFee$", type number}, {"ReturnShipCost$", type number}, {"Disposition", type text}})
+		in
+		    #"Changed Type"
+	lineageTag: 41269568-2161-4572-9c17-69f137d5c6a5
+	queryGroup: 'Original Data'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression date_master = ```
+		let
+		    // 1. Identify the start and end dates from your fact tables
+		    MinDate = List.Min(fact_order[order_date]), 
+		    MaxDate = List.Max(fact_order_return[return_date]),
+		    
+		    // 2. Calculate the number of days between them
+		    TotalDays = Duration.Days(MaxDate - MinDate) + 1,
+		    
+		    // 3. Generate the list of dates
+		    DateList = List.Dates(MinDate, TotalDays, #duration(1,0,0,0)),
+		    
+		    // 4. Convert the list into a table format
+		    TableFromList = Table.FromList(DateList, Splitter.SplitByNothing(), {"date"}),
+		    
+		    // 5. Ensure the column is set to the Date data type
+		    FinalTable = Table.TransformColumnTypes(TableFromList, {{"date", type date}})
+		in
+		    FinalTable
+		```
+	lineageTag: 9b4718b6-9d26-4833-a9ab-af6914f96a13
+	queryGroup: dim_date
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

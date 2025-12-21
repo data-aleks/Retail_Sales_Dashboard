@@ -1,0 +1,40 @@
+table dim_delivery_status
+	excludeFromModelRefresh
+	lineageTag: c31d802d-1ca1-4aa7-928e-67b46f4260c5
+
+	column delivery_status_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 290283c5-355c-410a-a60a-ad7cf18159de
+		summarizeBy: none
+		sourceColumn: delivery_status_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_status
+		dataType: string
+		lineageTag: 9ed59c3d-a22c-4285-b703-e886d840a816
+		summarizeBy: none
+		sourceColumn: delivery_status
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_delivery_status = m
+		mode: import
+		queryGroup: fulfilment_star_schema
+		source =
+				let
+				    Source = Fulfillment,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"DeliveryStatus"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Duplicates",{{"DeliveryStatus", "delivery_status"}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Renamed Columns", "Index", 0, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "delivery_status"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"Index", "delivery_status_key"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

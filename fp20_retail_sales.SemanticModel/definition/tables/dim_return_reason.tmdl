@@ -1,0 +1,39 @@
+table dim_return_reason
+	excludeFromModelRefresh
+	lineageTag: 2a85ede4-28cd-4378-8aba-12e714826d16
+
+	column return_reason_key
+		dataType: int64
+		formatString: 0
+		lineageTag: dd546b18-3d46-4ef8-803b-9f9185c21e4c
+		summarizeBy: none
+		sourceColumn: return_reason_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column return_reason
+		dataType: string
+		lineageTag: f61bc8e4-ca80-47f6-8fd9-d2281bde341c
+		summarizeBy: none
+		sourceColumn: return_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_return_reason = m
+		mode: import
+		queryGroup: returns_star_schema
+		source =
+				let
+				    Source = Returns,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"ReasonCode"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 0, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "ReasonCode"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"Index", "return_reason_key"}, {"ReasonCode", "return_reason"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

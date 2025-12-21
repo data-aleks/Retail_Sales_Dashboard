@@ -1,0 +1,111 @@
+table dim_promotion
+	excludeFromModelRefresh
+	lineageTag: cd02d20a-2b19-4f10-894f-e8fc70bcacb5
+
+	column promotion_key
+		dataType: int64
+		formatString: 0
+		lineageTag: fc92d850-f124-4202-967b-865221ecac9b
+		summarizeBy: none
+		sourceColumn: promotion_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionID
+		dataType: string
+		lineageTag: 1bfc721f-0b49-4e00-b2fa-4f0ef738a4f7
+		summarizeBy: none
+		sourceColumn: PromotionID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Name
+		dataType: string
+		lineageTag: 85def36d-a3ce-4c8b-ba0d-6f75267661f9
+		summarizeBy: none
+		sourceColumn: Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column CampaignType
+		dataType: string
+		lineageTag: 3ae3fa1d-9fa4-4f3d-9e07-c8e36ff6978f
+		summarizeBy: none
+		sourceColumn: CampaignType
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5c9840ce-ec3b-435d-b475-06e4b2cea230
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EndDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5ff2ce31-b278-4227-8c27-1c26b19bb3c0
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column TargetSegment
+		dataType: string
+		lineageTag: 8e597b4f-4123-4fd1-bd67-5913631d9e55
+		summarizeBy: none
+		sourceColumn: TargetSegment
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiscountType
+		dataType: string
+		lineageTag: 7a29bcc1-799b-469b-b592-415c85f286bb
+		summarizeBy: none
+		sourceColumn: DiscountType
+
+		annotation SummarizationSetBy = Automatic
+
+	column PlannedLift%
+		dataType: double
+		lineageTag: e939c21f-9429-4ccb-9e3e-040b7a4d3f2c
+		summarizeBy: none
+		sourceColumn: PlannedLift%
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PlannedBudget
+		dataType: double
+		lineageTag: e69727b6-9f80-4f8e-9144-fdf6dc48fc2d
+		summarizeBy: none
+		sourceColumn: PlannedBudget
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dim_promotion = m
+		mode: import
+		queryGroup: orders_star_schema
+		source =
+				let
+				    Source = Promotion,
+				    #"Added Index" = Table.AddIndexColumn(Source, "Index", 0, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "promotion_key"}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Columns",{"promotion_key", "PromotionID", "Name", "CampaignType", "StartDate", "EndDate", "TargetSegment", "DiscountType", "PlannedLift%", "PlannedBudget"})
+				in
+				    #"Reordered Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

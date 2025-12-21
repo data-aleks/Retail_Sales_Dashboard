@@ -6,9 +6,50 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation __PBI_TimeIntelligenceEnabled = 1
+queryGroup 'Original Data'
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup orders_star_schema
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup returns_star_schema
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup fulfilment_star_schema
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup dim_date
+
+	annotation PBI_QueryGroupOrder = 4
+
+annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["Date","Fulfillment","OrderHeader","OrderLine","Promotion","Product","Returns","dim_promotion","dim_coupon_code","dim_customer","dim_channel","dim_store","dim_product","dim_payment_type","fact_order","dim_return_reason","dim_return_condition","dim_return_disposition","fact_order_return","dim_carrier","dim_service_level","dim_warehouse","dim_delivery_status","fact_order_fullfilment","dim_date","date_master"]
+
+ref table dim_customer
+ref table dim_channel
+ref table dim_store
+ref table dim_product
+ref table dim_payment_type
+ref table fact_order
+ref table dim_return_reason
+ref table dim_return_condition
+ref table dim_return_disposition
+ref table dim_promotion
+ref table dim_coupon_code
+ref table dim_carrier
+ref table dim_service_level
+ref table dim_warehouse
+ref table dim_delivery_status
+ref table fact_order_fullfilment
+ref table fact_order_return
+ref table dim_date
 
 ref cultureInfo en-GB
 

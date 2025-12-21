@@ -1,0 +1,78 @@
+relationship 00dfff53-af57-0344-4bcd-bd08f0c84292
+	fromColumn: fact_order_return.return_condition_key
+	toColumn: dim_return_condition.return_condition_key
+
+relationship 270bed31-b859-b4f7-2caa-b9bd0c02faff
+	fromColumn: fact_order_return.return_reason_key
+	toColumn: dim_return_reason.return_reason_key
+
+relationship fcd4a176-85b1-4a4b-422b-66206a0a777c
+	fromColumn: fact_order_return.return_disposition_key
+	toColumn: dim_return_disposition.return_disposition_key
+
+relationship b61b001e-bc75-8e22-4ecd-21b9b2f76018
+	fromColumn: fact_order.store_key
+	toColumn: dim_store.store_key
+
+relationship 71197edb-9066-4770-8039-5b61cc55543b
+	fromColumn: fact_order.coupon_key
+	toColumn: dim_coupon_code.coupon_key
+
+relationship 8444250d-d609-8ee4-0c33-f2d9e66e81d5
+	fromColumn: fact_order.payment_type_key
+	toColumn: dim_payment_type.payment_type_key
+
+relationship e3d07ce0-3ce3-40b3-3fb3-de2f1fe01da1
+	fromColumn: fact_order.customer_key
+	toColumn: dim_customer.customer_key
+
+relationship 029507b1-dc84-178b-0744-63fd2bdaf8ef
+	fromColumn: fact_order.promotion_key
+	toColumn: dim_promotion.promotion_key
+
+relationship 1206d721-781e-e9cd-5763-357621a4cc58
+	fromColumn: fact_order.channel_key
+	toColumn: dim_channel.channel_key
+
+relationship bacf5039-a032-eadd-fb84-d726d19ce707
+	fromColumn: fact_order.product_key
+	toColumn: dim_product.product_key
+
+relationship 5af97940-3688-f504-0c38-f3c290549bed
+	fromColumn: fact_order_fullfilment.delivery_status_key
+	toColumn: dim_delivery_status.delivery_status_key
+
+relationship 0a264bd7-afac-3831-3352-f0619561080c
+	fromColumn: fact_order_fullfilment.warehouse_key
+	toColumn: dim_warehouse.warehouse_key
+
+relationship cf8e6911-b106-3193-674c-024ab70421bd
+	fromColumn: fact_order_fullfilment.carrier_key
+	toColumn: dim_carrier.carrier_key
+
+relationship 5adc4465-2eaa-d6c7-b25c-493eac0cfdd8
+	fromColumn: fact_order_fullfilment.service_level_key
+	toColumn: dim_service_level.service_level_key
+
+relationship 5acbb261-a9e5-eff6-ddd5-5a364976827e
+	fromColumn: fact_order.order_date
+	toColumn: dim_date.date
+
+relationship 2a76ccf4-5f3e-72dc-e009-ed60baa6e731
+	fromColumn: fact_order_fullfilment.shipment_date
+	toColumn: dim_date.date
+
+relationship 7f185ea5-bde7-0f1b-078e-9d9fe9503110
+	isActive: false
+	fromColumn: fact_order_fullfilment.promised_date
+	toColumn: dim_date.date
+
+relationship 87b3b2bc-1bb1-7076-dbc7-d82c8f286469
+	isActive: false
+	fromColumn: fact_order_fullfilment.delivery_date
+	toColumn: dim_date.date
+
+relationship c1b63984-0f80-ecfb-5d10-65102b1cfe30
+	fromColumn: fact_order_return.return_date
+	toColumn: dim_date.date
+

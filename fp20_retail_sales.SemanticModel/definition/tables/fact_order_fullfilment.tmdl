@@ -1,0 +1,137 @@
+table fact_order_fullfilment
+	lineageTag: f1b2b43e-432b-48ef-bb31-0eaff7c5f450
+
+	column order_fullfilment_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 64e0c0ff-f402-4d78-ab2f-e0374a9ceef6
+		summarizeBy: sum
+		sourceColumn: order_fullfilment_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column shipment_id
+		dataType: string
+		lineageTag: 6109d66a-b648-4175-a25a-0f334246ff41
+		summarizeBy: none
+		sourceColumn: shipment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_id
+		dataType: string
+		lineageTag: 2fd1d1ca-5873-4a49-8921-bc0d99e8b579
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column promised_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3dffad74-a17d-4a4a-a821-bef6064ce6b3
+		summarizeBy: none
+		sourceColumn: promised_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column shipment_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: c0546f53-cf64-4782-88fa-d238c5253aec
+		summarizeBy: none
+		sourceColumn: shipment_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column delivery_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3e0904c7-29c9-4588-93ca-0dc75a2023c0
+		summarizeBy: none
+		sourceColumn: delivery_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column warehouse_key
+		dataType: int64
+		formatString: 0
+		lineageTag: d4681a42-8c0f-43ea-93cf-1dfb8c9cc6df
+		summarizeBy: none
+		sourceColumn: warehouse_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_status_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f7b4dd33-61d6-4708-aa25-4a5a7b0944f6
+		summarizeBy: none
+		sourceColumn: delivery_status_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 7680c1ea-9f41-4356-a442-1b5c3b535f2e
+		summarizeBy: none
+		sourceColumn: carrier_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column service_level_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 90c79aa0-de0b-49c9-ba9e-e7d037d16c78
+		summarizeBy: none
+		sourceColumn: service_level_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipCost$
+		dataType: double
+		lineageTag: 9b7d46da-2982-45ed-8e67-70af4cb7980c
+		summarizeBy: sum
+		sourceColumn: ShipCost$
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_order_fullfilment = m
+		mode: import
+		queryGroup: fulfilment_star_schema
+		source =
+				let
+				    Source = Fulfillment,
+				    #"Merged Queries" = Table.NestedJoin(Source, {"WarehouseID"}, dim_warehouse, {"warehouse_id"}, "dim_warehouse", JoinKind.LeftOuter),
+				    #"Expanded dim_warehouse" = Table.ExpandTableColumn(#"Merged Queries", "dim_warehouse", {"warehouse_key"}, {"warehouse_key"}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Expanded dim_warehouse", {"DeliveryStatus"}, dim_delivery_status, {"delivery_status"}, "dim_delivery_status", JoinKind.LeftOuter),
+				    #"Expanded dim_delivery_status" = Table.ExpandTableColumn(#"Merged Queries1", "dim_delivery_status", {"delivery_status_key"}, {"delivery_status_key"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded dim_delivery_status",{"DeliveryStatus", "WarehouseID"}),
+				    #"Merged Queries2" = Table.NestedJoin(#"Removed Columns", {"Carrier"}, dim_carrier, {"carrier"}, "dim_carrier", JoinKind.LeftOuter),
+				    #"Expanded dim_carrier" = Table.ExpandTableColumn(#"Merged Queries2", "dim_carrier", {"carrier_key"}, {"carrier_key"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded dim_carrier",{"Carrier"}),
+				    #"Merged Queries3" = Table.NestedJoin(#"Removed Columns1", {"ServiceLevel"}, dim_service_level, {"service_level"}, "dim_service_level", JoinKind.LeftOuter),
+				    #"Expanded dim_service_level" = Table.ExpandTableColumn(#"Merged Queries3", "dim_service_level", {"service_level_key"}, {"service_level_key"}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Expanded dim_service_level",{"warehouse_key", "delivery_status_key", "carrier_key", "service_level_key", "ShipmentID", "OrderID", "ServiceLevel", "PromisedDate", "ShipDate", "DeliveryDate", "ShipCost$"}),
+				    #"Removed Columns2" = Table.RemoveColumns(#"Reordered Columns",{"ServiceLevel"}),
+				    #"Reordered Columns1" = Table.ReorderColumns(#"Removed Columns2",{"ShipmentID", "OrderID", "PromisedDate", "ShipDate", "DeliveryDate", "warehouse_key", "delivery_status_key", "carrier_key", "service_level_key", "ShipCost$"}),
+				    #"Added Index" = Table.AddIndexColumn(#"Reordered Columns1", "Index", 0, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "order_fullfilment_key"}}),
+				    #"Reordered Columns2" = Table.ReorderColumns(#"Renamed Columns",{"order_fullfilment_key", "ShipmentID", "OrderID", "PromisedDate", "ShipDate", "DeliveryDate", "warehouse_key", "delivery_status_key", "carrier_key", "service_level_key", "ShipCost$"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns2",{{"ShipmentID", "shipment_id"}, {"OrderID", "order_id"}, {"PromisedDate", "promised_date"}, {"ShipDate", "shipment_date"}, {"DeliveryDate", "delivery_date"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,43 @@
+table dim_return_disposition
+	excludeFromModelRefresh
+	lineageTag: 4bc77567-6e2d-48a7-a24e-ff2b8662034b
+
+	column return_disposition_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 3df734e1-0030-4fcb-b68c-e78746df5d1c
+		summarizeBy: none
+		sourceColumn: return_disposition_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column return_disposition
+		dataType: string
+		lineageTag: caa6e9d5-65f0-452f-bb35-699b28eb6fbf
+		summarizeBy: none
+		sourceColumn: return_disposition
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_return_disposition = m
+		mode: import
+		queryGroup: returns_star_schema
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\dataa\Documents\Data Analytics\Projects\Challenges\FP20_Retail_Sales\data\FP20_33_Retail_Dataset\Christmas_Retail_Sales_and_Marketing_Analysis_Dataset_Challenge_33.xlsx"), null, true),
+				    Returns_Sheet = Source{[Item="Returns",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Returns_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ReturnID", type text}, {"OrderLineID", type text}, {"ReturnDate", type date}, {"ReasonCode", type text}, {"Condition", type text}, {"Refund$", type number}, {"RestockFee$", type number}, {"ReturnShipCost$", type number}, {"Disposition", type text}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type",{"Disposition"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Duplicates",{{"Disposition", "return_disposition"}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Renamed Columns", "Index", 0, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "return_disposition"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"Index", "return_disposition_key"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
