@@ -26,10 +26,6 @@ relationship e3d07ce0-3ce3-40b3-3fb3-de2f1fe01da1
 	fromColumn: fact_order.customer_key
 	toColumn: dim_customer.customer_key
 
-relationship 029507b1-dc84-178b-0744-63fd2bdaf8ef
-	fromColumn: fact_order.promotion_key
-	toColumn: dim_promotion.promotion_key
-
 relationship 1206d721-781e-e9cd-5763-357621a4cc58
 	fromColumn: fact_order.channel_key
 	toColumn: dim_channel.channel_key

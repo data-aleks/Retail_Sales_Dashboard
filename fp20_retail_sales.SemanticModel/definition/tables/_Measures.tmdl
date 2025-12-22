@@ -29,10 +29,19 @@ table _Measures
 		displayFolder: [Totals]
 		lineageTag: 142ad69d-363d-4e24-8ab4-75b6665d6958
 
-	measure total_refunds = CALCULATE(SUM('fact_order_return'[refund_amount]), USERELATIONSHIP('dim_order'[order_id], 'fact_order_return'[order_id]))
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+	measure total_refunds =
+			
+			CALCULATE(
+			    SUM('fact_order_return'[refund_amount]),
+			    -- Pass the Order IDs from the selected Date to the Returns table
+			    CROSSFILTER('fact_order'[order_id], 'dim_order'[order_id], Both),
+			    USERELATIONSHIP('dim_order'[order_id], 'fact_order_return'[order_id])
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
 		displayFolder: [Refunds]
 		lineageTag: a4d2af44-8d16-439d-91ca-b83eeb557608
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	measure total_refunds_by_category =
 			
@@ -41,16 +50,53 @@ table _Measures
 			    USERELATIONSHIP('dim_order'[order_id], 'fact_order_return'[order_id]),
 			    CROSSFILTER('fact_order'[order_id], 'dim_order'[order_id], Both)
 			)
-		displayFolder: [Refunds]
+		displayFolder: [Product]
 		lineageTag: b11bad96-2fea-469d-807e-513179012154
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	measure total_shipping_cost = CALCULATE(SUM('fact_order_fullfilment'[shipping_cost]), USERELATIONSHIP('dim_order'[order_id], 'fact_order_fullfilment'[order_id]))
+	measure total_shipping_cost =
+			
+			-- 1. Get the list of Order IDs that actually happened on the selected Order Date
+			VAR OrdersOnDate = VALUES('fact_order'[order_id])
+			
+			-- 2. Force those IDs into the fulfillment table, ignoring all existing date filters
+			RETURN
+			    CALCULATE(
+			        SUM('fact_order_fullfilment'[shipping_cost]),
+			        TREATAS(OrdersOnDate, 'fact_order_fullfilment'[order_id]),
+			        ALL('dim_date') -- This breaks the 'Shipment Date' link that is causing the static total
+			    )
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
 		displayFolder: [Totals]
 		lineageTag: e980e7af-b953-45a2-9c1d-2eae5dc7398d
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure net_profit_amount = ```
+			
+			-- 1. Revenue adjusted for returns
+			VAR NetRevenue = [total_gross_revenue] - [total_refunds]
+			
+			-- 2. Combined costs (Product + Shipping)
+			VAR TotalSunkCosts = [total_product_cost] + [total_shipping_cost]
+			
+			-- 3. Final Profit Figure
+			VAR NetProfit = NetRevenue - TotalSunkCosts
+			
+			RETURN 
+			IF(
+			    -- Hide if there is no data to avoid showing $0.00 for empty dates
+			    ISBLANK([total_gross_revenue]), 
+			    BLANK(), 
+			    NetProfit
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: [Profit]
+		lineageTag: f9a270d2-8ae3-46be-ac5d-6d777e55a507
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	partition _Measures = m
 		mode: import

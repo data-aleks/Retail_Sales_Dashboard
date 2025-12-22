@@ -7,7 +7,7 @@ table dim_promotion
 		isHidden
 		formatString: 0
 		lineageTag: fc92d850-f124-4202-967b-865221ecac9b
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: promotion_key
 
 		changedProperty = IsHidden
@@ -40,7 +40,7 @@ table dim_promotion
 
 	column start_date
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 5c9840ce-ec3b-435d-b475-06e4b2cea230
 		summarizeBy: none
 		sourceColumn: start_date
@@ -51,7 +51,7 @@ table dim_promotion
 
 	column end_date
 		dataType: dateTime
-		formatString: Long Date
+		formatString: Short Date
 		lineageTag: 5ff2ce31-b278-4227-8c27-1c26b19bb3c0
 		summarizeBy: none
 		sourceColumn: end_date
@@ -80,7 +80,7 @@ table dim_promotion
 		dataType: double
 		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: e939c21f-9429-4ccb-9e3e-040b7a4d3f2c
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: planned_lift
 
 		annotation SummarizationSetBy = Automatic
@@ -89,8 +89,17 @@ table dim_promotion
 		dataType: double
 		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: e69727b6-9f80-4f8e-9144-fdf6dc48fc2d
-		summarizeBy: none
+		summarizeBy: sum
 		sourceColumn: planned_budget
+
+		annotation SummarizationSetBy = Automatic
+
+	column promotion_duration = ```
+			DATEDIFF(dim_promotion[start_date], dim_promotion[end_date], DAY) 
+			```
+		formatString: 0
+		lineageTag: 4c492f28-906d-48f1-9204-f724fff497c4
+		summarizeBy: sum
 
 		annotation SummarizationSetBy = Automatic
 

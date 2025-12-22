@@ -91,18 +91,6 @@ table fact_order
 
 		annotation SummarizationSetBy = Automatic
 
-	column promotion_key
-		dataType: int64
-		isHidden
-		formatString: 0
-		lineageTag: 637a4113-9e75-45cd-9a95-0e011663ed5a
-		summarizeBy: none
-		sourceColumn: promotion_key
-
-		changedProperty = IsHidden
-
-		annotation SummarizationSetBy = Automatic
-
 	column coupon_key
 		dataType: int64
 		isHidden
@@ -205,6 +193,15 @@ table fact_order
 
 		annotation SummarizationSetBy = Automatic
 
+	column promotion_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 9adf054a-1090-479d-8848-31b24446a4a6
+		summarizeBy: sum
+		sourceColumn: promotion_key
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_order = m
 		mode: import
 		queryGroup: orders_star_schema
@@ -212,8 +209,8 @@ table fact_order
 				let
 				    Source = OrderLine,
 				    #"Merged Queries" = Table.NestedJoin(Source, {"OrderID"}, OrderHeader, {"OrderID"}, "OrderHeader", JoinKind.LeftOuter),
-				    #"Expanded OrderHeader" = Table.ExpandTableColumn(#"Merged Queries", "OrderHeader", {"OrderDateTime", "CustomerID", "ChannelID", "StoreID", "promotion_id", "CouponCode", "PaymentType"}, {"OrderDateTime", "CustomerID", "ChannelID", "StoreID", "promotion_id", "CouponCode", "PaymentType"}),
-				    #"Reordered Columns" = Table.ReorderColumns(#"Expanded OrderHeader",{"OrderDateTime", "CustomerID", "ChannelID", "StoreID", "promotion_id", "CouponCode", "PaymentType", "OrderLineID", "OrderID", "ProductID", "Qty", "UnitPrice", "LineDiscount$", "LineCost$", "LineRevenue$"}),
+				    #"Expanded OrderHeader" = Table.ExpandTableColumn(#"Merged Queries", "OrderHeader", {"OrderDateTime", "CustomerID", "ChannelID", "StoreID", "PromotionID", "CouponCode", "PaymentType"}, {"OrderDateTime", "CustomerID", "ChannelID", "StoreID", "PromotionID", "CouponCode", "PaymentType"}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Expanded OrderHeader",{"OrderDateTime", "CustomerID", "ChannelID", "StoreID", "PromotionID", "CouponCode", "PaymentType", "OrderLineID", "OrderID", "ProductID", "Qty", "UnitPrice", "LineDiscount$", "LineCost$", "LineRevenue$"}),
 				    #"Merged Queries1" = Table.NestedJoin(#"Reordered Columns", {"CustomerID"}, dim_customer, {"customer_id"}, "dim_customer", JoinKind.LeftOuter),
 				    #"Expanded dim_customer" = Table.ExpandTableColumn(#"Merged Queries1", "dim_customer", {"customer_key"}, {"customer_key"}),
 				    #"Removed Columns" = Table.RemoveColumns(#"Expanded dim_customer",{"CustomerID"}),
@@ -223,10 +220,7 @@ table fact_order
 				    #"Merged Queries3" = Table.NestedJoin(#"Removed Columns1", {"StoreID"}, dim_store, {"store_id"}, "dim_store", JoinKind.LeftOuter),
 				    #"Expanded dim_store" = Table.ExpandTableColumn(#"Merged Queries3", "dim_store", {"store_key"}, {"store_key"}),
 				    #"Removed Columns2" = Table.RemoveColumns(#"Expanded dim_store",{"StoreID"}),
-				    #"Merged Queries4" = Table.NestedJoin(#"Removed Columns2", {"promotion_id"}, dim_promotion, {"promotion_id"}, "dim_promotion", JoinKind.LeftOuter),
-				    #"Expanded dim_promotion" = Table.ExpandTableColumn(#"Merged Queries4", "dim_promotion", {"promotion_key"}, {"promotion_key"}),
-				    #"Removed Columns3" = Table.RemoveColumns(#"Expanded dim_promotion",{"promotion_id"}),
-				    #"Merged Queries5" = Table.NestedJoin(#"Removed Columns3", {"CouponCode"}, dim_coupon_code, {"coupon_code"}, "dim_coupon_code", JoinKind.LeftOuter),
+				    #"Merged Queries5" = Table.NestedJoin(#"Removed Columns2", {"CouponCode"}, dim_coupon_code, {"coupon_code"}, "dim_coupon_code", JoinKind.LeftOuter),
 				    #"Expanded dim_coupon_code" = Table.ExpandTableColumn(#"Merged Queries5", "dim_coupon_code", {"coupon_key"}, {"coupon_key"}),
 				    #"Removed Columns4" = Table.RemoveColumns(#"Expanded dim_coupon_code",{"CouponCode"}),
 				    #"Merged Queries6" = Table.NestedJoin(#"Removed Columns4", {"PaymentType"}, dim_payment_type, {"payment_type"}, "dim_payment_type", JoinKind.LeftOuter),
@@ -235,27 +229,24 @@ table fact_order
 				    #"Merged Queries7" = Table.NestedJoin(#"Removed Columns5", {"ProductID"}, dim_product, {"product_id"}, "dim_product", JoinKind.LeftOuter),
 				    #"Expanded dim_product" = Table.ExpandTableColumn(#"Merged Queries7", "dim_product", {"product_key"}, {"product_key"}),
 				    #"Removed Columns6" = Table.RemoveColumns(#"Expanded dim_product",{"ProductID"}),
-				    #"Reordered Columns1" = Table.ReorderColumns(#"Removed Columns6",{"OrderDateTime", "OrderLineID", "OrderID", "customer_key", "channel_key", "store_key", "promotion_key", "coupon_key", "payment_type_key", "product_key", "Qty", "UnitPrice", "LineDiscount$", "LineCost$", "LineRevenue$"}),
-				    #"Added Index" = Table.AddIndexColumn(#"Reordered Columns1", "Index", 0, 1, Int64.Type),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Columns6", "Index", 0, 1, Int64.Type),
 				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "order_key"}}),
-				    #"Reordered Columns2" = Table.ReorderColumns(#"Renamed Columns",{"order_key", "OrderID", "OrderDateTime", "OrderLineID", "customer_key", "channel_key", "store_key", "promotion_key", "coupon_key", "payment_type_key", "product_key", "Qty", "UnitPrice", "LineDiscount$", "LineCost$", "LineRevenue$"}),
-				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns2",{{"OrderID", "order_id"}}),
-				    #"Reordered Columns3" = Table.ReorderColumns(#"Renamed Columns1",{"order_key", "OrderLineID", "order_id", "OrderDateTime", "customer_key", "channel_key", "store_key", "promotion_key", "coupon_key", "payment_type_key", "product_key", "Qty", "UnitPrice", "LineDiscount$", "LineCost$", "LineRevenue$"}),
-				    #"Merged Queries8" = Table.NestedJoin(#"Reordered Columns3", {"order_id"}, fact_order_return, {"order_id"}, "fact_order_return", JoinKind.LeftOuter),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Renamed Columns",{{"OrderID", "order_id"}}),
+				    #"Merged Queries8" = Table.NestedJoin(#"Renamed Columns1", {"order_id"}, fact_order_return, {"order_id"}, "fact_order_return", JoinKind.LeftOuter),
 				    #"Expanded fact_order_return" = Table.ExpandTableColumn(#"Merged Queries8", "fact_order_return", {"order_return_key"}, {"order_return_key"}),
-				    #"Reordered Columns4" = Table.ReorderColumns(#"Expanded fact_order_return",{"order_key", "OrderLineID", "order_id", "OrderDateTime", "order_return_key", "customer_key", "channel_key", "store_key", "promotion_key", "coupon_key", "payment_type_key", "product_key", "Qty", "UnitPrice", "LineDiscount$", "LineCost$", "LineRevenue$"}),
-				    #"Merged Queries9" = Table.NestedJoin(#"Reordered Columns4", {"order_id"}, fact_order_fullfilment, {"order_id"}, "fact_order_fullfilment", JoinKind.LeftOuter),
+				    #"Merged Queries9" = Table.NestedJoin(#"Expanded fact_order_return", {"order_id"}, fact_order_fullfilment, {"order_id"}, "fact_order_fullfilment", JoinKind.LeftOuter),
 				    #"Expanded fact_order_fullfilment" = Table.ExpandTableColumn(#"Merged Queries9", "fact_order_fullfilment", {"order_fullfilment_key"}, {"order_fullfilment_key"}),
-				    #"Reordered Columns5" = Table.ReorderColumns(#"Expanded fact_order_fullfilment",{"order_key", "OrderLineID", "order_id", "OrderDateTime", "order_fullfilment_key", "order_return_key", "customer_key", "channel_key", "store_key", "promotion_key", "coupon_key", "payment_type_key", "product_key", "Qty", "UnitPrice", "LineDiscount$", "LineCost$", "LineRevenue$"}),
-				    #"Renamed Columns2" = Table.RenameColumns(#"Reordered Columns5",{{"OrderLineID", "order_reference"}, {"OrderDateTime", "order_date"}, {"Qty", "order_quantity"}, {"UnitPrice", "unit_price"}, {"LineDiscount$", "order_discount"}, {"LineCost$", "order_cost"}, {"LineRevenue$", "order_revenue"}}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Expanded fact_order_fullfilment",{{"OrderLineID", "order_reference"}, {"OrderDateTime", "order_date"}, {"Qty", "order_quantity"}, {"UnitPrice", "unit_price"}, {"LineDiscount$", "order_discount"}, {"LineCost$", "order_cost"}, {"LineRevenue$", "order_revenue"}}),
 				    #"Inserted Date" = Table.AddColumn(#"Renamed Columns2", "Date", each DateTime.Date([order_date]), type date),
-				    #"Reordered Columns6" = Table.ReorderColumns(#"Inserted Date",{"order_key", "order_reference", "order_id", "Date", "order_date", "order_fullfilment_key", "order_return_key", "customer_key", "channel_key", "store_key", "promotion_key", "coupon_key", "payment_type_key", "product_key", "order_quantity", "unit_price", "order_discount", "order_cost", "order_revenue"}),
-				    #"Inserted Time" = Table.AddColumn(#"Reordered Columns6", "Time", each DateTime.Time([order_date]), type time),
-				    #"Reordered Columns7" = Table.ReorderColumns(#"Inserted Time",{"order_key", "order_reference", "order_id", "Date", "Time", "order_date", "order_fullfilment_key", "order_return_key", "customer_key", "channel_key", "store_key", "promotion_key", "coupon_key", "payment_type_key", "product_key", "order_quantity", "unit_price", "order_discount", "order_cost", "order_revenue"}),
-				    #"Removed Columns7" = Table.RemoveColumns(#"Reordered Columns7",{"order_date"}),
-				    #"Renamed Columns3" = Table.RenameColumns(#"Removed Columns7",{{"Date", "order_date"}, {"Time", "order_time"}})
+				    #"Inserted Time" = Table.AddColumn(#"Inserted Date", "Time", each DateTime.Time([order_date]), type time),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Inserted Time",{{"PromotionID", "promotion_id"}}),
+				    #"Removed Columns3" = Table.RemoveColumns(#"Renamed Columns3",{"order_date"}),
+				    #"Renamed Columns4" = Table.RenameColumns(#"Removed Columns3",{{"Date", "order_date"}, {"Time", "order_time"}}),
+				    #"Merged Queries4" = Table.NestedJoin(#"Renamed Columns4", {"promotion_id"}, dim_promotion, {"promotion_id"}, "dim_promotion", JoinKind.LeftOuter),
+				    #"Expanded dim_promotion" = Table.ExpandTableColumn(#"Merged Queries4", "dim_promotion", {"promotion_key"}, {"promotion_key"}),
+				    #"Removed Columns7" = Table.RemoveColumns(#"Expanded dim_promotion",{"promotion_id"})
 				in
-				    #"Renamed Columns3"
+				    #"Removed Columns7"
 
 	annotation PBI_NavigationStepName = Navigation
 

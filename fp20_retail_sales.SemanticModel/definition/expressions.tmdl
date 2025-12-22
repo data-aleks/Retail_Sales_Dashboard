@@ -107,11 +107,13 @@ expression Returns =
 
 expression date_master = ```
 		let
-		    // 1. Identify the start and end dates from your fact tables
-		    MinDate = List.Min(fact_order[order_date]), 
-		    MaxDate = List.Max(fact_order_return[return_date]),
+		    // 1. Identify and convert to Date type immediately
+		    // Using Date.From ensures the time component (00:00:00) is stripped out
+		    MinDate = Date.From(List.Min(OrderHeader[OrderDateTime])), 
+		    MaxDate = Date.From(List.Max(Returns[ReturnDate])),
 		    
 		    // 2. Calculate the number of days between them
+		    // Now both are Date types, so Duration.Days will work perfectly
 		    TotalDays = Duration.Days(MaxDate - MinDate) + 1,
 		    
 		    // 3. Generate the list of dates

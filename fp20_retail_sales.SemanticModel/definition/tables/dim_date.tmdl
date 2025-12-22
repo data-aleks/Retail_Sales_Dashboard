@@ -4,10 +4,13 @@ table dim_date
 
 	column date_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: bbc6cf54-eb9a-42b0-8fd1-e6a5e3d06593
 		summarizeBy: sum
 		sourceColumn: date_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -99,6 +102,21 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
+	hierarchy date_hierarchy
+		lineageTag: 2171c74a-8767-4198-874e-ca4f94b30254
+
+		level date
+			lineageTag: 6697fbe2-4b32-4c60-84d0-2aa707d90b3a
+			column: date
+
+		level month_name
+			lineageTag: 6e59b0d1-c4c6-41c1-b598-49cc8629a2e7
+			column: month_name
+
+		level day_name
+			lineageTag: fe4c85c3-7de2-4222-81d7-12965dd32a95
+			column: day_name
+
 	partition dim_date = m
 		mode: import
 		queryGroup: dim_date
@@ -137,5 +155,5 @@ table dim_date
 
 	annotation PBI_NavigationStepName = Navigation
 
-	annotation PBI_ResultType = Exception
+	annotation PBI_ResultType = Table
 
