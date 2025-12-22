@@ -4,10 +4,13 @@ table dim_return_reason
 
 	column return_reason_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: dd546b18-3d46-4ef8-803b-9f9185c21e4c
 		summarizeBy: none
 		sourceColumn: return_reason_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

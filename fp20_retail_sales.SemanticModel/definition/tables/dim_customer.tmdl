@@ -4,10 +4,13 @@ table dim_customer
 
 	column customer_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 4472c436-ac1c-45e6-a34e-cfdb4f526ebd
 		summarizeBy: none
 		sourceColumn: customer_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

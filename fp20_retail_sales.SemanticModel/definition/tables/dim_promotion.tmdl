@@ -4,94 +4,95 @@ table dim_promotion
 
 	column promotion_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: fc92d850-f124-4202-967b-865221ecac9b
 		summarizeBy: none
 		sourceColumn: promotion_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
-	column PromotionID
+	column promotion_id
 		dataType: string
 		lineageTag: 1bfc721f-0b49-4e00-b2fa-4f0ef738a4f7
 		summarizeBy: none
-		sourceColumn: PromotionID
+		sourceColumn: promotion_id
 
 		annotation SummarizationSetBy = Automatic
 
-	column Name
+	column promotion_name
 		dataType: string
 		lineageTag: 85def36d-a3ce-4c8b-ba0d-6f75267661f9
 		summarizeBy: none
-		sourceColumn: Name
+		sourceColumn: promotion_name
 
 		annotation SummarizationSetBy = Automatic
 
-	column CampaignType
+	column campaign_type
 		dataType: string
 		lineageTag: 3ae3fa1d-9fa4-4f3d-9e07-c8e36ff6978f
 		summarizeBy: none
-		sourceColumn: CampaignType
+		sourceColumn: campaign_type
 
 		annotation SummarizationSetBy = Automatic
 
-	column StartDate
+	column start_date
 		dataType: dateTime
 		formatString: Long Date
 		lineageTag: 5c9840ce-ec3b-435d-b475-06e4b2cea230
 		summarizeBy: none
-		sourceColumn: StartDate
+		sourceColumn: start_date
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column EndDate
+	column end_date
 		dataType: dateTime
 		formatString: Long Date
 		lineageTag: 5ff2ce31-b278-4227-8c27-1c26b19bb3c0
 		summarizeBy: none
-		sourceColumn: EndDate
+		sourceColumn: end_date
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column TargetSegment
+	column target_segment
 		dataType: string
 		lineageTag: 8e597b4f-4123-4fd1-bd67-5913631d9e55
 		summarizeBy: none
-		sourceColumn: TargetSegment
+		sourceColumn: target_segment
 
 		annotation SummarizationSetBy = Automatic
 
-	column DiscountType
+	column discount_type
 		dataType: string
 		lineageTag: 7a29bcc1-799b-469b-b592-415c85f286bb
 		summarizeBy: none
-		sourceColumn: DiscountType
+		sourceColumn: discount_type
 
 		annotation SummarizationSetBy = Automatic
 
-	column PlannedLift%
+	column planned_lift
 		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: e939c21f-9429-4ccb-9e3e-040b7a4d3f2c
 		summarizeBy: none
-		sourceColumn: PlannedLift%
+		sourceColumn: planned_lift
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column PlannedBudget
+	column planned_budget
 		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: e69727b6-9f80-4f8e-9144-fdf6dc48fc2d
 		summarizeBy: none
-		sourceColumn: PlannedBudget
+		sourceColumn: planned_budget
 
 		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	partition dim_promotion = m
 		mode: import
@@ -101,9 +102,11 @@ table dim_promotion
 				    Source = Promotion,
 				    #"Added Index" = Table.AddIndexColumn(Source, "Index", 0, 1, Int64.Type),
 				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "promotion_key"}}),
-				    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Columns",{"promotion_key", "PromotionID", "Name", "CampaignType", "StartDate", "EndDate", "TargetSegment", "DiscountType", "PlannedLift%", "PlannedBudget"})
+				    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Columns",{"promotion_key", "PromotionID", "Name", "CampaignType", "StartDate", "EndDate", "TargetSegment", "DiscountType", "PlannedLift%", "PlannedBudget"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"PromotionID", "promotion_id"}, {"Name", "promotion_name"}, {"CampaignType", "campaign_type"}, {"StartDate", "start_date"}, {"EndDate", "end_date"}, {"TargetSegment", "target_segment"}, {"DiscountType", "discount_type"}, {"PlannedLift%", "planned_lift"}, {"PlannedBudget", "planned_budget"}}),
+				    #"Divided Column" = Table.TransformColumns(#"Renamed Columns1", {{"planned_lift", each _ / 100, type number}})
 				in
-				    #"Reordered Columns"
+				    #"Divided Column"
 
 	annotation PBI_NavigationStepName = Navigation
 

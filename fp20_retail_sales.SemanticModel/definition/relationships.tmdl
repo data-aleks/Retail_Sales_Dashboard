@@ -35,6 +35,8 @@ relationship 1206d721-781e-e9cd-5763-357621a4cc58
 	toColumn: dim_channel.channel_key
 
 relationship bacf5039-a032-eadd-fb84-d726d19ce707
+	crossFilteringBehavior: bothDirections
+	securityFilteringBehavior: bothDirections
 	fromColumn: fact_order.product_key
 	toColumn: dim_product.product_key
 
@@ -75,4 +77,20 @@ relationship 87b3b2bc-1bb1-7076-dbc7-d82c8f286469
 relationship c1b63984-0f80-ecfb-5d10-65102b1cfe30
 	fromColumn: fact_order_return.return_date
 	toColumn: dim_date.date
+
+relationship 39e9e8cb-149d-bdbc-db5a-a2a96864e5a8
+	isActive: false
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: dim_order.order_id
+	toColumn: fact_order_fullfilment.order_id
+
+relationship e0597d8e-87ed-51cc-c6c7-f340e45c8eed
+	fromColumn: fact_order.order_id
+	toColumn: dim_order.order_id
+
+relationship 8af19e55-8eef-f166-8b36-91f268778b24
+	isActive: false
+	fromColumn: fact_order_return.order_id
+	toColumn: dim_order.order_id
 

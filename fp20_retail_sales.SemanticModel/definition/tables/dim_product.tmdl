@@ -12,10 +12,13 @@ table dim_product
 
 	column product_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 5e82ba22-3c5f-4330-9b49-86d73772383a
 		summarizeBy: none
 		sourceColumn: product_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

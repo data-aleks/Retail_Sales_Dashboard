@@ -4,10 +4,13 @@ table dim_carrier
 
 	column carrier_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: abfee9d5-ca16-4fe8-95b2-927d98761300
 		summarizeBy: none
 		sourceColumn: carrier_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

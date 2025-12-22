@@ -4,10 +4,13 @@ table dim_warehouse
 
 	column warehouse_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 69a2b4b4-0718-47de-963b-6b00ea9519c3
 		summarizeBy: none
 		sourceColumn: warehouse_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

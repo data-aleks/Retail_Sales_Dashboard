@@ -4,10 +4,13 @@ table dim_service_level
 
 	column service_level_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: a843d975-e315-4169-8813-ceda6d91df8b
 		summarizeBy: none
 		sourceColumn: service_level_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

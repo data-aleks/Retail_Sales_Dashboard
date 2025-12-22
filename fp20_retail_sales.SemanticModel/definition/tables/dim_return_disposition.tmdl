@@ -4,10 +4,13 @@ table dim_return_disposition
 
 	column return_disposition_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3df734e1-0030-4fcb-b68c-e78746df5d1c
 		summarizeBy: none
 		sourceColumn: return_disposition_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

@@ -1,0 +1,66 @@
+table _Measures
+	lineageTag: 1b4040b6-b913-449e-86db-79db5ebe62fb
+
+	measure net_profit_margin = ```
+			
+			VAR NetRevenue = [total_gross_revenue] - [total_refunds]
+			VAR TotalSunkCosts = [total_product_cost] + [total_shipping_cost]
+			VAR NetProfit = NetRevenue - TotalSunkCosts
+			
+			RETURN 
+			IF(
+			    -- Hide measure if there is no revenue or if costs are missing
+			    ISBLANK(NetRevenue) || NetRevenue <= 0 || ISBLANK(TotalSunkCosts) || TotalSunkCosts = 0, 
+			    BLANK(), 
+			    DIVIDE(NetProfit, NetRevenue, 0)
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: [Profit]
+		lineageTag: aef2b2b5-b7f8-4fdb-a8dc-67b04c2adcc2
+
+	measure total_gross_revenue = SUM('fact_order'[order_revenue])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: [Totals]
+		lineageTag: 48923fdd-1b16-41ae-be3d-9cc0c6e8a198
+
+	measure total_product_cost = SUM(fact_order[order_cost])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: [Totals]
+		lineageTag: 142ad69d-363d-4e24-8ab4-75b6665d6958
+
+	measure total_refunds = CALCULATE(SUM('fact_order_return'[refund_amount]), USERELATIONSHIP('dim_order'[order_id], 'fact_order_return'[order_id]))
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: [Refunds]
+		lineageTag: a4d2af44-8d16-439d-91ca-b83eeb557608
+
+	measure total_refunds_by_category =
+			
+			CALCULATE(
+			    SUM('fact_order_return'[refund_amount]),
+			    USERELATIONSHIP('dim_order'[order_id], 'fact_order_return'[order_id]),
+			    CROSSFILTER('fact_order'[order_id], 'dim_order'[order_id], Both)
+			)
+		displayFolder: [Refunds]
+		lineageTag: b11bad96-2fea-469d-807e-513179012154
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure total_shipping_cost = CALCULATE(SUM('fact_order_fullfilment'[shipping_cost]), USERELATIONSHIP('dim_order'[order_id], 'fact_order_fullfilment'[order_id]))
+		displayFolder: [Totals]
+		lineageTag: e980e7af-b953-45a2-9c1d-2eae5dc7398d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Placeholder = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Placeholder", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Placeholder"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

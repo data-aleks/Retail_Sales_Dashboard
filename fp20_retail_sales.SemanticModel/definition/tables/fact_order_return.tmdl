@@ -3,26 +3,21 @@ table fact_order_return
 
 	column order_return_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: b393fbb4-4018-4adb-8873-f721a8fc7ca1
 		summarizeBy: sum
 		sourceColumn: order_return_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
-	column returnd_id
+	column return_id
 		dataType: string
 		lineageTag: 991b4c43-0716-45b4-a172-865bd62651ed
 		summarizeBy: none
-		sourceColumn: returnd_id
-
-		annotation SummarizationSetBy = Automatic
-
-	column order_line_id
-		dataType: string
-		lineageTag: a3a894e8-fbed-4578-b004-1836893599f9
-		summarizeBy: none
-		sourceColumn: order_line_id
+		sourceColumn: return_id
 
 		annotation SummarizationSetBy = Automatic
 
@@ -39,60 +34,74 @@ table fact_order_return
 
 	column return_disposition_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: a358340b-3f63-47b4-b08a-87c2a96840cf
 		summarizeBy: none
 		sourceColumn: return_disposition_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column return_condition_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 4f1f7e71-584d-4ed7-8851-5f275c032aa3
 		summarizeBy: none
 		sourceColumn: return_condition_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column return_reason_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 905830db-cf02-4a07-b69c-4d95270ab0f3
 		summarizeBy: none
 		sourceColumn: return_reason_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
-	column Refund$
+	column refund_amount
 		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 5c265079-d04c-4cd5-bf70-a64298122549
 		summarizeBy: sum
-		sourceColumn: Refund$
+		sourceColumn: refund_amount
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column RestockFee$
+	column restock_fee
 		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: e47fa86d-2ca2-48fd-aaff-462de969a487
 		summarizeBy: sum
-		sourceColumn: RestockFee$
+		sourceColumn: restock_fee
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	column ReturnShipCost$
+	column return_shipping_cost
 		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 94efaa35-94d1-4852-acee-b4f2bd5348da
 		summarizeBy: sum
-		sourceColumn: ReturnShipCost$
+		sourceColumn: return_shipping_cost
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+	column order_id
+		dataType: string
+		lineageTag: 7999dfe7-69dd-4b6b-9c14-9d9c5f6c0443
+		summarizeBy: none
+		sourceColumn: order_id
+
+		annotation SummarizationSetBy = Automatic
 
 	partition fact_order_return = m
 		mode: import
@@ -112,9 +121,14 @@ table fact_order_return
 				    #"Added Index" = Table.AddIndexColumn(#"Renamed Columns", "Index", 0, 1, Int64.Type),
 				    #"Renamed Columns1" = Table.RenameColumns(#"Added Index",{{"Index", "order_return_key"}}),
 				    #"Reordered Columns1" = Table.ReorderColumns(#"Renamed Columns1",{"order_return_key", "returnd_id", "OrderLineID", "ReturnDate", "return_disposition_key", "return_condition_key", "return_reason_key", "Refund$", "RestockFee$", "ReturnShipCost$"}),
-				    #"Renamed Columns2" = Table.RenameColumns(#"Reordered Columns1",{{"OrderLineID", "order_line_id"}, {"ReturnDate", "return_date"}})
+				    #"Renamed Columns2" = Table.RenameColumns(#"Reordered Columns1",{{"OrderLineID", "order_line_id"}, {"ReturnDate", "return_date"}, {"ReturnShipCost$", "return_shipping_cost"}, {"RestockFee$", "restock_fee"}, {"Refund$", "refund_amount"}}),
+				    #"Merged Queries3" = Table.NestedJoin(#"Renamed Columns2", {"order_line_id"}, OrderLine, {"OrderLineID"}, "OrderLine", JoinKind.LeftOuter),
+				    #"Expanded OrderLine" = Table.ExpandTableColumn(#"Merged Queries3", "OrderLine", {"OrderID"}, {"OrderID"}),
+				    #"Reordered Columns2" = Table.ReorderColumns(#"Expanded OrderLine",{"order_return_key", "returnd_id", "OrderID", "order_line_id", "return_date", "return_disposition_key", "return_condition_key", "return_reason_key", "refund_amount", "restock_fee", "return_shipping_cost"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Reordered Columns2",{"order_line_id"}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Removed Columns1",{{"OrderID", "order_id"}, {"returnd_id", "return_id"}})
 				in
-				    #"Renamed Columns2"
+				    #"Renamed Columns3"
 
 	annotation PBI_NavigationStepName = Navigation
 

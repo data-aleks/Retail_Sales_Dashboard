@@ -1,0 +1,190 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "3a8fc118e4d310003b50",
+  "position": {
+    "x": 35.887850467289724,
+    "y": 58.483904465212881,
+    "z": 0,
+    "height": 661.93146417445485,
+    "width": 1244.1121495327104,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_date"
+                    }
+                  },
+                  "Property": "date"
+                }
+              },
+              "queryRef": "dim_date.date",
+              "nativeQueryRef": "date",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "total_refunds"
+                }
+              },
+              "queryRef": "dim_order.total_refunds",
+              "nativeQueryRef": "total_refunds"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "total_shipping_cost"
+                }
+              },
+              "queryRef": "dim_order.total_shipping_cost",
+              "nativeQueryRef": "total_shipping_cost"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "total_product_cost"
+                }
+              },
+              "queryRef": "dim_order.total_product_cost",
+              "nativeQueryRef": "total_product_cost"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "total_gross_revenue"
+                }
+              },
+              "queryRef": "dim_order.total_gross_revenue",
+              "nativeQueryRef": "total_gross_revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "net_profit_margin"
+                }
+              },
+              "queryRef": "dim_order.net_profit_margin",
+              "nativeQueryRef": "net_profit_margin"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "11882d648a88d60e63e1",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "total_refunds"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d093b47caf2f5540b430",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "total_shipping_cost"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2da85a6261bf68c603aa",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "total_product_cost"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7619acd731d3df9f000f",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "total_gross_revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "04f25431ae5e59b71655",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "net_profit_margin"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

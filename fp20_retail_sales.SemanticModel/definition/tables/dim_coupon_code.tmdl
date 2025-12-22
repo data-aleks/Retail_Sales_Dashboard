@@ -4,10 +4,13 @@ table dim_coupon_code
 
 	column coupon_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: d41bce55-bd48-42c0-b402-a56a8a76a490
 		summarizeBy: none
 		sourceColumn: coupon_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

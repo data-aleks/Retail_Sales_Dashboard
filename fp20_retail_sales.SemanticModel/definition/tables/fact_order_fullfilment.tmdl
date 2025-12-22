@@ -3,10 +3,13 @@ table fact_order_fullfilment
 
 	column order_fullfilment_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 64e0c0ff-f402-4d78-ab2f-e0374a9ceef6
 		summarizeBy: sum
 		sourceColumn: order_fullfilment_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
@@ -61,49 +64,60 @@ table fact_order_fullfilment
 
 	column warehouse_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: d4681a42-8c0f-43ea-93cf-1dfb8c9cc6df
 		summarizeBy: none
 		sourceColumn: warehouse_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column delivery_status_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: f7b4dd33-61d6-4708-aa25-4a5a7b0944f6
 		summarizeBy: none
 		sourceColumn: delivery_status_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column carrier_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 7680c1ea-9f41-4356-a442-1b5c3b535f2e
 		summarizeBy: none
 		sourceColumn: carrier_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
 	column service_level_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 90c79aa0-de0b-49c9-ba9e-e7d037d16c78
 		summarizeBy: none
 		sourceColumn: service_level_key
 
+		changedProperty = IsHidden
+
 		annotation SummarizationSetBy = Automatic
 
-	column ShipCost$
+	column shipping_cost
 		dataType: double
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
 		lineageTag: 9b7d46da-2982-45ed-8e67-70af4cb7980c
 		summarizeBy: sum
-		sourceColumn: ShipCost$
+		sourceColumn: shipping_cost
 
 		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	partition fact_order_fullfilment = m
 		mode: import
@@ -127,7 +141,7 @@ table fact_order_fullfilment
 				    #"Added Index" = Table.AddIndexColumn(#"Reordered Columns1", "Index", 0, 1, Int64.Type),
 				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "order_fullfilment_key"}}),
 				    #"Reordered Columns2" = Table.ReorderColumns(#"Renamed Columns",{"order_fullfilment_key", "ShipmentID", "OrderID", "PromisedDate", "ShipDate", "DeliveryDate", "warehouse_key", "delivery_status_key", "carrier_key", "service_level_key", "ShipCost$"}),
-				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns2",{{"ShipmentID", "shipment_id"}, {"OrderID", "order_id"}, {"PromisedDate", "promised_date"}, {"ShipDate", "shipment_date"}, {"DeliveryDate", "delivery_date"}})
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns2",{{"ShipmentID", "shipment_id"}, {"OrderID", "order_id"}, {"PromisedDate", "promised_date"}, {"ShipDate", "shipment_date"}, {"DeliveryDate", "delivery_date"}, {"ShipCost$", "shipping_cost"}})
 				in
 				    #"Renamed Columns1"
 

@@ -30,7 +30,7 @@ annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBI_ProTooling = ["DevMode"]
 
-annotation PBI_QueryOrder = ["Date","Fulfillment","OrderHeader","OrderLine","Promotion","Product","Returns","dim_promotion","dim_coupon_code","dim_customer","dim_channel","dim_store","dim_product","dim_payment_type","fact_order","dim_return_reason","dim_return_condition","dim_return_disposition","fact_order_return","dim_carrier","dim_service_level","dim_warehouse","dim_delivery_status","fact_order_fullfilment","dim_date","date_master"]
+annotation PBI_QueryOrder = ["Date","Fulfillment","OrderHeader","OrderLine","Promotion","Product","Returns","dim_promotion","dim_coupon_code","dim_customer","dim_channel","dim_store","dim_product","dim_payment_type","fact_order","dim_return_reason","dim_return_condition","dim_return_disposition","fact_order_return","dim_carrier","dim_service_level","dim_warehouse","dim_delivery_status","fact_order_fullfilment","dim_date","date_master","_Measures"]
 
 ref table dim_customer
 ref table dim_channel
@@ -50,6 +50,8 @@ ref table dim_delivery_status
 ref table fact_order_fullfilment
 ref table fact_order_return
 ref table dim_date
+ref table dim_order
+ref table _Measures
 
 ref cultureInfo en-GB
 

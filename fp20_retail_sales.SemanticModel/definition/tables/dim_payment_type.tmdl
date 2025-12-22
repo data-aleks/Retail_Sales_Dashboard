@@ -4,10 +4,13 @@ table dim_payment_type
 
 	column payment_type_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: dfb714bd-7d28-479c-a5de-01ec93eba0fc
 		summarizeBy: none
 		sourceColumn: payment_type_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

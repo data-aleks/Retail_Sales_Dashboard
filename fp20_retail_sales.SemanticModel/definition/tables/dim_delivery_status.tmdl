@@ -4,10 +4,13 @@ table dim_delivery_status
 
 	column delivery_status_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 290283c5-355c-410a-a60a-ad7cf18159de
 		summarizeBy: none
 		sourceColumn: delivery_status_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

@@ -4,10 +4,13 @@ table dim_return_condition
 
 	column return_condition_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 5e9c4bca-1577-4483-b8d4-aad29eafe8de
 		summarizeBy: none
 		sourceColumn: return_condition_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 

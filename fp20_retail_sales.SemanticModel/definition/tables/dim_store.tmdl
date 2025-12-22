@@ -4,10 +4,13 @@ table dim_store
 
 	column store_key
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: e0e4182c-fec8-49fb-88e6-6594e2adc6e7
 		summarizeBy: none
 		sourceColumn: store_key
+
+		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
