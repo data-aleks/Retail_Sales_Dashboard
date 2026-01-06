@@ -1,0 +1,443 @@
+table _returns_measures
+	lineageTag: 088a11c6-4fa0-46df-bf8e-78acd831e97a
+
+	measure total_returns = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_order[order_id]),
+			    NOT ISBLANK(fact_order[return_id]) 
+			)
+			```
+		formatString: 0
+		displayFolder: [returns]
+		lineageTag: ed91e9c1-816a-4e5b-bac6-889eb7de8f61
+
+	measure returns_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR StartDate = LatestSalesDate - 6
+			RETURN
+			CALCULATE(
+			    [total_returns],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], StartDate, LatestSalesDate)
+			)
+		formatString: 0
+		displayFolder: [returns]
+		lineageTag: cbd6fd8d-886c-4e40-b006-714004108306
+
+	measure returns_prior_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR CurrentStart = LatestSalesDate - 6
+			
+			-- Shift both dates back by 7 days
+			VAR PriorEnd = CurrentStart - 1
+			VAR PriorStart = PriorEnd - 6
+			
+			RETURN
+			CALCULATE(
+			    [total_returns],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], PriorStart, PriorEnd)
+			)
+		formatString: 0
+		displayFolder: [returns]
+		lineageTag: 6e3a9bb1-6ba7-48b9-9c9d-9fc13de25526
+
+	measure returns_growth = ```
+			
+			    DIVIDE(
+			        [returns_latest_week] - [returns_prior_latest_week], 
+			        [returns_prior_latest_week], 
+			        0
+			    )
+			```
+		displayFolder: [returns]
+		lineageTag: c0bca365-d927-42c3-82ff-a85e28d85d6b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure returns_growth_label = ```
+			
+			VAR _og = [returns_growth]
+			VAR _lw = [returns_latest_week]
+			VAR _lwd = [returns_latest_week] - [returns_prior_latest_week]
+			VAR _arrow = 
+			    SWITCH(
+			        TRUE(),
+			        _og > 0, "▲",  -- Up arrow for growth
+			        _og < 0, "▼",  -- Down arrow for decline
+			        "▬"            -- Neutral dash for no change
+			    )
+			
+			RETURN
+			    _arrow &  " " & _lw & " " &  " " & "(" & FORMAT(_og, "0.0%") & ")" & " vs Previous Week"
+			```
+		displayFolder: [returns]
+		lineageTag: 5a067e3c-8157-48f2-8e34-678982f43ef1
+
+	measure kpi_returns_sparkline = ```
+			
+			// Static line color - use %23 instead of # for Firefox compatibility (Measure Derived from Eldersveld Modified by Kolosko)
+			VAR LineColour = "%236D94C5"
+			VAR PointColour = "white"
+			VAR Defs = "<defs>
+			    <linearGradient id='grad' x1='0' y1='25' x2='0' y2='50' gradientUnits='userSpaceOnUse'>
+			        <stop stop-color='#118DFF' offset='0' />
+			        <stop stop-color='#118DFF' offset='0.3' />
+			        <stop stop-color='white' offset='1' />
+			    </linearGradient>
+			</defs>"
+			// "Date" field used in this example along the X axis
+			VAR XMinDate = MIN(dim_date[date])
+			VAR XMaxDate = MAX(dim_date[date])
+			
+			// Obtain overall min and overall max measure values when evaluated for each date
+			VAR YMinValue = MINX(Values(dim_date[date]),CALCULATE([total_returns]))
+			VAR YMaxValue = MAXX(Values(dim_date[date]),CALCULATE([total_returns]))
+			
+			// Build table of X & Y coordinates and fit to 50 x 150 viewbox
+			VAR SparklineTable = ADDCOLUMNS(
+			    SUMMARIZE(fact_order,dim_date[date]),
+			        "X",INT(150 * DIVIDE(dim_date[date] - XMinDate, XMaxDate - XMinDate)),
+			        "Y",INT(50 * DIVIDE([total_returns] - YMinValue,YMaxValue - YMinValue)))
+			
+			// Concatenate X & Y coordinates to build the sparkline
+			VAR Lines = CONCATENATEX(SparklineTable,[X] & "," & 50-[Y]," ", dim_date[date])
+			
+			// Last data points on the line
+			VAR LastSparkYValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [Y])
+			VAR LastSparkXValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [X])
+			
+			// Add to SVG, and verify Data Category is set to Image URL for this measure
+			VAR SVGImageURL = 
+			    "data:image/svg+xml;utf8," & 
+			    --- gradient---
+			    "<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='-7 -7 164 64'>" & Defs & 
+			     "<polyline fill='url(#grad)' fill-opacity='0.3' stroke='transparent' 
+			      stroke-width='0' points=' 0 50 " & Lines & 
+			      " 150 150 Z '/>" &
+			    --- Lines---
+			    "<polyline 
+			        fill='transparent' stroke='" & LineColour & "' 
+			        stroke-linecap='round' stroke-linejoin='round' 
+			        stroke-width='3' points=' " & Lines & 
+			      " '/>" &
+			    --- Last Point---
+			        "<circle cx='"& LastSparkXValue & "' cy='" & 50 - LastSparkYValue & "' r='4' stroke='" & LineColour & "' stroke-width='3' fill='" & PointColour & "' />" &
+			        "</svg>"
+			RETURN SVGImageURL
+			```
+		displayFolder: [visual_sparklines]
+		lineageTag: 79ddce61-27ef-4419-9758-19df1374f69c
+
+	measure return_rate = ```
+			DIVIDE([total_returns], [total_orders], 0) 
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: [return_rate]
+		lineageTag: a65a584a-3594-4b44-8c77-257d88403bfe
+
+	measure return_write_off_cost = ```
+			
+			CALCULATE(
+			    [total_order_cost], 
+			    KEEPFILTERS(dim_return_disposition[return_disposition] = "Write-off")
+			)
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		displayFolder: [return_write_off]
+		lineageTag: 47b6129e-7011-478c-b617-08258b782ae9
+
+	measure return_write_off_financial_impact = ```
+			
+			VAR _InventoryLoss = [return_write_off_cost]
+			VAR _ShippingLoss = 
+			    CALCULATE(
+			        [total_shipment_cost], 
+			        KEEPFILTERS(dim_return_disposition[return_disposition] = "Write-off")
+			    )
+			VAR _ReturnShipping = 
+			    CALCULATE(
+			        [total_return_shipment_cost], 
+			        KEEPFILTERS(dim_return_disposition[return_disposition] = "Write-off")
+			    )
+			
+			RETURN 
+			_InventoryLoss + _ShippingLoss + _ReturnShipping
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: [return_write_off]
+		lineageTag: 7b380355-7204-4deb-9b50-eb25ab713059
+
+	measure total_restock_fee = ```
+			SUM(fact_order[restock_fee]) 
+			```
+		displayFolder: [return_restock_fee]
+		lineageTag: daba20f6-35c6-4d40-bfff-38093ad4e5f0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure return_rate_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR StartDate = LatestSalesDate - 6
+			RETURN
+			CALCULATE(
+			    [return_rate],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], StartDate, LatestSalesDate)
+			)
+		displayFolder: [return_rate]
+		lineageTag: 89b17f81-273d-4f88-8d9d-909a6a1fced2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure return_rate_prior_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR CurrentStart = LatestSalesDate - 6
+			
+			-- Shift both dates back by 7 days
+			VAR PriorEnd = CurrentStart - 1
+			VAR PriorStart = PriorEnd - 6
+			
+			RETURN
+			CALCULATE(
+			    [return_rate],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], PriorStart, PriorEnd)
+			)
+		displayFolder: [return_rate]
+		lineageTag: 361549bd-9510-4f47-80dc-daf0e9eb5003
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure return_rate_growth = ```
+			
+			    DIVIDE(
+			        [return_rate_latest_week] - [return_rate_prior_latest_week], 
+			        [return_rate_prior_latest_week], 
+			        0
+			    )
+			```
+		displayFolder: [return_rate]
+		lineageTag: 6796e937-8c65-46f4-a90a-400b6ed3ae2b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure reurn_rate_growth_label = ```
+			
+			VAR _og = [return_rate_growth]
+			VAR _lw = [return_rate_latest_week]
+			-- _lwd is the absolute point change (e.g., from 10% to 12% is a 2% point change)
+			VAR _lwd = [return_rate_latest_week] - [return_rate_prior_latest_week]
+			
+			VAR _arrow = 
+			    SWITCH(
+			        TRUE(),
+			        _og > 0, "▲",  -- Up arrow for growth
+			        _og < 0, "▼",  -- Down arrow for decline
+			        "▬"            -- Neutral dash for no change
+			    )
+			
+			RETURN
+			    _arrow & " " & 
+			    FORMAT(_lw, "0.0%") & " (" & 
+			    FORMAT(_og, "0.0%") & ") vs Previous Week"
+			```
+		displayFolder: [return_rate]
+		lineageTag: 3ecced62-9af3-4ea5-9848-e367635eb430
+
+	measure kpi_return_rate_sparkline = ```
+			
+			// Static line color - use %23 instead of # for Firefox compatibility (Measure Derived from Eldersveld Modified by Kolosko)
+			VAR LineColour = "%236D94C5"
+			VAR PointColour = "white"
+			VAR Defs = "<defs>
+			    <linearGradient id='grad' x1='0' y1='25' x2='0' y2='50' gradientUnits='userSpaceOnUse'>
+			        <stop stop-color='#118DFF' offset='0' />
+			        <stop stop-color='#118DFF' offset='0.3' />
+			        <stop stop-color='white' offset='1' />
+			    </linearGradient>
+			</defs>"
+			// "Date" field used in this example along the X axis
+			VAR XMinDate = MIN(dim_date[date])
+			VAR XMaxDate = MAX(dim_date[date])
+			
+			// Obtain overall min and overall max measure values when evaluated for each date
+			VAR YMinValue = MINX(Values(dim_date[date]),CALCULATE([return_rate]))
+			VAR YMaxValue = MAXX(Values(dim_date[date]),CALCULATE([return_rate]))
+			
+			// Build table of X & Y coordinates and fit to 50 x 150 viewbox
+			VAR SparklineTable = ADDCOLUMNS(
+			    SUMMARIZE(fact_order,dim_date[date]),
+			        "X",INT(150 * DIVIDE(dim_date[date] - XMinDate, XMaxDate - XMinDate)),
+			        "Y",INT(50 * DIVIDE([return_rate] - YMinValue,YMaxValue - YMinValue)))
+			
+			// Concatenate X & Y coordinates to build the sparkline
+			VAR Lines = CONCATENATEX(SparklineTable,[X] & "," & 50-[Y]," ", dim_date[date])
+			
+			// Last data points on the line
+			VAR LastSparkYValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [Y])
+			VAR LastSparkXValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [X])
+			
+			// Add to SVG, and verify Data Category is set to Image URL for this measure
+			VAR SVGImageURL = 
+			    "data:image/svg+xml;utf8," & 
+			    --- gradient---
+			    "<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='-7 -7 164 64'>" & Defs & 
+			     "<polyline fill='url(#grad)' fill-opacity='0.3' stroke='transparent' 
+			      stroke-width='0' points=' 0 50 " & Lines & 
+			      " 150 150 Z '/>" &
+			    --- Lines---
+			    "<polyline 
+			        fill='transparent' stroke='" & LineColour & "' 
+			        stroke-linecap='round' stroke-linejoin='round' 
+			        stroke-width='3' points=' " & Lines & 
+			      " '/>" &
+			    --- Last Point---
+			        "<circle cx='"& LastSparkXValue & "' cy='" & 50 - LastSparkYValue & "' r='4' stroke='" & LineColour & "' stroke-width='3' fill='" & PointColour & "' />" &
+			        "</svg>"
+			RETURN SVGImageURL
+			```
+		displayFolder: [visual_sparklines]
+		lineageTag: 5774e3ba-9490-4fd0-86aa-3f04b4fd5aca
+
+	measure return_write_off_impact_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR StartDate = LatestSalesDate - 6
+			RETURN
+			CALCULATE(
+			    [return_write_off_financial_impact],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], StartDate, LatestSalesDate)
+			)
+		displayFolder: [return_write_off]
+		lineageTag: 7127b880-8d32-42ca-b802-099b322c0114
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure return_write_off_impact_prior_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR CurrentStart = LatestSalesDate - 6
+			
+			-- Shift both dates back by 7 days
+			VAR PriorEnd = CurrentStart - 1
+			VAR PriorStart = PriorEnd - 6
+			
+			RETURN
+			CALCULATE(
+			    [return_write_off_financial_impact],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], PriorStart, PriorEnd)
+			)
+		displayFolder: [return_write_off]
+		lineageTag: c2851c78-6d83-4f67-9173-342f49503e3f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure return_write_off_impact_growth = ```
+			
+			    DIVIDE(
+			        [return_write_off_impact_latest_week] - [return_write_off_impact_prior_latest_week], 
+			        [return_write_off_impact_prior_latest_week], 
+			        0
+			    )
+			```
+		displayFolder: [return_write_off]
+		lineageTag: f41efcf0-60e2-4c78-84a5-e4ba40a079da
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure return_write_off_impact_growth_label = ```
+			
+			VAR _growth_pct = [return_write_off_impact_growth]
+			VAR _lw_value = [return_write_off_impact_latest_week]
+			
+			VAR _arrow = 
+			    SWITCH(
+			        TRUE(),
+			        _growth_pct > 0, "▲",  -- BAD: Write-off costs increasing
+			        _growth_pct < 0, "▼",  -- GOOD: Write-off costs decreasing
+			        "▬" 
+			    )
+			
+			RETURN
+			    _arrow & " " & 
+			    FORMAT(_lw_value, "$#,##0") & " (" & 
+			    FORMAT(_growth_pct, "+0.0%;-0.0%;0.0%") & ") vs Previous Week"
+			```
+		displayFolder: [return_write_off]
+		lineageTag: 929566e6-045e-4df1-8802-adcd1726cbfb
+
+	measure kpi_write_off_impact_sparkline = ```
+			
+			// Static line color - use %23 instead of # for Firefox compatibility (Measure Derived from Eldersveld Modified by Kolosko)
+			VAR LineColour = "%236D94C5"
+			VAR PointColour = "white"
+			VAR Defs = "<defs>
+			    <linearGradient id='grad' x1='0' y1='25' x2='0' y2='50' gradientUnits='userSpaceOnUse'>
+			        <stop stop-color='#118DFF' offset='0' />
+			        <stop stop-color='#118DFF' offset='0.3' />
+			        <stop stop-color='white' offset='1' />
+			    </linearGradient>
+			</defs>"
+			// "Date" field used in this example along the X axis
+			VAR XMinDate = MIN(dim_date[date])
+			VAR XMaxDate = MAX(dim_date[date])
+			
+			// Obtain overall min and overall max measure values when evaluated for each date
+			VAR YMinValue = MINX(Values(dim_date[date]),CALCULATE([return_write_off_financial_impact]))
+			VAR YMaxValue = MAXX(Values(dim_date[date]),CALCULATE([return_write_off_financial_impact]))
+			
+			// Build table of X & Y coordinates and fit to 50 x 150 viewbox
+			VAR SparklineTable = ADDCOLUMNS(
+			    SUMMARIZE(fact_order,dim_date[date]),
+			        "X",INT(150 * DIVIDE(dim_date[date] - XMinDate, XMaxDate - XMinDate)),
+			        "Y",INT(50 * DIVIDE([return_write_off_financial_impact] - YMinValue,YMaxValue - YMinValue)))
+			
+			// Concatenate X & Y coordinates to build the sparkline
+			VAR Lines = CONCATENATEX(SparklineTable,[X] & "," & 50-[Y]," ", dim_date[date])
+			
+			// Last data points on the line
+			VAR LastSparkYValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [Y])
+			VAR LastSparkXValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [X])
+			
+			// Add to SVG, and verify Data Category is set to Image URL for this measure
+			VAR SVGImageURL = 
+			    "data:image/svg+xml;utf8," & 
+			    --- gradient---
+			    "<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='-7 -7 164 64'>" & Defs & 
+			     "<polyline fill='url(#grad)' fill-opacity='0.3' stroke='transparent' 
+			      stroke-width='0' points=' 0 50 " & Lines & 
+			      " 150 150 Z '/>" &
+			    --- Lines---
+			    "<polyline 
+			        fill='transparent' stroke='" & LineColour & "' 
+			        stroke-linecap='round' stroke-linejoin='round' 
+			        stroke-width='3' points=' " & Lines & 
+			      " '/>" &
+			    --- Last Point---
+			        "<circle cx='"& LastSparkXValue & "' cy='" & 50 - LastSparkYValue & "' r='4' stroke='" & LineColour & "' stroke-width='3' fill='" & PointColour & "' />" &
+			        "</svg>"
+			RETURN SVGImageURL
+			```
+		displayFolder: [visual_sparklines]
+		lineageTag: 00282607-4f91-48ac-8a45-1f1c60535fca
+
+	partition _returns_measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

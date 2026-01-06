@@ -1,0 +1,175 @@
+table _delivery_measures
+	lineageTag: 99ba3de4-57df-43bb-a24c-8e758dac0097
+
+	measure late_delivery_rate =
+			
+			VAR _or = [total_orders]
+			VAR _lt = [total_late_deliveries]
+			VAR _lr = DIVIDE(_lt, _or, 0)
+			RETURN
+			    _lr
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 48d2283c-62c7-4f42-8f54-ea7b436ab4c2
+
+	measure late_delivery_rate_growth = ```
+			
+			    DIVIDE(
+			        [late_delivery_rate_latest_week] - [late_delivery_rate_prior_latest_week], 
+			        [late_delivery_rate_prior_latest_week], 
+			        0
+			    )
+			```
+		lineageTag: 5f04ceb5-bc91-43ee-8f6b-6b2b394281bd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure late_delivery_rate_growth_label = ```
+			
+			VAR _og = [late_delivery_rate_growth]
+			VAR _lw = [late_delivery_rate_latest_week]
+			-- _lwd is the absolute point change (e.g., from 10% to 12% is a 2% point change)
+			VAR _lwd = [late_delivery_rate_latest_week] - [late_delivery_rate_prior_latest_week]
+			
+			VAR _arrow = 
+			    SWITCH(
+			        TRUE(),
+			        _og > 0, "▲",  -- Up arrow for growth
+			        _og < 0, "▼",  -- Down arrow for decline
+			        "▬"            -- Neutral dash for no change
+			    )
+			
+			RETURN
+			    _arrow & " " & 
+			    FORMAT(_lw, "0.0%") & " (" & 
+			    FORMAT(_og, "0.0%") & ") vs Previous Week"
+			```
+		lineageTag: ba1f4663-97d1-4b19-8752-8f38161af723
+
+	measure late_delivery_rate_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR StartDate = LatestSalesDate - 6
+			RETURN
+			CALCULATE(
+			    [late_delivery_rate],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], StartDate, LatestSalesDate)
+			)
+		lineageTag: 93bbaaf7-5e1a-4221-930e-3b06f151e808
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure late_delivery_rate_prior_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR CurrentStart = LatestSalesDate - 6
+			
+			-- Shift both dates back by 7 days
+			VAR PriorEnd = CurrentStart - 1
+			VAR PriorStart = PriorEnd - 6
+			
+			RETURN
+			CALCULATE(
+			    [late_delivery_rate],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], PriorStart, PriorEnd)
+			)
+		lineageTag: 3aee194d-50ed-49e4-af8a-0cea334a2943
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure total_late_deliveries =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(fact_order[order_id]),
+			    KEEPFILTERS(dim_delivery_status[delivery_status] = "Late")
+			)
+		formatString: 0
+		lineageTag: bc7dfb27-a52e-4ddb-99a1-176f4390d5c8
+
+	measure kpi_late_delivery_rate_sparkline = ```
+			
+			// Static line color - use %23 instead of # for Firefox compatibility (Measure Derived from Eldersveld Modified by Kolosko)
+			VAR LineColour = "%236D94C5"
+			VAR PointColour = "white"
+			VAR Defs = "<defs>
+			    <linearGradient id='grad' x1='0' y1='25' x2='0' y2='50' gradientUnits='userSpaceOnUse'>
+			        <stop stop-color='#118DFF' offset='0' />
+			        <stop stop-color='#118DFF' offset='0.3' />
+			        <stop stop-color='white' offset='1' />
+			    </linearGradient>
+			</defs>"
+			// "Date" field used in this example along the X axis
+			VAR XMinDate = MIN(dim_date[date])
+			VAR XMaxDate = MAX(dim_date[date])
+			
+			// Obtain overall min and overall max measure values when evaluated for each date
+			VAR YMinValue = MINX(Values(dim_date[date]),CALCULATE([late_delivery_rate]))
+			VAR YMaxValue = MAXX(Values(dim_date[date]),CALCULATE([late_delivery_rate]))
+			
+			// Build table of X & Y coordinates and fit to 50 x 150 viewbox
+			VAR SparklineTable = ADDCOLUMNS(
+			    SUMMARIZE(fact_order,dim_date[date]),
+			        "X",INT(150 * DIVIDE(dim_date[date] - XMinDate, XMaxDate - XMinDate)),
+			        "Y",INT(50 * DIVIDE([late_delivery_rate] - YMinValue,YMaxValue - YMinValue)))
+			
+			// Concatenate X & Y coordinates to build the sparkline
+			VAR Lines = CONCATENATEX(SparklineTable,[X] & "," & 50-[Y]," ", dim_date[date])
+			
+			// Last data points on the line
+			VAR LastSparkYValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [Y])
+			VAR LastSparkXValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [X])
+			
+			// Add to SVG, and verify Data Category is set to Image URL for this measure
+			VAR SVGImageURL = 
+			    "data:image/svg+xml;utf8," & 
+			    --- gradient---
+			    "<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='-7 -7 164 64'>" & Defs & 
+			     "<polyline fill='url(#grad)' fill-opacity='0.3' stroke='transparent' 
+			      stroke-width='0' points=' 0 50 " & Lines & 
+			      " 150 150 Z '/>" &
+			    --- Lines---
+			    "<polyline 
+			        fill='transparent' stroke='" & LineColour & "' 
+			        stroke-linecap='round' stroke-linejoin='round' 
+			        stroke-width='3' points=' " & Lines & 
+			      " '/>" &
+			    --- Last Point---
+			        "<circle cx='"& LastSparkXValue & "' cy='" & 50 - LastSparkYValue & "' r='4' stroke='" & LineColour & "' stroke-width='3' fill='" & PointColour & "' />" &
+			        "</svg>"
+			RETURN SVGImageURL
+			```
+		lineageTag: 1c55c910-ea8e-45a2-85a6-5b89ac1d574b
+
+	measure avg_promised_lead_time =
+			
+			AVERAGEX(
+			    fact_order,
+			    DATEDIFF(fact_order[shipment_date], fact_order[promised_date], DAY)
+			)
+		lineageTag: 2d8503e1-d1a6-4c9d-b5be-3fd5dc06fe18
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure avg_actual_lead_time =
+			
+			AVERAGEX(
+			    fact_order,
+			    DATEDIFF(fact_order[shipment_date], fact_order[delivery_date], DAY)
+			)
+		lineageTag: e1299903-4596-4f10-b976-6d69226f4030
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition _delivery_measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

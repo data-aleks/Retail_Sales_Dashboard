@@ -7,7 +7,7 @@ table dim_date
 		isHidden
 		formatString: 0
 		lineageTag: bbc6cf54-eb9a-42b0-8fd1-e6a5e3d06593
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: date_key
 
 		changedProperty = IsHidden
@@ -30,7 +30,7 @@ table dim_date
 		dataType: int64
 		formatString: 0
 		lineageTag: 37a6bc41-7794-4a63-8116-157cb2198dcc
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: quarter
 
 		annotation SummarizationSetBy = Automatic
@@ -39,7 +39,7 @@ table dim_date
 		dataType: int64
 		formatString: 0
 		lineageTag: 7bf56fab-7d24-49de-a767-0f7ba023aa5f
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: week_of_year
 
 		annotation SummarizationSetBy = Automatic
@@ -48,7 +48,7 @@ table dim_date
 		dataType: int64
 		formatString: 0
 		lineageTag: 78457d06-4a7b-4790-b26d-9792d9fb2939
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: month
 
 		annotation SummarizationSetBy = Automatic
@@ -65,7 +65,7 @@ table dim_date
 		dataType: int64
 		formatString: 0
 		lineageTag: f6350f28-3ce9-4c35-b07e-caad976f685a
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: day
 
 		annotation SummarizationSetBy = Automatic

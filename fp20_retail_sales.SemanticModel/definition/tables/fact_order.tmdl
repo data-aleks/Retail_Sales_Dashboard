@@ -1,9 +1,17 @@
 table fact_order
-	lineageTag: deccaf55-a6c2-4a78-9dcf-5b406caa1544
+	lineageTag: 5ef805ce-a7ac-472e-b19d-63bfee278381
+
+	column orderline_id
+		dataType: string
+		lineageTag: 496adffd-dc6e-43dc-966a-e2c5caad734b
+		summarizeBy: none
+		sourceColumn: orderline_id
+
+		annotation SummarizationSetBy = Automatic
 
 	column order_id
 		dataType: string
-		lineageTag: 88188935-951d-4af0-ba68-caa0ab2b9e9b
+		lineageTag: 35f39a96-36a2-4f32-9eca-08ec2fefe061
 		summarizeBy: none
 		sourceColumn: order_id
 
@@ -12,7 +20,7 @@ table fact_order
 	column order_quantity
 		dataType: int64
 		formatString: 0
-		lineageTag: dc975d54-fc76-4244-887d-89de3036aa22
+		lineageTag: d19ecdef-e73d-40a5-a2d3-2af5dc900908
 		summarizeBy: sum
 		sourceColumn: order_quantity
 
@@ -20,38 +28,159 @@ table fact_order
 
 	column unit_price
 		dataType: double
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
-		lineageTag: 6dff836f-b33b-444c-a01f-265bf93213a3
+		lineageTag: 51f132f8-ebb8-424a-8599-352b74a11df6
 		summarizeBy: sum
 		sourceColumn: unit_price
 
 		annotation SummarizationSetBy = Automatic
 
-	column order_discount
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column discount
 		dataType: double
-		lineageTag: 7e48f47e-2bb0-473e-8f30-a15628817b75
+		lineageTag: 45065e5b-745f-46c0-a800-9eb31010d1be
 		summarizeBy: sum
-		sourceColumn: order_discount
+		sourceColumn: discount
 
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column order_cost
+	column cost
 		dataType: double
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
-		lineageTag: 898e9655-737e-4802-b781-14b18c4bdfd9
+		lineageTag: 45bd8a23-2b08-424d-8705-bfb42fc7d471
 		summarizeBy: sum
-		sourceColumn: order_cost
+		sourceColumn: cost
 
 		annotation SummarizationSetBy = Automatic
 
-	column order_revenue
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column revenue
 		dataType: double
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
-		lineageTag: c8f6eac7-fa9b-429f-99bc-1257e00878d4
+		lineageTag: 4ef89f85-1f05-4448-8d9f-cab3ca26b037
 		summarizeBy: sum
-		sourceColumn: order_revenue
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column order_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3374bf20-6000-4861-996a-99a0f42cd0a3
+		summarizeBy: none
+		sourceColumn: order_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column return_id
+		dataType: string
+		lineageTag: bbc2aca4-abe1-4e6e-aad0-99fe8fa43f9a
+		summarizeBy: none
+		sourceColumn: return_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column return_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 43b1840b-9721-4da9-98fd-3ebb2a631d4e
+		summarizeBy: none
+		sourceColumn: return_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column refund
+		dataType: double
+		lineageTag: 2362ed9c-787e-415a-b043-f89b5712e326
+		summarizeBy: sum
+		sourceColumn: refund
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column restock_fee
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 0e3edb2b-9d6d-4898-a8ed-8bcb897b39af
+		summarizeBy: sum
+		sourceColumn: restock_fee
+
+		annotation SummarizationSetBy = Automatic
+
+	column return_shipment_cost
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: cb0b8b20-0927-42f0-850c-0406b881a5b6
+		summarizeBy: sum
+		sourceColumn: return_shipment_cost
+
+		annotation SummarizationSetBy = Automatic
+
+	column shipment_id
+		dataType: string
+		lineageTag: dd011763-6526-4d5f-b8ed-072e547ee475
+		summarizeBy: none
+		sourceColumn: shipment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column promised_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b7998d3c-4246-468f-8aaf-57c5ca8af17c
+		summarizeBy: none
+		sourceColumn: promised_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column shipment_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2f1054fa-99fe-4a6c-b980-2cbe0faa7250
+		summarizeBy: none
+		sourceColumn: shipment_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column delivery_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 692bbe5c-a5f8-4ffc-9be2-0006fa6b3061
+		summarizeBy: none
+		sourceColumn: delivery_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column shipment_cost
+		dataType: double
+		lineageTag: 50d4eeb7-7322-42e3-9324-d375c9babc68
+		summarizeBy: sum
+		sourceColumn: shipment_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column product_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 8a93ff21-3c87-4844-96da-906c45e49dc4
+		summarizeBy: none
+		sourceColumn: product_key
 
 		annotation SummarizationSetBy = Automatic
 
@@ -59,7 +188,7 @@ table fact_order
 		dataType: int64
 		isHidden
 		formatString: 0
-		lineageTag: 934a799a-7921-4032-9b1a-915548145d61
+		lineageTag: 712751df-d8ac-4037-9d36-47633a346541
 		summarizeBy: none
 		sourceColumn: customer_key
 
@@ -69,23 +198,44 @@ table fact_order
 
 	column channel_key
 		dataType: int64
-		isHidden
 		formatString: 0
-		lineageTag: 7b41fd73-dd62-449d-8ad1-6840db5e0a4a
+		lineageTag: 89fb2adc-48e3-4090-9679-6b371ed10b2a
 		summarizeBy: none
 		sourceColumn: channel_key
 
-		changedProperty = IsHidden
+		annotation SummarizationSetBy = Automatic
+
+	column order_time
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 8340d921-1637-477c-93fe-715153a35dd3
+		summarizeBy: none
+		sourceColumn: order_time
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"fact_order","TableItemName":"order_time (bins)","ObjectType":4},"LinkType":"UsedInGroup"}]
 
 	column store_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		lineageTag: 9b4b9e46-da76-4b56-9c1a-d2cf0991922d
+		lineageTag: 33812a4f-30b8-49f4-917c-587d79f9d405
 		summarizeBy: none
 		sourceColumn: store_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column promotion_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a56bc1b-ea3d-4f9e-a8a0-f6aaf3a35c13
+		summarizeBy: none
+		sourceColumn: promotion_key
 
 		changedProperty = IsHidden
 
@@ -95,7 +245,7 @@ table fact_order
 		dataType: int64
 		isHidden
 		formatString: 0
-		lineageTag: 731bfa80-87d2-4789-b06b-cc8395476917
+		lineageTag: 6efa0735-12f2-4f9b-be4e-4fc28181bcb7
 		summarizeBy: none
 		sourceColumn: coupon_key
 
@@ -107,7 +257,7 @@ table fact_order
 		dataType: int64
 		isHidden
 		formatString: 0
-		lineageTag: 421d9f67-b2ed-4fc3-9c67-c9b7aa437ad1
+		lineageTag: f9c906fb-2b7c-44bc-9f17-2890b15efb0c
 		summarizeBy: none
 		sourceColumn: payment_type_key
 
@@ -115,90 +265,125 @@ table fact_order
 
 		annotation SummarizationSetBy = Automatic
 
-	column product_key
+	column return_reason_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		lineageTag: 5f3e1c53-1be1-4291-866e-8f8d42912d44
+		lineageTag: 8b2d902d-9e01-4273-ab44-1cce5ff756f2
 		summarizeBy: none
-		sourceColumn: product_key
+		sourceColumn: return_reason_key
 
 		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
-	column order_key
+	column return_condition_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		lineageTag: 9ba8aa4b-bc6b-4723-a0cb-1e1235849cad
-		summarizeBy: sum
-		sourceColumn: order_key
+		lineageTag: 8256aa69-b11a-48d0-a467-e83a31d22ca1
+		summarizeBy: none
+		sourceColumn: return_condition_key
 
 		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
-	column order_fullfilment_key
+	column return_disposition_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		lineageTag: ffe0a5f5-3327-42a3-9da0-c882cd6a6a55
-		summarizeBy: sum
-		sourceColumn: order_fullfilment_key
+		lineageTag: e4853286-2006-438a-aa0c-f708edf7ea2d
+		summarizeBy: none
+		sourceColumn: return_disposition_key
 
 		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
-	column order_return_key
+	column warehouse_key
 		dataType: int64
 		isHidden
 		formatString: 0
-		lineageTag: 2a584747-8b22-4180-b0d0-193553f6b63a
-		summarizeBy: sum
-		sourceColumn: order_return_key
+		lineageTag: 753eee66-763d-4043-a6e1-0574a89d311a
+		summarizeBy: none
+		sourceColumn: warehouse_key
 
 		changedProperty = IsHidden
 
 		annotation SummarizationSetBy = Automatic
 
-	column order_time
+	column carrier_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 74e41bb9-d5f2-4d24-a300-536bcac2c879
+		summarizeBy: none
+		sourceColumn: carrier_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column service_level_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f75cee58-1dfa-48be-987c-084f47301ab2
+		summarizeBy: none
+		sourceColumn: service_level_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_status_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7a643232-a39b-4b13-9950-82b0d32dca7c
+		summarizeBy: none
+		sourceColumn: delivery_status_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'order_time (bins)' =
+			IF(
+				ISBLANK('fact_order'[order_time]),
+				BLANK(),
+				(INT(('fact_order'[order_time] * 1440) / 60) * 60) / 1440
+			)
 		dataType: dateTime
-		formatString: Long Time
-		lineageTag: 825b3915-3960-4d0b-8c71-54a76667259d
+		formatString: General Date
+		lineageTag: 595934dc-5b78-4df5-8bbf-a372aeb23586
 		summarizeBy: none
-		sourceColumn: order_time
 
-		annotation SummarizationSetBy = Automatic
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "fact_order"
+				          }
+				        },
+				        "Property": "order_time"
+				      }
+				    }
+				  ],
+				  "binningMetadata": {
+				    "binSize": {
+				      "value": 60.0,
+				      "unit": 10
+				    }
+				  }
+				}
 
-		annotation UnderlyingDateTimeDataType = Time
-
-	column order_date
-		dataType: dateTime
-		formatString: Long Date
-		lineageTag: 11336692-6a85-45c6-8151-554fa4a908ef
-		summarizeBy: none
-		sourceColumn: order_date
-
-		annotation SummarizationSetBy = Automatic
-
-		annotation UnderlyingDateTimeDataType = Date
-
-	column order_reference
-		dataType: string
-		lineageTag: 0c53326e-5a1a-4132-aba7-48886d76f1fa
-		summarizeBy: none
-		sourceColumn: order_reference
-
-		annotation SummarizationSetBy = Automatic
-
-	column promotion_key
-		dataType: int64
-		formatString: 0
-		lineageTag: 9adf054a-1090-479d-8848-31b24446a4a6
-		summarizeBy: none
-		sourceColumn: promotion_key
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"f","Entity":"fact_order"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"f"}},"Property":"order_time"}}],"BinItem":{"Expression":{"Floor":{"Expression":{"Column":{"Expression":{"SourceRef":{"Source":"f"}},"Property":"order_time"}},"Size":60.0,"TimeUnit":6}}}}
 
 		annotation SummarizationSetBy = Automatic
 
@@ -207,46 +392,55 @@ table fact_order
 		queryGroup: orders_star_schema
 		source =
 				let
-				    Source = OrderLine,
-				    #"Merged Queries" = Table.NestedJoin(Source, {"OrderID"}, OrderHeader, {"OrderID"}, "OrderHeader", JoinKind.LeftOuter),
-				    #"Expanded OrderHeader" = Table.ExpandTableColumn(#"Merged Queries", "OrderHeader", {"OrderDateTime", "CustomerID", "ChannelID", "StoreID", "PromotionID", "CouponCode", "PaymentType"}, {"OrderDateTime", "CustomerID", "ChannelID", "StoreID", "PromotionID", "CouponCode", "PaymentType"}),
-				    #"Reordered Columns" = Table.ReorderColumns(#"Expanded OrderHeader",{"OrderDateTime", "CustomerID", "ChannelID", "StoreID", "PromotionID", "CouponCode", "PaymentType", "OrderLineID", "OrderID", "ProductID", "Qty", "UnitPrice", "LineDiscount$", "LineCost$", "LineRevenue$"}),
-				    #"Merged Queries1" = Table.NestedJoin(#"Reordered Columns", {"CustomerID"}, dim_customer, {"customer_id"}, "dim_customer", JoinKind.LeftOuter),
-				    #"Expanded dim_customer" = Table.ExpandTableColumn(#"Merged Queries1", "dim_customer", {"customer_key"}, {"customer_key"}),
-				    #"Removed Columns" = Table.RemoveColumns(#"Expanded dim_customer",{"CustomerID"}),
-				    #"Merged Queries2" = Table.NestedJoin(#"Removed Columns", {"ChannelID"}, dim_channel, {"channel"}, "dim_channel", JoinKind.LeftOuter),
-				    #"Expanded dim_channel" = Table.ExpandTableColumn(#"Merged Queries2", "dim_channel", {"channel_key"}, {"channel_key"}),
+				    Source = Table.NestedJoin(OrderLine, {"OrderID"}, OrderHeader, {"OrderID"}, "OrderHeader", JoinKind.LeftOuter),
+				    #"Expanded OrderHeader" = Table.ExpandTableColumn(Source, "OrderHeader", {"OrderDateTime", "CustomerID", "ChannelID", "StoreID", "PromotionID", "CouponCode", "PaymentType"}, {"OrderDateTime", "CustomerID", "ChannelID", "StoreID", "PromotionID", "CouponCode", "PaymentType"}),
+				    #"Merged Queries" = Table.NestedJoin(#"Expanded OrderHeader", {"OrderLineID"}, Returns, {"OrderLineID"}, "Returns", JoinKind.LeftOuter),
+				    #"Expanded Returns" = Table.ExpandTableColumn(#"Merged Queries", "Returns", {"ReturnID", "ReturnDate", "ReasonCode", "Condition", "Refund$", "RestockFee$", "ReturnShipCost$", "Disposition"}, {"ReturnID", "ReturnDate", "ReasonCode", "Condition", "Refund$", "RestockFee$", "ReturnShipCost$", "Disposition"}),
+				    #"Merged Queries1" = Table.NestedJoin(#"Expanded Returns", {"OrderID"}, Fulfillment, {"OrderID"}, "Fulfillment", JoinKind.LeftOuter),
+				    #"Expanded Fulfillment" = Table.ExpandTableColumn(#"Merged Queries1", "Fulfillment", {"ShipmentID", "WarehouseID", "Carrier", "ServiceLevel", "PromisedDate", "ShipDate", "DeliveryDate", "ShipCost$", "DeliveryStatus"}, {"ShipmentID", "WarehouseID", "Carrier", "ServiceLevel", "PromisedDate", "ShipDate", "DeliveryDate", "ShipCost$", "DeliveryStatus"}),
+				    #"Merged Queries2" = Table.NestedJoin(#"Expanded Fulfillment", {"ProductID"}, dim_product, {"product_id"}, "dim_product", JoinKind.LeftOuter),
+				    #"Expanded dim_product" = Table.ExpandTableColumn(#"Merged Queries2", "dim_product", {"product_key"}, {"product_key"}),
+				    #"Merged Queries3" = Table.NestedJoin(#"Expanded dim_product", {"CustomerID"}, dim_customer, {"customer_id"}, "dim_customer", JoinKind.LeftOuter),
+				    #"Expanded dim_customer" = Table.ExpandTableColumn(#"Merged Queries3", "dim_customer", {"customer_key"}, {"customer_key"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Expanded dim_customer",{"ProductID", "CustomerID"}),
+				    #"Merged Queries4" = Table.NestedJoin(#"Removed Columns", {"ChannelID"}, dim_channel, {"channel"}, "dim_channel", JoinKind.LeftOuter),
+				    #"Expanded dim_channel" = Table.ExpandTableColumn(#"Merged Queries4", "dim_channel", {"channel_key"}, {"channel_key"}),
 				    #"Removed Columns1" = Table.RemoveColumns(#"Expanded dim_channel",{"ChannelID"}),
-				    #"Merged Queries3" = Table.NestedJoin(#"Removed Columns1", {"StoreID"}, dim_store, {"store_id"}, "dim_store", JoinKind.LeftOuter),
-				    #"Expanded dim_store" = Table.ExpandTableColumn(#"Merged Queries3", "dim_store", {"store_key"}, {"store_key"}),
-				    #"Removed Columns2" = Table.RemoveColumns(#"Expanded dim_store",{"StoreID"}),
-				    #"Merged Queries5" = Table.NestedJoin(#"Removed Columns2", {"CouponCode"}, dim_coupon_code, {"coupon_code"}, "dim_coupon_code", JoinKind.LeftOuter),
-				    #"Expanded dim_coupon_code" = Table.ExpandTableColumn(#"Merged Queries5", "dim_coupon_code", {"coupon_key"}, {"coupon_key"}),
-				    #"Removed Columns4" = Table.RemoveColumns(#"Expanded dim_coupon_code",{"CouponCode"}),
-				    #"Merged Queries6" = Table.NestedJoin(#"Removed Columns4", {"PaymentType"}, dim_payment_type, {"payment_type"}, "dim_payment_type", JoinKind.LeftOuter),
-				    #"Expanded dim_payment_type" = Table.ExpandTableColumn(#"Merged Queries6", "dim_payment_type", {"payment_type_key"}, {"payment_type_key"}),
-				    #"Removed Columns5" = Table.RemoveColumns(#"Expanded dim_payment_type",{"PaymentType"}),
-				    #"Merged Queries7" = Table.NestedJoin(#"Removed Columns5", {"ProductID"}, dim_product, {"product_id"}, "dim_product", JoinKind.LeftOuter),
-				    #"Expanded dim_product" = Table.ExpandTableColumn(#"Merged Queries7", "dim_product", {"product_key"}, {"product_key"}),
-				    #"Removed Columns6" = Table.RemoveColumns(#"Expanded dim_product",{"ProductID"}),
-				    #"Added Index" = Table.AddIndexColumn(#"Removed Columns6", "Index", 0, 1, Int64.Type),
-				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "order_key"}}),
-				    #"Renamed Columns1" = Table.RenameColumns(#"Renamed Columns",{{"OrderID", "order_id"}}),
-				    #"Merged Queries8" = Table.NestedJoin(#"Renamed Columns1", {"order_id"}, fact_order_return, {"order_id"}, "fact_order_return", JoinKind.LeftOuter),
-				    #"Expanded fact_order_return" = Table.ExpandTableColumn(#"Merged Queries8", "fact_order_return", {"order_return_key"}, {"order_return_key"}),
-				    #"Merged Queries9" = Table.NestedJoin(#"Expanded fact_order_return", {"order_id"}, fact_order_fullfilment, {"order_id"}, "fact_order_fullfilment", JoinKind.LeftOuter),
-				    #"Expanded fact_order_fullfilment" = Table.ExpandTableColumn(#"Merged Queries9", "fact_order_fullfilment", {"order_fullfilment_key"}, {"order_fullfilment_key"}),
-				    #"Renamed Columns2" = Table.RenameColumns(#"Expanded fact_order_fullfilment",{{"OrderLineID", "order_reference"}, {"OrderDateTime", "order_date"}, {"Qty", "order_quantity"}, {"UnitPrice", "unit_price"}, {"LineDiscount$", "order_discount"}, {"LineCost$", "order_cost"}, {"LineRevenue$", "order_revenue"}}),
+				    #"Merged Queries5" = Table.NestedJoin(#"Removed Columns1", {"StoreID"}, dim_store, {"store_id"}, "dim_store", JoinKind.LeftOuter),
+				    #"Merged Queries6" = Table.NestedJoin(#"Merged Queries5", {"PromotionID"}, dim_promotion, {"promotion_id"}, "dim_promotion", JoinKind.LeftOuter),
+				    #"Merged Queries7" = Table.NestedJoin(#"Merged Queries6", {"CouponCode"}, dim_coupon_code, {"coupon_code"}, "dim_coupon_code", JoinKind.LeftOuter),
+				    #"Merged Queries8" = Table.NestedJoin(#"Merged Queries7", {"PaymentType"}, dim_payment_type, {"payment_type"}, "dim_payment_type", JoinKind.LeftOuter),
+				    #"Merged Queries9" = Table.NestedJoin(#"Merged Queries8", {"ReasonCode"}, dim_return_reason, {"return_reason"}, "dim_return_reason", JoinKind.LeftOuter),
+				    #"Merged Queries10" = Table.NestedJoin(#"Merged Queries9", {"Condition"}, dim_return_condition, {"return_condition"}, "dim_return_condition", JoinKind.LeftOuter),
+				    #"Merged Queries11" = Table.NestedJoin(#"Merged Queries10", {"Disposition"}, dim_return_disposition, {"return_disposition"}, "dim_return_disposition", JoinKind.LeftOuter),
+				    #"Merged Queries12" = Table.NestedJoin(#"Merged Queries11", {"WarehouseID"}, dim_warehouse, {"warehouse_id"}, "dim_warehouse", JoinKind.LeftOuter),
+				    #"Merged Queries13" = Table.NestedJoin(#"Merged Queries12", {"Carrier"}, dim_carrier, {"carrier"}, "dim_carrier", JoinKind.LeftOuter),
+				    #"Merged Queries14" = Table.NestedJoin(#"Merged Queries13", {"ServiceLevel"}, dim_service_level, {"service_level"}, "dim_service_level", JoinKind.LeftOuter),
+				    #"Merged Queries15" = Table.NestedJoin(#"Merged Queries14", {"DeliveryStatus"}, dim_delivery_status, {"delivery_status"}, "dim_delivery_status", JoinKind.LeftOuter),
+				    #"Expanded dim_store" = Table.ExpandTableColumn(#"Merged Queries15", "dim_store", {"store_key"}, {"store_key"}),
+				    #"Expanded dim_promotion" = Table.ExpandTableColumn(#"Expanded dim_store", "dim_promotion", {"promotion_key"}, {"promotion_key"}),
+				    #"Expanded dim_coupon_code" = Table.ExpandTableColumn(#"Expanded dim_promotion", "dim_coupon_code", {"coupon_key"}, {"coupon_key"}),
+				    #"Expanded dim_payment_type" = Table.ExpandTableColumn(#"Expanded dim_coupon_code", "dim_payment_type", {"payment_type_key"}, {"payment_type_key"}),
+				    #"Expanded dim_return_reason" = Table.ExpandTableColumn(#"Expanded dim_payment_type", "dim_return_reason", {"return_reason_key"}, {"return_reason_key"}),
+				    #"Expanded dim_return_condition" = Table.ExpandTableColumn(#"Expanded dim_return_reason", "dim_return_condition", {"return_condition_key"}, {"return_condition_key"}),
+				    #"Expanded dim_return_disposition" = Table.ExpandTableColumn(#"Expanded dim_return_condition", "dim_return_disposition", {"return_disposition_key"}, {"return_disposition_key"}),
+				    #"Expanded dim_warehouse" = Table.ExpandTableColumn(#"Expanded dim_return_disposition", "dim_warehouse", {"warehouse_key"}, {"warehouse_key"}),
+				    #"Expanded dim_carrier" = Table.ExpandTableColumn(#"Expanded dim_warehouse", "dim_carrier", {"carrier_key"}, {"carrier_key"}),
+				    #"Expanded dim_service_level" = Table.ExpandTableColumn(#"Expanded dim_carrier", "dim_service_level", {"service_level_key"}, {"service_level_key"}),
+				    #"Expanded dim_delivery_status" = Table.ExpandTableColumn(#"Expanded dim_service_level", "dim_delivery_status", {"delivery_status_key"}, {"delivery_status_key"}),
+				    #"Removed Columns2" = Table.RemoveColumns(#"Expanded dim_delivery_status",{"StoreID", "PromotionID", "CouponCode", "PaymentType", "Condition", "Disposition", "WarehouseID", "Carrier", "ServiceLevel", "DeliveryStatus"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Columns2",{{"OrderLineID", "orderline_id"}, {"OrderID", "order_id"}, {"Qty", "order_quantity"}, {"UnitPrice", "unit_price"}, {"LineDiscount$", "discount"}, {"LineCost$", "cost"}, {"LineRevenue$", "revenue"}, {"OrderDateTime", "order_date"}, {"ReturnID", "return_id"}, {"ReturnDate", "return_date"}, {"ReasonCode", "return_reason"}}),
+				    #"Removed Columns3" = Table.RemoveColumns(#"Renamed Columns",{"return_reason"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns3",{{"Refund$", "refund"}, {"RestockFee$", "restock_fee"}, {"ReturnShipCost$", "return_shipment_cost"}, {"ShipmentID", "shipment_id"}, {"PromisedDate", "promised_date"}, {"ShipDate", "shipment_date"}, {"DeliveryDate", "delivery_date"}, {"ShipCost$", "shipment_cost"}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Columns1",{"orderline_id", "order_id", "shipment_id", "order_date", "promised_date", "shipment_date", "delivery_date", "order_quantity", "unit_price", "discount", "cost", "revenue", "shipment_cost", "product_key", "customer_key", "channel_key", "store_key", "promotion_key", "coupon_key", "payment_type_key", "return_id", "return_date", "refund", "restock_fee", "return_shipment_cost", "return_reason_key", "return_condition_key", "return_disposition_key", "warehouse_key", "carrier_key", "service_level_key", "delivery_status_key"}),
+				    #"Inserted Time" = Table.AddColumn(#"Reordered Columns", "Time", each DateTime.Time([order_date]), type time),
+				    #"Reordered Columns1" = Table.ReorderColumns(#"Inserted Time",{"orderline_id", "order_id", "shipment_id", "order_date", "Time", "promised_date", "shipment_date", "delivery_date", "order_quantity", "unit_price", "discount", "cost", "revenue", "shipment_cost", "product_key", "customer_key", "channel_key", "store_key", "promotion_key", "coupon_key", "payment_type_key", "return_id", "return_date", "refund", "restock_fee", "return_shipment_cost", "return_reason_key", "return_condition_key", "return_disposition_key", "warehouse_key", "carrier_key", "service_level_key", "delivery_status_key"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Reordered Columns1",{{"Time", "order_time"}}),
 				    #"Inserted Date" = Table.AddColumn(#"Renamed Columns2", "Date", each DateTime.Date([order_date]), type date),
-				    #"Inserted Time" = Table.AddColumn(#"Inserted Date", "Time", each DateTime.Time([order_date]), type time),
-				    #"Renamed Columns3" = Table.RenameColumns(#"Inserted Time",{{"PromotionID", "promotion_id"}}),
-				    #"Removed Columns3" = Table.RemoveColumns(#"Renamed Columns3",{"order_date"}),
-				    #"Renamed Columns4" = Table.RenameColumns(#"Removed Columns3",{{"Date", "order_date"}, {"Time", "order_time"}}),
-				    #"Merged Queries4" = Table.NestedJoin(#"Renamed Columns4", {"promotion_id"}, dim_promotion, {"promotion_id"}, "dim_promotion", JoinKind.LeftOuter),
-				    #"Expanded dim_promotion" = Table.ExpandTableColumn(#"Merged Queries4", "dim_promotion", {"promotion_key"}, {"promotion_key"}),
-				    #"Removed Columns7" = Table.RemoveColumns(#"Expanded dim_promotion",{"promotion_id"})
+				    #"Removed Columns4" = Table.RemoveColumns(#"Inserted Date",{"Date"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Columns4",{{"order_date", type date}})
 				in
-				    #"Removed Columns7"
+				    #"Changed Type"
 
 	annotation PBI_NavigationStepName = Navigation
 

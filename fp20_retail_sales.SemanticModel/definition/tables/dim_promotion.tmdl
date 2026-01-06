@@ -105,6 +105,45 @@ table dim_promotion
 
 		annotation SummarizationSetBy = Automatic
 
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"dim_promotion","TableItemName":"promotion_duration (bins)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column 'promotion_duration (bins)' =
+			IF(
+				ISBLANK('dim_promotion'[promotion_duration]),
+				BLANK(),
+				INT('dim_promotion'[promotion_duration] / 2) * 2
+			)
+		formatString: 0
+		lineageTag: 43f67797-2c1a-45c5-8b04-4bb2cc99fafb
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "dim_promotion"
+				          }
+				        },
+				        "Property": "promotion_duration"
+				      }
+				    }
+				  ],
+				  "binningMetadata": {
+				    "binSize": {
+				      "value": 2.0,
+				      "unit": 0
+				    }
+				  }
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"d","Entity":"dim_promotion"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"promotion_duration"}}],"BinItem":{"Expression":{"Floor":{"Expression":{"Column":{"Expression":{"SourceRef":{"Source":"d"}},"Property":"promotion_duration"}},"Size":2.0}}}}
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_promotion = m
 		mode: import
 		queryGroup: orders_star_schema

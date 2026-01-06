@@ -48,6 +48,13 @@
       }
     ]
   },
+  "publicCustomVisuals": [
+    "ZoomChartsDrillDownTimelinePro7F6C01BA1C534E9AB4A6BCCB44F591D6",
+    "ZoomChartsTimeChartPaidE77E4ED357DC402ABA005987437CF500",
+    "ZoomChartsDrillDownPieProC062D62DA5CE45ECB95B7B1D0E5DA558",
+    "ZoomChartsDrillDownComboBarProE77E4ED357DC402ABA005987437CF800",
+    "ZoomChartsScatterChartPaidA2C55E4B59078FDD51C4CD1C4D4E6623V9N8"
+  ],
   "resourcePackages": [
     {
       "name": "SharedResources",
@@ -68,6 +75,46 @@
           "name": "Drill_Down_Visuals_theme_for_a5834718922421231.json",
           "path": "Drill_Down_Visuals_theme_for_a5834718922421231.json",
           "type": "CustomTheme"
+        },
+        {
+          "name": "box_icon9731845964165301.svg",
+          "path": "box_icon9731845964165301.svg",
+          "type": "Image"
+        },
+        {
+          "name": "box_icon5740281610917164.svg",
+          "path": "box_icon5740281610917164.svg",
+          "type": "Image"
+        },
+        {
+          "name": "net_profit9120869576108857.svg",
+          "path": "net_profit9120869576108857.svg",
+          "type": "Image"
+        },
+        {
+          "name": "returns13595229462909864.svg",
+          "path": "returns13595229462909864.svg",
+          "type": "Image"
+        },
+        {
+          "name": "box_icon03229480354299086.svg",
+          "path": "box_icon03229480354299086.svg",
+          "type": "Image"
+        },
+        {
+          "name": "returns777302136276116.svg",
+          "path": "returns777302136276116.svg",
+          "type": "Image"
+        },
+        {
+          "name": "net_profit3914240105506396.svg",
+          "path": "net_profit3914240105506396.svg",
+          "type": "Image"
+        },
+        {
+          "name": "gross_revenue7759113283224477.svg",
+          "path": "gross_revenue7759113283224477.svg",
+          "type": "Image"
         }
       ]
     }

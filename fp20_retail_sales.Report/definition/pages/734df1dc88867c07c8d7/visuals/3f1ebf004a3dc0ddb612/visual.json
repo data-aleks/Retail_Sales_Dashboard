@@ -1,0 +1,911 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "3f1ebf004a3dc0ddb612",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 0,
+    "height": 555.68464730290464,
+    "width": 839.50207468879671,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "ZoomChartsScatterChartPaidA2C55E4B59078FDD51C4CD1C4D4E6623V9N8",
+    "query": {
+      "queryState": {
+        "category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_promotion"
+                    }
+                  },
+                  "Property": "campaign_type"
+                }
+              },
+              "queryRef": "dim_promotion.campaign_type",
+              "nativeQueryRef": "campaign_type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_promotion"
+                    }
+                  },
+                  "Property": "promotion_name"
+                }
+              },
+              "queryRef": "dim_promotion.promotion_name",
+              "nativeQueryRef": "promotion_name"
+            }
+          ]
+        },
+        "targetNodes": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_promotion_measures"
+                    }
+                  },
+                  "Property": "promotion_roi"
+                }
+              },
+              "queryRef": "_promotion_measures.promotion_roi",
+              "nativeQueryRef": "promotion_roi"
+            }
+          ]
+        },
+        "sourceNodes": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_revenue_measures"
+                    }
+                  },
+                  "Property": "total_net_profit"
+                }
+              },
+              "queryRef": "_revenue_measures.total_net_profit",
+              "nativeQueryRef": "total_net_profit"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_revenue_measures"
+                  }
+                },
+                "Property": "total_net_profit"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "license": [
+        {
+          "properties": {
+            "lastVersionUsed": {
+              "expr": {
+                "Literal": {
+                  "Value": "'v1.8.276.0'"
+                }
+              }
+            },
+            "lastVersionUpdated": {
+              "expr": {
+                "Literal": {
+                  "Value": "1767733680000D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "navigation": [
+        {
+          "properties": {
+            "settings": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"xy\":{\"T0\":{\"x\":0.01229220920494997,\"y\":0.014672627556832891,\"r\":0.0017165116508924207,\"w\":0.0017165116508924207},\"T1\":{\"x\":0.010595582942700344,\"y\":0.020906206410865467,\"r\":0.0017165116508924207,\"w\":0.0017165116508924207},\"T2\":{\"x\":0.0035541843598025503,\"y\":0.01444884830614427,\"r\":0.0017165116508924207,\"w\":0.0017165116508924207},\"T3\":{\"x\":0.0012060133605440169,\"y\":0.02059187542465538,\"r\":0.0017165116508924207,\"w\":0.0017165116508924207}},\"nav\":{\"hidden\":[],\"focused\":[]}}'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "colors1": [
+        {
+          "properties": {
+            "propertyCache": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"source\":\"\",\"props\":{}}'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "shapes1": [
+        {
+          "properties": {
+            "propertyCache": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"source\":\"\",\"props\":{}}'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "trialLicense": [
+        {
+          "properties": {
+            "validLicenseProvided": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {}
+        }
+      ],
+      "categoryColors1": [
+        {
+          "properties": {
+            "propertyCache": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"source\":\"dim_promotion.campaign_type\",\"props\":{\"BF\":{\"color\":\"#118DFF\"},\"Holiday\":{\"color\":\"#6B007B\"},\"CM\":{\"color\":\"#E66C37\"},\"Clearance\":{\"color\":\"#12239E\"}}}'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "regressionLine": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "regressionOpacity1": {
+              "expr": {
+                "Literal": {
+                  "Value": "75L"
+                }
+              }
+            },
+            "regressionWidth1": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            },
+            "regressionColor1": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 1,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "backgroundShapes": [
+        {
+          "properties": {
+            "showShape1": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showShape2": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showShape3": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showShape4": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "showShape5": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "backgroundShapes1": [
+        {
+          "properties": {
+            "startXType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'value'"
+                }
+              }
+            },
+            "type": {
+              "expr": {
+                "Literal": {
+                  "Value": "'rectangle'"
+                }
+              }
+            },
+            "endXType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'value'"
+                }
+              }
+            },
+            "fillOpacity": {
+              "expr": {
+                "Literal": {
+                  "Value": "10L"
+                }
+              }
+            },
+            "startYType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'value'"
+                }
+              }
+            },
+            "endX": {
+              "expr": {
+                "Literal": {
+                  "Value": "-1D"
+                }
+              }
+            },
+            "startX": {
+              "expr": {
+                "Literal": {
+                  "Value": "-1D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "enableGrid": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "enableSpikelines": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "valueType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'percentage'"
+                }
+              }
+            },
+            "configureAxesSeparately": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "backgroundShapes2": [
+        {
+          "properties": {
+            "startYType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'value'"
+                }
+              }
+            },
+            "startXType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'neginf'"
+                }
+              }
+            },
+            "startY": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "fillColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#6D8B74'"
+                    }
+                  }
+                }
+              }
+            },
+            "fillOpacity": {
+              "expr": {
+                "Literal": {
+                  "Value": "10L"
+                }
+              }
+            },
+            "endXType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'posinf'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "backgroundShapes3": [
+        {
+          "properties": {
+            "startY": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "fillColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#6D8B74'"
+                    }
+                  }
+                }
+              }
+            },
+            "fillOpacity": {
+              "expr": {
+                "Literal": {
+                  "Value": "25L"
+                }
+              }
+            },
+            "startXType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'neginf'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "backgroundShapes4": [
+        {
+          "properties": {
+            "endY": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "startYType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'value'"
+                }
+              }
+            },
+            "startY": {
+              "expr": {
+                "Literal": {
+                  "Value": "-1D"
+                }
+              }
+            },
+            "fillColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#EA7B7B'"
+                    }
+                  }
+                }
+              }
+            },
+            "fillOpacity": {
+              "expr": {
+                "Literal": {
+                  "Value": "10L"
+                }
+              }
+            },
+            "startXType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'neginf'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "backgroundShapes5": [
+        {
+          "properties": {
+            "startY": {
+              "expr": {
+                "Literal": {
+                  "Value": "-1D"
+                }
+              }
+            },
+            "endX": {
+              "expr": {
+                "Literal": {
+                  "Value": "-2D"
+                }
+              }
+            },
+            "fillColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#D25353'"
+                    }
+                  }
+                }
+              }
+            },
+            "endXType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'posinf'"
+                }
+              }
+            },
+            "endY": {
+              "expr": {
+                "Literal": {
+                  "Value": "-1D"
+                }
+              }
+            },
+            "startXType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'neginf'"
+                }
+              }
+            },
+            "fillOpacity": {
+              "expr": {
+                "Literal": {
+                  "Value": "25L"
+                }
+              }
+            },
+            "endYType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'neginf'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "nodes": [
+        {
+          "properties": {
+            "enableOutline": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "outlineColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#6D94C5'"
+                    }
+                  }
+                }
+              }
+            },
+            "nodeDetailMinSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "25L"
+                }
+              }
+            },
+            "outlineWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            },
+            "shape": {
+              "expr": {
+                "Literal": {
+                  "Value": "'circle'"
+                }
+              }
+            },
+            "useCategoryAsLabel": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "colorMode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'dynamic'"
+                }
+              }
+            },
+            "dynamicFillColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#CBDCEB'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "thresholdsX": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxisX": [
+        {
+          "properties": {
+            "displayUnit": {
+              "expr": {
+                "Literal": {
+                  "Value": "'auto'"
+                }
+              }
+            },
+            "enableGrid": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxisY": [
+        {
+          "properties": {
+            "valueType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'percentage'"
+                }
+              }
+            },
+            "enableGrid": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryColors2": [
+        {
+          "properties": {
+            "propertyCache": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"source\":\"dim_promotion.promotion_name\",\"props\":{\"BF-PR046\":{\"color\":\"#BE5DC9\"},\"BF-PR034\":{\"color\":\"#197278\"},\"BF-PR029\":{\"color\":\"#D64550\"},\"BF-PR003\":{\"color\":\"#12239E\"},\"BF-PR005\":{\"color\":\"#E66C37\"},\"BF-PR057\":{\"color\":\"#00DBBC\"},\"BF-PR047\":{\"color\":\"#F472D0\"},\"BF-PR050\":{\"color\":\"#C4A200\"},\"BF-PR049\":{\"color\":\"#B5A1FF\"},\"BF-PR039\":{\"color\":\"#4092FF\"},\"BF-PR044\":{\"color\":\"#FFA058\"},\"BF-PR001\":{\"color\":\"#118DFF\"},\"BF-PR060\":{\"color\":\"#5BD667\"},\"BF-PR013\":{\"color\":\"#E044A7\"},\"BF-PR038\":{\"color\":\"#15C6F4\"},\"BF-PR023\":{\"color\":\"#D9B300\"},\"BF-PR017\":{\"color\":\"#744EC2\"},\"BF-PR009\":{\"color\":\"#6B007B\"},\"BF-PR037\":{\"color\":\"#1AAB40\"},\"BF-PR054\":{\"color\":\"#FF8080\"},\"Holiday-PR007\":{\"color\":\"#34124F\"},\"Holiday-PR021\":{\"color\":\"#FDB15D\"},\"Holiday-PR015\":{\"color\":\"#0C3D37\"},\"Holiday-PR025\":{\"color\":\"#8AA3EB\"},\"Holiday-PR012\":{\"color\":\"#BA141A\"},\"Holiday-PR058\":{\"color\":\"#A79B8F\"},\"Holiday-PR041\":{\"color\":\"#4A91C5\"},\"Holiday-PR042\":{\"color\":\"#5F646D\"},\"Holiday-PR028\":{\"color\":\"#A6687A\"},\"Holiday-PR045\":{\"color\":\"#C9F459\"},\"Holiday-PR019\":{\"color\":\"#0B511F\"},\"Holiday-PR002\":{\"color\":\"#C94F0F\"},\"Holiday-PR051\":{\"color\":\"#A4B8EE\"},\"Holiday-PR027\":{\"color\":\"#FEE266\"},\"Holiday-PR008\":{\"color\":\"#6A5A29\"},\"Holiday-PR032\":{\"color\":\"#3557B8\"},\"Holiday-PR006\":{\"color\":\"#B60064\"},\"Holiday-PR033\":{\"color\":\"#DFCFBF\"},\"Holiday-PR020\":{\"color\":\"#373D49\"},\"Holiday-PR052\":{\"color\":\"#FDE489\"},\"Holiday-PR053\":{\"color\":\"#B68794\"},\"Holiday-PR004\":{\"color\":\"#450F54\"},\"Holiday-PR022\":{\"color\":\"#AAF20F\"},\"Holiday-PR056\":{\"color\":\"#28428A\"},\"Holiday-PR048\":{\"color\":\"#7F838A\"},\"Holiday-PR043\":{\"color\":\"#FBBF81\"},\"Holiday-PR024\":{\"color\":\"#5F646D\"},\"Holiday-PR010\":{\"color\":\"#1AAB40\"},\"CM-PR059\":{\"color\":\"#002050\"},\"CM-PR011\":{\"color\":\"#99700A\"},\"CM-PR014\":{\"color\":\"#FF4141\"},\"CM-PR040\":{\"color\":\"#0057A2\"},\"CM-PR018\":{\"color\":\"#1F9A85\"},\"CM-PR035\":{\"color\":\"#25891C\"},\"Clearance-PR030\":{\"color\":\"#FF6300\"},\"Clearance-PR055\":{\"color\":\"#533285\"},\"Clearance-PR031\":{\"color\":\"#99008A\"},\"Clearance-PR036\":{\"color\":\"#EC008C\"},\"Clearance-PR016\":{\"color\":\"#0091D5\"},\"Clearance-PR026\":{\"color\":\"#4668C5\"}}}'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Campaign Strategic Positioning'"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI Semibold'', wf_segoe-ui_semibold, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "18D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Segoe UI Light'', wf_segoe-ui_light, helvetica, arial, sans-serif'"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Mapping efficiency (ROI) against total contribution (Net Profit) to identify scalable \"Star\" promotions.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "spacing": [
+        {
+          "properties": {
+            "verticalSpacing": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "44d51fa17403167155e1",
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "1373b1670e0c42be0b21",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_promotion"
+              }
+            },
+            "Property": "campaign_type"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_promotion",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "campaign_type"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
