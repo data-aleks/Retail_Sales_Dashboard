@@ -1,0 +1,113 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "122d4dc5422db62434cb",
+  "position": {
+    "x": 143.02341577371953,
+    "y": 231.99616716579979,
+    "z": 500,
+    "height": 270,
+    "width": 561.66666666666674,
+    "tabOrder": 9005
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "The scorecard highlights that ",
+                    "textStyle": {
+                      "fontSize": "12pt"
+                    }
+                  },
+                  {
+                    "value": "refunds and returns are the primary detractors",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "12pt"
+                    }
+                  },
+                  {
+                    "value": " from corporate profitability. While categories like Apparel and Footwear generate millions in gross revenue, their net performance is severely hampered by a high-return culture, with refund costs consistently doubling the actual net profit realized. This data suggests that improving product fit or descriptions in these categories could reclaim more margin than simply increasing sales volume.",
+                    "textStyle": {
+                      "fontSize": "12pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'info_text'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "eb4cdec0422a98d079c1",
+  "isHidden": true
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "8f2d8a740a1141697d6a",
+  "position": {
+    "x": 1121.8823529411766,
+    "y": 215.34117647058824,
+    "z": 6000,
+    "height": 310.21176470588233,
+    "width": 724.32941176470592,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "The ",
+                    "textStyle": {
+                      "fontSize": "20pt",
+                      "color": "#ffffff"
+                    }
+                  },
+                  {
+                    "value": "Campaign Financial Scorecard",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "20pt",
+                      "color": "#ffffff"
+                    }
+                  },
+                  {
+                    "value": " provides a detailed revenue versus cost analysis for key seasonal promotions, accounting for shipping and refund impacts to determine overall profitability",
+                    "textStyle": {
+                      "fontSize": "20pt",
+                      "color": "#ffffff"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "f7b54b0000a0c0082016"
+}

@@ -1,0 +1,920 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.4.0/schema.json",
+  "displayName": "fulffilment_peak_season_exp",
+  "name": "a175607ca8d5442edcc7",
+  "options": {
+    "targetVisualNames": []
+  },
+  "explorationState": {
+    "version": "1.5",
+    "activeSection": "b7de4e1016456120cd07",
+    "sections": {
+      "b7de4e1016456120cd07": {
+        "visualContainers": {
+          "3268b112b8141454b1ea": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "622ce0541481960411d6",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_promotion"
+                        }
+                      },
+                      "Property": "campaign_type"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "787314e7a03b077ab621",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_delivery_status"
+                        }
+                      },
+                      "Property": "delivery_status"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f6bbe0309d0a453d2ee8",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_product"
+                        }
+                      },
+                      "Property": "product_category"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2d86ea637d380914bcc7",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_order_measures"
+                        }
+                      },
+                      "Property": "total_orders"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "ZoomChartsDrillDownPieProC062D62DA5CE45ECB95B7B1D0E5DA558",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_order_measures"
+                        }
+                      },
+                      "Property": "total_orders"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "45d7d8fa09009b16e065": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "5a88aac2d17b093758d1": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "5b7eb55323d0d6d221c0": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "8aabc19fe13ea80be65a": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "9c91e62f55a61bc050d9": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "db23c6ef31516ba8ccd3": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "f42171d5c78accb3c173": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "83daacb2ab53d260dbb9": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "848f52e407103b260ede": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "87f3cebc45e69506814a",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_date",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 3,
+                            "Left": {
+                              "Column": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "d"
+                                  }
+                                },
+                                "Property": "date"
+                              }
+                            },
+                            "Right": {
+                              "DateSpan": {
+                                "Expression": {
+                                  "Literal": {
+                                    "Value": "datetime'2026-01-05T00:00:00'"
+                                  }
+                                },
+                                "TimeUnit": 5
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_date"
+                        }
+                      },
+                      "Property": "date"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "f8d99274d9681c3a8d64",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_delivery_measures"
+                        }
+                      },
+                      "Property": "late_delivery_rate_growth"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "ZoomChartsTimeChartPaidE77E4ED357DC402ABA005987437CF500",
+              "objects": {
+                "merge": {
+                  "general": [
+                    {
+                      "properties": {
+                        "filter": {
+                          "filter": {
+                            "Version": 2,
+                            "From": [
+                              {
+                                "Name": "d",
+                                "Entity": "dim_date",
+                                "Type": 0
+                              }
+                            ],
+                            "Where": [
+                              {
+                                "Condition": {
+                                  "And": {
+                                    "Left": {
+                                      "Comparison": {
+                                        "ComparisonKind": 2,
+                                        "Left": {
+                                          "Column": {
+                                            "Expression": {
+                                              "SourceRef": {
+                                                "Source": "d"
+                                              }
+                                            },
+                                            "Property": "date"
+                                          }
+                                        },
+                                        "Right": {
+                                          "DateSpan": {
+                                            "Expression": {
+                                              "Literal": {
+                                                "Value": "datetime'2025-11-01T01:00:00'"
+                                              }
+                                            },
+                                            "TimeUnit": 5
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "Right": {
+                                      "Comparison": {
+                                        "ComparisonKind": 3,
+                                        "Left": {
+                                          "Column": {
+                                            "Expression": {
+                                              "SourceRef": {
+                                                "Source": "d"
+                                              }
+                                            },
+                                            "Property": "date"
+                                          }
+                                        },
+                                        "Right": {
+                                          "DateSpan": {
+                                            "Expression": {
+                                              "Literal": {
+                                                "Value": "datetime'2026-01-05T01:00:00'"
+                                              }
+                                            },
+                                            "TimeUnit": 5
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_date"
+                        }
+                      },
+                      "Property": "date"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "8dfd6f87d68504c50362": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "1373b1670e0c42be0b21",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_promotion",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "campaign_type"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_promotion"
+                        }
+                      },
+                      "Property": "campaign_type"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "c36a4666d919c8127ed0",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_order_measures"
+                        }
+                      },
+                      "Property": "total_orders"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "535452413e4d4c04eea6",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_delivery_measures"
+                        }
+                      },
+                      "Property": "late_delivery_rate"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "a259f2eb7bd07e207b43",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_service_level"
+                        }
+                      },
+                      "Property": "service_level"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "259da55d1776b839c704",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_product"
+                        }
+                      },
+                      "Property": "product_category"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "ZoomChartsScatterChartPaidA2C55E4B59078FDD51C4CD1C4D4E6623V9N8",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_order_measures"
+                        }
+                      },
+                      "Property": "total_orders"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "93218e9c072b20d63b5e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "f1e6e7c71639a59d01be",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_order_measures"
+                        }
+                      },
+                      "Property": "total_orders"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_order_measures"
+                        }
+                      },
+                      "Property": "total_orders"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "f4675d104c72b3932033": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "a85227d53ba30e52e41d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_delivery_measures"
+                        }
+                      },
+                      "Property": "late_delivery_rate"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_delivery_measures"
+                        }
+                      },
+                      "Property": "late_delivery_rate"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "d55b31808c78b0308ed7": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "87f3cebc45e69506814a",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_date",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 3,
+                            "Left": {
+                              "Column": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "d"
+                                  }
+                                },
+                                "Property": "date"
+                              }
+                            },
+                            "Right": {
+                              "DateSpan": {
+                                "Expression": {
+                                  "Literal": {
+                                    "Value": "datetime'2026-01-05T00:00:00'"
+                                  }
+                                },
+                                "TimeUnit": 5
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_date"
+                        }
+                      },
+                      "Property": "date"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "3ac04a2857d56a621896",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_warehouse"
+                        }
+                      },
+                      "Property": "warehouse_id"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "385dddcf0db42193003d",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_delivery_measures"
+                        }
+                      },
+                      "Property": "late_delivery_rate"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "columnChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_delivery_measures"
+                        }
+                      },
+                      "Property": "late_delivery_rate"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_warehouse"
+                        }
+                      },
+                      "Property": "warehouse_id"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "18ac64fb8c015ab9669b": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "3afe188a736d8585a352": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "417f65da97b1060d7a0b": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "608d4c11ead556141485": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "68b175b582a21b318970": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "83560b9575b49b0d0bc9": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "a521a66276c5508b54ae": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "c55527fc82a596bb901d": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "cd3b5847523a3460bae5": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "d2db1a710202d30ba58e": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "f8185e5763239c64a706": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "622ce0541481960411d6",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_promotion"
+                        }
+                      },
+                      "Property": "campaign_type"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "d4c167619a269bab659e",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_carrier"
+                        }
+                      },
+                      "Property": "carrier"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "5a8e92820aceb3d30714",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_delivery_measures"
+                        }
+                      },
+                      "Property": "avg_actual_lead_time"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "dede6e4289b8ec8e2d0b",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_delivery_measures"
+                        }
+                      },
+                      "Property": "avg_promised_lead_time"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "clusteredColumnChart",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_delivery_measures"
+                        }
+                      },
+                      "Property": "avg_actual_lead_time"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Category": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_carrier"
+                        }
+                      },
+                      "Property": "carrier"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "7edf935d0e5399a75747": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "13ba924454db03926a65": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "805b638d85d69c7d6b60": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "4106abe12c18b590c0ba": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "b301b8ad52118b7561d7": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "833460a09203d2097003": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "10aa0dc62ced40c04ece": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "548e100bbac98007e88e": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "0fb92ddb66217e77379b": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          }
+        },
+        "visualContainerGroups": {
+          "e0c4541c3aba818402b9": {
+            "isHidden": true
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+table dim_coupon_code
+	excludeFromModelRefresh
+	lineageTag: 4ef31315-e131-48a3-9fee-2783d8aa2a49
+
+	column coupon_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d41bce55-bd48-42c0-b402-a56a8a76a490
+		summarizeBy: none
+		sourceColumn: coupon_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column coupon_code
+		dataType: string
+		lineageTag: f08da8be-8e18-4474-b41d-186cc63242f5
+		summarizeBy: none
+		sourceColumn: coupon_code
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_coupon_code = m
+		mode: import
+		queryGroup: orders_star_schema
+		source =
+				let
+				    Source = OrderHeader,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"CouponCode"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates", each [CouponCode] <> null and [CouponCode] <> ""),
+				    #"Added Index" = Table.AddIndexColumn(#"Filtered Rows", "Index", 0, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "coupon_key"}, {"CouponCode", "coupon_code"}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Columns",{"coupon_key", "coupon_code"})
+				in
+				    #"Reordered Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

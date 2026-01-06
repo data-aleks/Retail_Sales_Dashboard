@@ -1,0 +1,88 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "d2db1a710202d30ba58e",
+  "position": {
+    "x": 269.5529411764706,
+    "y": 707.76470588235293,
+    "z": 5000,
+    "height": 310.21176470588233,
+    "width": 724.32941176470592,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ],
+                "horizontalTextAlignment": "center",
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "The ",
+                    "textStyle": {
+                      "fontFamily": "Google Sans Flex, Google Sans, Helvetica Neue, sans-serif",
+                      "fontSize": "20pt",
+                      "color": "#ffffff"
+                    }
+                  },
+                  {
+                    "value": "Peak-Season Stress Test",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontFamily": "Google Sans Flex, Google Sans, Helvetica Neue, sans-serif",
+                      "fontSize": "20pt",
+                      "color": "#ffffff"
+                    }
+                  },
+                  {
+                    "value": " section serves as a diagnostic chart for the logistics network, visualizing the exact moment operational capacity was exceeded during the holiday rush.",
+                    "textStyle": {
+                      "fontFamily": "Google Sans Flex, Google Sans, Helvetica Neue, sans-serif",
+                      "fontSize": "20pt",
+                      "color": "#ffffff"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": ""
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "e0c4541c3aba818402b9"
+}

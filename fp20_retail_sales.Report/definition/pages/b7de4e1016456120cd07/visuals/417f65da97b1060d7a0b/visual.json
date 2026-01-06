@@ -1,0 +1,69 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "417f65da97b1060d7a0b",
+  "position": {
+    "x": 1121.8823529411766,
+    "y": 215.34117647058824,
+    "z": 6000,
+    "height": 310.21176470588233,
+    "width": 724.32941176470592,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "The ",
+                    "textStyle": {
+                      "fontSize": "20pt",
+                      "color": "#ffffff"
+                    }
+                  },
+                  {
+                    "value": "Network-Wide Operational Consistency",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "20pt",
+                      "color": "#ffffff"
+                    }
+                  },
+                  {
+                    "value": " section serves to prove that fulfilment delays are a systemic failure across the entire logistics network rather than a localized issue at a specific facility.",
+                    "textStyle": {
+                      "fontSize": "20pt",
+                      "color": "#ffffff"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "e0c4541c3aba818402b9"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "99edf973c27d7142339a",
+  "position": {
+    "x": 1057.4649781797521,
+    "y": 91.766462234640684,
+    "z": 5000,
+    "height": 555.71428571428578,
+    "width": 844.28571428571433,
+    "tabOrder": 5000
+  },
+  "visualGroup": {
+    "displayName": "campaing_financial_scorecard",
+    "groupMode": "ScaleMode"
+  }
+}

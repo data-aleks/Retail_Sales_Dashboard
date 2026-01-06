@@ -1,0 +1,979 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.4.0/schema.json",
+  "displayName": "overview_profitability_margin_exp",
+  "name": "4f6b00759239124eb0a3",
+  "options": {
+    "targetVisualNames": [
+      "d596a992056b253d8984"
+    ]
+  },
+  "explorationState": {
+    "version": "1.3",
+    "activeSection": "961232fbe37075455004",
+    "sections": {
+      "961232fbe37075455004": {
+        "visualContainers": {
+          "13494780487da3cb5458": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "4d3f44fa09a68ca69a0c": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "5b31ac60ac0582da4b21": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "71ceaa9d5c8bb7402c6a": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "7cdd934e056a739b1aac": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "a42d5a36c06315890a0c": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "dc4cee87240520e0c7e0": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "edce25b5c654db41c1a0": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "ee395b9b851203d448cc": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "f41b119bbbabe538bbe0": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "f48031d0a8bc16300acc": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "785d6420eb6074e91e86": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "3d5f1b4de9ab91b5c951",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_delivery_measures"
+                        }
+                      },
+                      "Property": "late_delivery_rate"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_delivery_measures"
+                        }
+                      },
+                      "Property": "late_delivery_rate"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "7b90e143a7e18459b0ce": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "c2313722d45c13a29a4a",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "total_net_profit"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "total_net_profit"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "c263cf9f11da97d4ed1c": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "0074c511ddc4088b5029",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_returns_measures"
+                        }
+                      },
+                      "Property": "return_write_off_financial_impact"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_returns_measures"
+                        }
+                      },
+                      "Property": "return_write_off_financial_impact"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "c7279b1e1c86250051dc": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "7e111ff5c1cc877a5507",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "net_profit_margin"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "net_profit_margin"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "e25616610c0b17152065": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "085b123fe60dd1bc2410",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_order_measures"
+                        }
+                      },
+                      "Property": "total_orders"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_order_measures"
+                        }
+                      },
+                      "Property": "total_orders"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "f66adc03b0d54a7718a3": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "ca284880034615eae115",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_returns_measures"
+                        }
+                      },
+                      "Property": "return_rate"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "cardVisual",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_returns_measures"
+                        }
+                      },
+                      "Property": "return_rate"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "3dea03140016057c5654": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "3ad0aa69d5e05aa2096d": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "e5f512c970393ded5be3": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "eaf014dae967500a20de": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "f8abe2999e279a0000b1": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "e5f0bde657c97de7a44a": {
+            "singleVisual": {
+              "visualType": "shape",
+              "objects": {}
+            }
+          },
+          "f49b867d9a24306e782e": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "a63903d1a2b0b6077279": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "6ba1792aab521d08c32d",
+                  "type": "Categorical",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_promotion",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Not": {
+                            "Expression": {
+                              "In": {
+                                "Expressions": [
+                                  {
+                                    "Column": {
+                                      "Expression": {
+                                        "SourceRef": {
+                                          "Source": "d"
+                                        }
+                                      },
+                                      "Property": "promotion_name"
+                                    }
+                                  }
+                                ],
+                                "Values": [
+                                  [
+                                    {
+                                      "Literal": {
+                                        "Value": "null"
+                                      }
+                                    }
+                                  ]
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_promotion"
+                        }
+                      },
+                      "Property": "promotion_name"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "f8b5194c581a4069002a",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_product"
+                        }
+                      },
+                      "Property": "product_category"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "a41ffa0d16bccd44ac85",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_product"
+                        }
+                      },
+                      "Property": "product_id"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "152afcff3978ee00e1ab",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_order_measures"
+                        }
+                      },
+                      "Property": "total_orders"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "37545c9c8a309b969b29",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "total_gross_revenue"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "af6bc04180b0d5662447",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "total_net_profit"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "07332cb5c82e3743b6e1",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_returns_measures"
+                        }
+                      },
+                      "Property": "total_returns"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "2ff5a09075ce06b09120",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_shipment_measures"
+                        }
+                      },
+                      "Property": "total_shipment_cost"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "1286082c5510c0a44158",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_refund_measures"
+                        }
+                      },
+                      "Property": "total_refund"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "e52b581f4e4e04680641",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "net_profit_margin"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "13f6d54212ab7979b566",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_returns_measures"
+                        }
+                      },
+                      "Property": "return_rate"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "pivotTable",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "net_profit_margin"
+                    }
+                  }
+                }
+              ],
+              "activeProjections": {
+                "Rows": [
+                  {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_product"
+                        }
+                      },
+                      "Property": "product_category"
+                    }
+                  }
+                ]
+              },
+              "expansionStates": [
+                {
+                  "roles": [
+                    "Rows"
+                  ],
+                  "levels": [
+                    {
+                      "queryRefs": [
+                        "dim_product.product_category"
+                      ],
+                      "isCollapsed": true,
+                      "identityKeys": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Entity": "dim_product"
+                              }
+                            },
+                            "Property": "product_category"
+                          }
+                        }
+                      ],
+                      "isPinned": true
+                    },
+                    {
+                      "queryRefs": [
+                        "dim_product.product_id"
+                      ],
+                      "isCollapsed": true,
+                      "isPinned": true
+                    }
+                  ],
+                  "root": {
+                    "identityValues": []
+                  }
+                }
+              ]
+            }
+          },
+          "ab1cae6faca6e0d22401": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "622ce0541481960411d6",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_promotion"
+                        }
+                      },
+                      "Property": "campaign_type"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "7d31f7ac2a6b09268d93",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_channel"
+                        }
+                      },
+                      "Property": "channel"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "416e96a04e9d1252ed37",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "total_net_profit"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "ZoomChartsDrillDownPieProC062D62DA5CE45ECB95B7B1D0E5DA558",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "total_net_profit"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "ad45c2900ea061ac805e": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "87f3cebc45e69506814a",
+                  "type": "Advanced",
+                  "filter": {
+                    "Version": 2,
+                    "From": [
+                      {
+                        "Name": "d",
+                        "Entity": "dim_date",
+                        "Type": 0
+                      }
+                    ],
+                    "Where": [
+                      {
+                        "Condition": {
+                          "Comparison": {
+                            "ComparisonKind": 3,
+                            "Left": {
+                              "Column": {
+                                "Expression": {
+                                  "SourceRef": {
+                                    "Source": "d"
+                                  }
+                                },
+                                "Property": "date"
+                              }
+                            },
+                            "Right": {
+                              "DateSpan": {
+                                "Expression": {
+                                  "Literal": {
+                                    "Value": "datetime'2026-01-05T00:00:00'"
+                                  }
+                                },
+                                "TimeUnit": 5
+                              }
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_date"
+                        }
+                      },
+                      "Property": "date"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "8ce22e9baab3dae41617",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "net_profit_margin"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "00fd31939a0245c10780",
+                  "type": "Categorical",
+                  "expression": {
+                    "HierarchyLevel": {
+                      "Expression": {
+                        "Hierarchy": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "dim_date"
+                            }
+                          },
+                          "Hierarchy": "date_hierarchy"
+                        }
+                      },
+                      "Level": "date"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "ZoomChartsTimeChartPaidE77E4ED357DC402ABA005987437CF500",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 1,
+                  "Expression": {
+                    "HierarchyLevel": {
+                      "Expression": {
+                        "Hierarchy": {
+                          "Expression": {
+                            "SourceRef": {
+                              "Entity": "dim_date"
+                            }
+                          },
+                          "Hierarchy": "date_hierarchy"
+                        }
+                      },
+                      "Level": "date"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "daab681e00c3c559c669": {
+            "filters": {
+              "byExpr": [
+                {
+                  "name": "622ce0541481960411d6",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_promotion"
+                        }
+                      },
+                      "Property": "campaign_type"
+                    }
+                  },
+                  "howCreated": 1
+                },
+                {
+                  "name": "fde64285061200d79745",
+                  "type": "Categorical",
+                  "expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_promotion"
+                        }
+                      },
+                      "Property": "target_segment"
+                    }
+                  },
+                  "howCreated": 0
+                },
+                {
+                  "name": "08d41b40203023addbee",
+                  "type": "Advanced",
+                  "expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "total_net_profit"
+                    }
+                  },
+                  "howCreated": 0
+                }
+              ]
+            },
+            "singleVisual": {
+              "visualType": "ZoomChartsDrillDownPieProC062D62DA5CE45ECB95B7B1D0E5DA558",
+              "objects": {},
+              "orderBy": [
+                {
+                  "Direction": 2,
+                  "Expression": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "_revenue_measures"
+                        }
+                      },
+                      "Property": "total_net_profit"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "7cdc2dde69114e718067": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "fbc4ced02274b7ba48a3": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "dabb388ce182d9b89433": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {}
+            }
+          },
+          "8bb9675ee5b53cc752b7": {
+            "singleVisual": {
+              "visualType": "actionButton",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          },
+          "d596a992056b253d8984": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {}
+            }
+          },
+          "122d4dc5422db62434cb": {
+            "singleVisual": {
+              "visualType": "textbox",
+              "objects": {},
+              "display": {
+                "mode": "hidden"
+              }
+            }
+          }
+        },
+        "visualContainerGroups": {
+          "1931352433e159b43510": {
+            "isHidden": true
+          }
+        }
+      }
+    },
+    "objects": {
+      "merge": {
+        "outspacePane": [
+          {
+            "properties": {
+              "expanded": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

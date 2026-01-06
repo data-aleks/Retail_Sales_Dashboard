@@ -1,0 +1,26 @@
+table _shipment_measures
+	lineageTag: f30dbeee-b3aa-411d-9b24-63316a72a661
+
+	measure total_shipment_cost = SUM(fact_order[shipment_cost])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: f86d831f-83f4-484c-b258-19ef9a017c65
+
+	measure total_return_shipment_cost = ```
+			SUM(fact_order[return_shipment_cost]) 
+			```
+		lineageTag: f491917c-09bf-45b7-b738-c0030ec4c142
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition _shipment_measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

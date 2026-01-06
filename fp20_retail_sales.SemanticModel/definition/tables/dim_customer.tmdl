@@ -1,0 +1,42 @@
+table dim_customer
+	excludeFromModelRefresh
+	lineageTag: 18ff4679-d818-410c-8600-73f389cec623
+
+	column customer_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 4472c436-ac1c-45e6-a34e-cfdb4f526ebd
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: string
+		lineageTag: 30bac502-6ac5-49ec-bc05-ba7d299e3c01
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customer = m
+		mode: import
+		queryGroup: orders_star_schema
+		source =
+				let
+				    Source = OrderHeader,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"CustomerID"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 0, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "CustomerID"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"Index", "customer_key"}, {"CustomerID", "customer_id"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

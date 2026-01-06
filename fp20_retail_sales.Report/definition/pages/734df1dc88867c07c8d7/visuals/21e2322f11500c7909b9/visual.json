@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "21e2322f11500c7909b9",
+  "position": {
+    "x": 204.25069246546673,
+    "y": 660.33789080606937,
+    "z": 6000,
+    "height": 402.5,
+    "width": 840,
+    "tabOrder": 6000
+  },
+  "visualGroup": {
+    "displayName": "profitability_post_holiday",
+    "groupMode": "ScaleMode"
+  }
+}

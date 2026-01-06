@@ -1,0 +1,159 @@
+table dim_date
+	lineageTag: 3e4a0488-7806-4721-87dd-b7fe721b5406
+	dataCategory: Time
+
+	column date_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: bbc6cf54-eb9a-42b0-8fd1-e6a5e3d06593
+		summarizeBy: none
+		sourceColumn: date_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: 5b27e3d1-9fcb-4975-bfe3-db0e00784296
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 37a6bc41-7794-4a63-8116-157cb2198dcc
+		summarizeBy: none
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_of_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 7bf56fab-7d24-49de-a767-0f7ba023aa5f
+		summarizeBy: none
+		sourceColumn: week_of_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 78457d06-4a7b-4790-b26d-9792d9fb2939
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: 21c9af15-0493-499a-aebc-47e818f8374d
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column day
+		dataType: int64
+		formatString: 0
+		lineageTag: f6350f28-3ce9-4c35-b07e-caad976f685a
+		summarizeBy: none
+		sourceColumn: day
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_name
+		dataType: string
+		lineageTag: 1d527c84-b731-4559-aa86-c059d59d4e3a
+		summarizeBy: none
+		sourceColumn: day_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column fiscal_month
+		dataType: string
+		lineageTag: 8c3b0ca7-5f84-4953-96b1-e743a5c17a14
+		summarizeBy: none
+		sourceColumn: fiscal_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column holiday_flag
+		dataType: string
+		lineageTag: fe777150-178f-4d89-a6ae-0086a577d886
+		summarizeBy: none
+		sourceColumn: holiday_flag
+
+		annotation SummarizationSetBy = Automatic
+
+	column event_name
+		dataType: string
+		lineageTag: 5f04915a-fadf-4e5a-b362-dfa20bdc4146
+		summarizeBy: none
+		sourceColumn: event_name
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy date_hierarchy
+		lineageTag: 2171c74a-8767-4198-874e-ca4f94b30254
+
+		level date
+			lineageTag: 6697fbe2-4b32-4c60-84d0-2aa707d90b3a
+			column: date
+
+		level month_name
+			lineageTag: 6e59b0d1-c4c6-41c1-b598-49cc8629a2e7
+			column: month_name
+
+		level day_name
+			lineageTag: fe4c85c3-7de2-4222-81d7-12965dd32a95
+			column: day_name
+
+	partition dim_date = m
+		mode: import
+		queryGroup: dim_date
+		source =
+				let
+				    Source = Date,
+				    #"Appended Query" = Table.Combine({Source, date_master}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Appended Query",{"date_key"}),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Columns", "Index", 0, 1, Int64.Type),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Index",{{"Index", "date_key"}}),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Renamed Columns",{"date_key", "date", "week", "fiscal_month", "holiday_flag", "event_name"}),
+				    #"Sorted Rows" = Table.Sort(#"Reordered Columns",{{"date", Order.Ascending}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Sorted Rows", {"date"}),
+				    #"Filled Down" = Table.FillDown(#"Removed Duplicates",{"week", "fiscal_month", "holiday_flag"}),
+				    #"Inserted Week of Year" = Table.AddColumn(#"Filled Down", "Week of Year", each Date.WeekOfYear([date]), Int64.Type),
+				    #"Reordered Columns1" = Table.ReorderColumns(#"Inserted Week of Year",{"date_key", "date", "Week of Year", "week", "fiscal_month", "holiday_flag", "event_name"}),
+				    #"Removed Columns1" = Table.RemoveColumns(#"Reordered Columns1",{"week"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Columns1",{{"Week of Year", "week_of_year"}}),
+				    #"Inserted Month" = Table.AddColumn(#"Renamed Columns1", "Month", each Date.Month([date]), Int64.Type),
+				    #"Reordered Columns2" = Table.ReorderColumns(#"Inserted Month",{"date_key", "date", "week_of_year", "Month", "fiscal_month", "holiday_flag", "event_name"}),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Reordered Columns2",{{"Month", "month"}}),
+				    #"Inserted Month Name" = Table.AddColumn(#"Renamed Columns2", "Month Name", each Date.MonthName([date]), type text),
+				    #"Reordered Columns3" = Table.ReorderColumns(#"Inserted Month Name",{"date_key", "date", "week_of_year", "month", "Month Name", "fiscal_month", "holiday_flag", "event_name"}),
+				    #"Renamed Columns3" = Table.RenameColumns(#"Reordered Columns3",{{"Month Name", "month_name"}}),
+				    #"Inserted Day" = Table.AddColumn(#"Renamed Columns3", "Day", each Date.Day([date]), Int64.Type),
+				    #"Reordered Columns4" = Table.ReorderColumns(#"Inserted Day",{"date_key", "date", "week_of_year", "month", "month_name", "Day", "fiscal_month", "holiday_flag", "event_name"}),
+				    #"Renamed Columns4" = Table.RenameColumns(#"Reordered Columns4",{{"Day", "day"}}),
+				    #"Inserted Day Name" = Table.AddColumn(#"Renamed Columns4", "Day Name", each Date.DayOfWeekName([date]), type text),
+				    #"Reordered Columns5" = Table.ReorderColumns(#"Inserted Day Name",{"date_key", "date", "week_of_year", "month", "month_name", "day", "Day Name", "fiscal_month", "holiday_flag", "event_name"}),
+				    #"Renamed Columns5" = Table.RenameColumns(#"Reordered Columns5",{{"Day Name", "day_name"}}),
+				    #"Inserted Quarter" = Table.AddColumn(#"Renamed Columns5", "Quarter", each Date.QuarterOfYear([date]), Int64.Type),
+				    #"Reordered Columns6" = Table.ReorderColumns(#"Inserted Quarter",{"date_key", "date", "Quarter", "week_of_year", "month", "month_name", "day", "day_name", "fiscal_month", "holiday_flag", "event_name"}),
+				    #"Renamed Columns6" = Table.RenameColumns(#"Reordered Columns6",{{"Quarter", "quarter"}})
+				in
+				    #"Renamed Columns6"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

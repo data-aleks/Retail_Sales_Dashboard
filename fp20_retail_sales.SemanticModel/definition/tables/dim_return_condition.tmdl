@@ -1,0 +1,42 @@
+table dim_return_condition
+	excludeFromModelRefresh
+	lineageTag: 47300b1d-b42f-4eba-bbcd-ce1627864478
+
+	column return_condition_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5e9c4bca-1577-4483-b8d4-aad29eafe8de
+		summarizeBy: none
+		sourceColumn: return_condition_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column return_condition
+		dataType: string
+		lineageTag: 0ccd9da2-b840-4c55-a4c6-473b5063bffb
+		summarizeBy: none
+		sourceColumn: return_condition
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_return_condition = m
+		mode: import
+		queryGroup: returns_star_schema
+		source =
+				let
+				    Source = Returns,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Condition"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Added Index" = Table.AddIndexColumn(#"Removed Duplicates", "Index", 0, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "Condition"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"Index", "return_condition_key"}, {"Condition", "return_condition"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

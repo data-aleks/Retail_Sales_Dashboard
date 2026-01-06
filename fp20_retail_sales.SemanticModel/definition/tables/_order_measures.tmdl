@@ -1,0 +1,139 @@
+table _order_measures
+	lineageTag: ad0e5220-1031-4b83-a05b-6f34a4d3fe33
+
+	measure total_orders = DISTINCTCOUNT(fact_order[order_id])
+		formatString: 0
+		lineageTag: 315bbfbe-351c-4a59-bb4a-b3ab91a291a6
+
+	measure orders_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR StartDate = LatestSalesDate - 6
+			RETURN
+			CALCULATE(
+			    [total_orders],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], StartDate, LatestSalesDate)
+			)
+		formatString: 0
+		lineageTag: 75493de1-d7de-4e0e-ba80-3114dfdaec59
+
+	measure orders_prior_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR CurrentStart = LatestSalesDate - 6
+			
+			-- Shift both dates back by 7 days
+			VAR PriorEnd = CurrentStart - 1
+			VAR PriorStart = PriorEnd - 6
+			
+			RETURN
+			CALCULATE(
+			    [total_orders],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], PriorStart, PriorEnd)
+			)
+		formatString: 0
+		lineageTag: 0b97fe76-5de2-4c60-89ac-a8f833009d2f
+
+	measure orders_growth = ```
+			
+			    DIVIDE(
+			        [orders_latest_week] - [orders_prior_latest_week], 
+			        [orders_prior_latest_week], 
+			        0
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 8cb25cc7-299b-4b27-bc3f-8409464d89c4
+
+	measure kpi_orders_sparkline = ```
+			
+			// Static line color - use %23 instead of # for Firefox compatibility (Measure Derived from Eldersveld Modified by Kolosko)
+			VAR LineColour = "%236D94C5"
+			VAR PointColour = "white"
+			VAR Defs = "<defs>
+			    <linearGradient id='grad' x1='0' y1='25' x2='0' y2='50' gradientUnits='userSpaceOnUse'>
+			        <stop stop-color='#118DFF' offset='0' />
+			        <stop stop-color='#118DFF' offset='0.3' />
+			        <stop stop-color='white' offset='1' />
+			    </linearGradient>
+			</defs>"
+			// "Date" field used in this example along the X axis
+			VAR XMinDate = MIN(dim_date[date])
+			VAR XMaxDate = MAX(dim_date[date])
+			
+			// Obtain overall min and overall max measure values when evaluated for each date
+			VAR YMinValue = MINX(Values(dim_date[date]),CALCULATE([total_orders]))
+			VAR YMaxValue = MAXX(Values(dim_date[date]),CALCULATE([total_orders]))
+			
+			// Build table of X & Y coordinates and fit to 50 x 150 viewbox
+			VAR SparklineTable = ADDCOLUMNS(
+			    SUMMARIZE(fact_order,dim_date[date]),
+			        "X",INT(150 * DIVIDE(dim_date[date] - XMinDate, XMaxDate - XMinDate)),
+			        "Y",INT(50 * DIVIDE([total_orders] - YMinValue,YMaxValue - YMinValue)))
+			
+			// Concatenate X & Y coordinates to build the sparkline
+			VAR Lines = CONCATENATEX(SparklineTable,[X] & "," & 50-[Y]," ", dim_date[date])
+			
+			// Last data points on the line
+			VAR LastSparkYValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [Y])
+			VAR LastSparkXValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [X])
+			
+			// Add to SVG, and verify Data Category is set to Image URL for this measure
+			VAR SVGImageURL = 
+			    "data:image/svg+xml;utf8," & 
+			    --- gradient---
+			    "<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='-7 -7 164 64'>" & Defs & 
+			     "<polyline fill='url(#grad)' fill-opacity='0.3' stroke='transparent' 
+			      stroke-width='0' points=' 0 50 " & Lines & 
+			      " 150 150 Z '/>" &
+			    --- Lines---
+			    "<polyline 
+			        fill='transparent' stroke='" & LineColour & "' 
+			        stroke-linecap='round' stroke-linejoin='round' 
+			        stroke-width='3' points=' " & Lines & 
+			      " '/>" &
+			    --- Last Point---
+			        "<circle cx='"& LastSparkXValue & "' cy='" & 50 - LastSparkYValue & "' r='4' stroke='" & LineColour & "' stroke-width='3' fill='" & PointColour & "' />" &
+			        "</svg>"
+			RETURN SVGImageURL
+			```
+		lineageTag: 39c31d25-0dfb-4b85-8ae3-15b439c18a1e
+
+	measure orders_growth_label = ```
+			
+			VAR _og = [orders_growth]
+			VAR _lw = [orders_latest_week]
+			VAR _lwd = [orders_latest_week] - [orders_prior_latest_week]
+			VAR _arrow = 
+			    SWITCH(
+			        TRUE(),
+			        _og > 0, "▲",  -- Up arrow for growth
+			        _og < 0, "▼",  -- Down arrow for decline
+			        "▬"            -- Neutral dash for no change
+			    )
+			
+			RETURN
+			    _arrow &  " " & _lw & " " &  " " & "(" & FORMAT(_og, "0.0%") & ")" & " vs Previous Week"
+			```
+		lineageTag: fe91e66e-3f24-4fa2-b9e1-386c9c69405e
+
+	measure total_order_cost = ```
+			SUM(fact_order[cost]) 
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: a745d6ba-a0df-4ceb-8224-c59dd430621f
+
+	partition _order_measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

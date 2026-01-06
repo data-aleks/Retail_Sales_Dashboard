@@ -1,0 +1,44 @@
+table dim_store
+	excludeFromModelRefresh
+	lineageTag: 2bcc9b6b-0004-4e8e-94d5-3e8d9232a5ad
+
+	column store_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e0e4182c-fec8-49fb-88e6-6594e2adc6e7
+		summarizeBy: none
+		sourceColumn: store_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column store_id
+		dataType: string
+		lineageTag: accc3882-1da1-404a-8e1b-3cb11dfa5f82
+		summarizeBy: none
+		sourceColumn: store_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_store = m
+		mode: import
+		queryGroup: orders_star_schema
+		source =
+				let
+				    Source = OrderHeader,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"StoreID"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates", each [StoreID] <> null and [StoreID] <> ""),
+				    #"Filtered Rows1" = Table.SelectRows(#"Filtered Rows", each [StoreID] <> null and [StoreID] <> ""),
+				    #"Added Index" = Table.AddIndexColumn(#"Filtered Rows1", "Index", 0, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "StoreID"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"Index", "store_key"}, {"StoreID", "store_id"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

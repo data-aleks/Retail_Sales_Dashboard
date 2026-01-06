@@ -1,0 +1,69 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "ee395b9b851203d448cc",
+  "position": {
+    "x": 269.5529411764706,
+    "y": 707.76470588235293,
+    "z": 5000,
+    "height": 310.21176470588233,
+    "width": 724.32941176470592,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "This time-series analysis tracks the ",
+                    "textStyle": {
+                      "fontSize": "20pt",
+                      "color": "#ffffff"
+                    }
+                  },
+                  {
+                    "value": "daily erosion of net profit",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "20pt",
+                      "color": "#ffffff"
+                    }
+                  },
+                  {
+                    "value": ", specifically designed to pinpoint the exact moment when high seasonal volume is overtaken by the operational costs of late deliveries and returns.",
+                    "textStyle": {
+                      "fontSize": "20pt",
+                      "color": "#ffffff"
+                    }
+                  }
+                ],
+                "horizontalTextAlignment": "center"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "1931352433e159b43510"
+}

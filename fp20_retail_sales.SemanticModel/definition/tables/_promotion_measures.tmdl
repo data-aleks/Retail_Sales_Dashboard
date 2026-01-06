@@ -1,0 +1,33 @@
+table _promotion_measures
+	lineageTag: 36eac67b-6c21-4dac-a82f-3441bc71058c
+
+	measure total_promotion_cost = SUM(dim_promotion[planned_budget])
+		lineageTag: c85a581b-ca98-49ba-8e3f-a06e8fa77fd5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure promotion_roi =
+			
+			VAR _Profit = [total_net_profit]
+			VAR _Cost = [total_promotion_cost]
+			RETURN
+			DIVIDE(_Profit, _Cost, 0 )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bfe2d30d-3730-400d-a991-49f0f5c5e4b6
+
+	measure campaign_budget = SUM(dim_promotion[planned_budget])
+		formatString: 0
+		lineageTag: 5e76df78-22a2-40fd-a3ad-e98c5fb0cc79
+
+	partition _promotion_measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

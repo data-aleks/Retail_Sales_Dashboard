@@ -1,0 +1,92 @@
+table dim_product
+	excludeFromModelRefresh
+	lineageTag: 69cea04b-0e65-4db9-a7a1-877934dc90e9
+
+	column product_id
+		dataType: string
+		lineageTag: 5c0d0d60-bda4-48ed-a717-43309bdf5608
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 5e82ba22-3c5f-4330-9b49-86d73772383a
+		summarizeBy: none
+		sourceColumn: product_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_category
+		dataType: string
+		lineageTag: 4918b3c0-2954-40f2-b7f2-f5b000a1f5d9
+		summarizeBy: none
+		sourceColumn: product_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_sub_category
+		dataType: string
+		lineageTag: 4f36da54-87fb-46b4-a721-94e989c4e318
+		summarizeBy: none
+		sourceColumn: product_sub_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column standard_cost
+		dataType: double
+		lineageTag: 5ae63f51-3a6a-4b88-9908-ac874f63c2de
+		summarizeBy: none
+		sourceColumn: standard_cost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column msrp
+		dataType: double
+		lineageTag: bc53d1a5-e881-4ef1-9fbd-0b68d42efb8e
+		summarizeBy: none
+		sourceColumn: msrp
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column vendor
+		dataType: string
+		lineageTag: 7baa67f9-6b68-4267-899b-5fcf282cb4c2
+		summarizeBy: none
+		sourceColumn: vendor
+
+		annotation SummarizationSetBy = Automatic
+
+	column seasonality
+		dataType: string
+		lineageTag: 4ca39a69-fe16-4536-b841-246aba666cd2
+		summarizeBy: none
+		sourceColumn: seasonality
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_product = m
+		mode: import
+		queryGroup: orders_star_schema
+		source =
+				let
+				    Source = Product,
+				    #"Added Index" = Table.AddIndexColumn(Source, "Index", 0, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"ProductID", "Index", "Category", "Subcategory", "StandardCost", "MSRP", "Vendor", "SeasonalityTag"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Reordered Columns",{{"Index", "product_key"}, {"Category", "product_category"}, {"Subcategory", "product_sub_category"}, {"StandardCost", "standard_cost"}, {"Vendor", "vendor"}, {"MSRP", "msrp"}, {"SeasonalityTag", "seasonality"}, {"ProductID", "product_id"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

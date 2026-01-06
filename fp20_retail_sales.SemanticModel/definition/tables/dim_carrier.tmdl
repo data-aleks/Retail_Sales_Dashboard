@@ -1,0 +1,43 @@
+table dim_carrier
+	excludeFromModelRefresh
+	lineageTag: 14714f38-dbfc-4d17-b407-f11c7d792931
+
+	column carrier_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: abfee9d5-ca16-4fe8-95b2-927d98761300
+		summarizeBy: none
+		sourceColumn: carrier_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column carrier
+		dataType: string
+		lineageTag: e4807d4e-6ea2-46c2-8b0e-87efd2bd090a
+		summarizeBy: none
+		sourceColumn: carrier
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_carrier = m
+		mode: import
+		queryGroup: fulfilment_star_schema
+		source =
+				let
+				    Source = Fulfillment,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"Carrier"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Duplicates",{{"Carrier", "carrier"}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Renamed Columns", "Index", 0, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "carrier"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"Index", "carrier_key"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

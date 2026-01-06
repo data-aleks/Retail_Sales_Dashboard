@@ -1,0 +1,43 @@
+table dim_warehouse
+	excludeFromModelRefresh
+	lineageTag: e1aeadf3-76f0-4330-93d4-e50c3e408ee9
+
+	column warehouse_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 69a2b4b4-0718-47de-963b-6b00ea9519c3
+		summarizeBy: none
+		sourceColumn: warehouse_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column warehouse_id
+		dataType: string
+		lineageTag: 887441ab-61b9-4668-a842-1c42a2e1626b
+		summarizeBy: none
+		sourceColumn: warehouse_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_warehouse = m
+		mode: import
+		queryGroup: fulfilment_star_schema
+		source =
+				let
+				    Source = Fulfillment,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"WarehouseID"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Duplicates",{{"WarehouseID", "warehouse_id"}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Renamed Columns", "Index", 0, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "warehouse_id"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"Index", "warehouse_key"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

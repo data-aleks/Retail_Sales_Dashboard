@@ -1,0 +1,75 @@
+relationship 8d80100f-0609-3c76-77b7-b0f9ce8e73ef
+	fromColumn: fact_order.promotion_key
+	toColumn: dim_promotion.promotion_key
+
+relationship cce7fe51-3ca9-7387-e36b-e592d5752b43
+	fromColumn: fact_order.customer_key
+	toColumn: dim_customer.customer_key
+
+relationship 7974fca3-3476-ad45-c58e-bc87c370616c
+	fromColumn: fact_order.store_key
+	toColumn: dim_store.store_key
+
+relationship bb29dbc3-bd42-e779-44eb-be575dc94187
+	fromColumn: fact_order.coupon_key
+	toColumn: dim_coupon_code.coupon_key
+
+relationship 02488058-fa5a-98f5-29bf-3aad3dd6caff
+	fromColumn: fact_order.product_key
+	toColumn: dim_product.product_key
+
+relationship 28f6a6e9-4246-a223-c848-e1d1614cd0dc
+	fromColumn: fact_order.payment_type_key
+	toColumn: dim_payment_type.payment_type_key
+
+relationship 9a371b96-e6fa-d909-182f-6fd8c777cb7f
+	fromColumn: fact_order.channel_key
+	toColumn: dim_channel.channel_key
+
+relationship 74d72219-5fa5-6ef4-1cf0-a86e021c481d
+	fromColumn: fact_order.order_date
+	toColumn: dim_date.date
+
+relationship d16bdab0-9d48-db32-8c36-0ff7850dd4e4
+	isActive: false
+	fromColumn: fact_order.delivery_date
+	toColumn: dim_date.date
+
+relationship b62d066e-8f8a-05cf-54f9-3dda2ded04c9
+	isActive: false
+	fromColumn: fact_order.promised_date
+	toColumn: dim_date.date
+
+relationship 95607932-40c0-ff36-5bc0-cf1c4d5d2f66
+	isActive: false
+	fromColumn: fact_order.return_date
+	toColumn: dim_date.date
+
+relationship a991df3f-58d9-d800-bae4-8913670dad2d
+	fromColumn: fact_order.service_level_key
+	toColumn: dim_service_level.service_level_key
+
+relationship e3c4d091-253e-e489-dd09-0e8b3e9b514d
+	fromColumn: fact_order.warehouse_key
+	toColumn: dim_warehouse.warehouse_key
+
+relationship 804fa352-fb99-eb53-127e-abfb3614a6b0
+	fromColumn: fact_order.return_condition_key
+	toColumn: dim_return_condition.return_condition_key
+
+relationship 6c5faca4-ea5f-ecdd-696e-8381928d5406
+	fromColumn: fact_order.return_disposition_key
+	toColumn: dim_return_disposition.return_disposition_key
+
+relationship e3d7273c-d651-ed60-7393-d9aa7e466b5f
+	fromColumn: fact_order.return_reason_key
+	toColumn: dim_return_reason.return_reason_key
+
+relationship 3599811c-b4ed-8f7e-1389-61f379f7511b
+	fromColumn: fact_order.carrier_key
+	toColumn: dim_carrier.carrier_key
+
+relationship 8ff9ddb3-1277-09e2-b448-fe827dd2a190
+	fromColumn: fact_order.delivery_status_key
+	toColumn: dim_delivery_status.delivery_status_key
+

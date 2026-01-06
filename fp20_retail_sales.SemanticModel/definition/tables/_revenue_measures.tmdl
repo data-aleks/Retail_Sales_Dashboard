@@ -1,0 +1,297 @@
+table _revenue_measures
+	lineageTag: 21f0d5db-ccea-4154-bdfc-6fa2edd663ae
+
+	measure total_gross_revenue = SUM(fact_order[revenue])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: [gross_profit]
+		lineageTag: 88838428-baac-4783-8508-5b1c3a2f84bb
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure total_net_profit = ```
+			
+			[total_gross_revenue] - (
+			    [total_order_cost] + 
+			    [total_refund] + 
+			    [total_shipment_cost] +
+			    [total_return_shipment_cost] + 
+			    [total_restock_fee]
+			)
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		displayFolder: [net_profit]
+		lineageTag: 56971950-ed4a-4fe8-aeb0-585795abf0f5
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure net_profit_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR StartDate = LatestSalesDate - 6
+			RETURN
+			CALCULATE(
+			    [total_net_profit],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], StartDate, LatestSalesDate)
+			)
+		displayFolder: [net_profit]
+		lineageTag: f5f3d7d0-4df5-45f1-9871-bc2d0336bed1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure net_profit_prior_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR CurrentStart = LatestSalesDate - 6
+			
+			-- Shift both dates back by 7 days
+			VAR PriorEnd = CurrentStart - 1
+			VAR PriorStart = PriorEnd - 6
+			
+			RETURN
+			CALCULATE(
+			    [total_net_profit],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], PriorStart, PriorEnd)
+			)
+		displayFolder: [net_profit]
+		lineageTag: f512d73a-e07a-4f8a-9f24-2065e0bee901
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure net_profit_growth = ```
+			
+			    DIVIDE(
+			        [net_profit_latest_week] - [net_profit_prior_latest_week], 
+			        [net_profit_prior_latest_week], 
+			        0
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: [net_profit]
+		lineageTag: 5e3ef0c7-ad60-4f85-813a-2a66a10da102
+
+	measure net_profit_growth_label = ```
+			
+			VAR _og = [net_profit_growth]
+			VAR _lw = [net_profit_latest_week]
+			VAR _lwd = [net_profit_latest_week] - [net_profit_prior_latest_week]
+			VAR _arrow = 
+			    SWITCH(
+			        TRUE(),
+			        _og > 0, "▲",  -- Up arrow for growth
+			        _og < 0, "▼",  -- Down arrow for decline
+			        "▬"            -- Neutral dash for no change
+			    )
+			
+			RETURN
+			    _arrow & " " & 
+			    FORMAT(_lw, "$#,##0") & " (" & 
+			    FORMAT(_og, "0.0%") & ") vs Previous Week"
+			```
+		displayFolder: [net_profit]
+		lineageTag: 60ddd9c9-780c-40fd-91a2-8c7316627652
+
+	measure kpi_net_profit_sparkline = ```
+			
+			// Static line color - use %23 instead of # for Firefox compatibility (Measure Derived from Eldersveld Modified by Kolosko)
+			VAR LineColour = "%236D94C5"
+			VAR PointColour = "white"
+			VAR Defs = "<defs>
+			    <linearGradient id='grad' x1='0' y1='25' x2='0' y2='50' gradientUnits='userSpaceOnUse'>
+			        <stop stop-color='#118DFF' offset='0' />
+			        <stop stop-color='#118DFF' offset='0.3' />
+			        <stop stop-color='white' offset='1' />
+			    </linearGradient>
+			</defs>"
+			// "Date" field used in this example along the X axis
+			VAR XMinDate = MIN(dim_date[date])
+			VAR XMaxDate = MAX(dim_date[date])
+			
+			// Obtain overall min and overall max measure values when evaluated for each date
+			VAR YMinValue = MINX(Values(dim_date[date]),CALCULATE([total_net_profit]))
+			VAR YMaxValue = MAXX(Values(dim_date[date]),CALCULATE([total_net_profit]))
+			
+			// Build table of X & Y coordinates and fit to 50 x 150 viewbox
+			VAR SparklineTable = ADDCOLUMNS(
+			    SUMMARIZE(fact_order,dim_date[date]),
+			        "X",INT(150 * DIVIDE(dim_date[date] - XMinDate, XMaxDate - XMinDate)),
+			        "Y",INT(50 * DIVIDE([total_net_profit] - YMinValue,YMaxValue - YMinValue)))
+			
+			// Concatenate X & Y coordinates to build the sparkline
+			VAR Lines = CONCATENATEX(SparklineTable,[X] & "," & 50-[Y]," ", dim_date[date])
+			
+			// Last data points on the line
+			VAR LastSparkYValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [Y])
+			VAR LastSparkXValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [X])
+			
+			// Add to SVG, and verify Data Category is set to Image URL for this measure
+			VAR SVGImageURL = 
+			    "data:image/svg+xml;utf8," & 
+			    --- gradient---
+			    "<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='-7 -7 164 64'>" & Defs & 
+			     "<polyline fill='url(#grad)' fill-opacity='0.3' stroke='transparent' 
+			      stroke-width='0' points=' 0 50 " & Lines & 
+			      " 150 150 Z '/>" &
+			    --- Lines---
+			    "<polyline 
+			        fill='transparent' stroke='" & LineColour & "' 
+			        stroke-linecap='round' stroke-linejoin='round' 
+			        stroke-width='3' points=' " & Lines & 
+			      " '/>" &
+			    --- Last Point---
+			        "<circle cx='"& LastSparkXValue & "' cy='" & 50 - LastSparkYValue & "' r='4' stroke='" & LineColour & "' stroke-width='3' fill='" & PointColour & "' />" &
+			        "</svg>"
+			RETURN SVGImageURL
+			```
+		displayFolder: [visual_sparklines]
+		lineageTag: c0ba89ec-3ab7-430f-b3cf-56228a5e620a
+
+	measure net_profit_margin =
+			
+			VAR _rv = [total_gross_revenue]
+			VAR _prft = [total_net_profit]
+			RETURN
+			DIVIDE(_prft, _rv, 0 )
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: [profit_margin]
+		lineageTag: 054f290c-3a24-423d-8abc-faa2f980206d
+
+	measure net_profit_margin_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR StartDate = LatestSalesDate - 6
+			RETURN
+			CALCULATE(
+			    [net_profit_margin],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], StartDate, LatestSalesDate)
+			)
+		displayFolder: [profit_margin]
+		lineageTag: 1bc149ea-2751-4737-a633-940ff9b07d9d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure net_profit_margin_prior_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR CurrentStart = LatestSalesDate - 6
+			
+			-- Shift both dates back by 7 days
+			VAR PriorEnd = CurrentStart - 1
+			VAR PriorStart = PriorEnd - 6
+			
+			RETURN
+			CALCULATE(
+			    [net_profit_margin],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], PriorStart, PriorEnd)
+			)
+		displayFolder: [profit_margin]
+		lineageTag: 1b4890a9-1e2a-4cda-b456-9a7a43fb243e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure net_profit_margin_growth = ```
+			
+			    DIVIDE(
+			        [net_profit_margin_latest_week] - [net_profit_margin_prior_latest_week], 
+			        [net_profit_margin_prior_latest_week], 
+			        0
+			    )
+			```
+		displayFolder: [profit_margin]
+		lineageTag: 9581e4b0-a090-48bb-a0ff-da97ab249b04
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure net_profit_margin_growth_label = ```
+			
+			VAR _og = [net_profit_margin_growth]
+			VAR _lw = [net_profit_margin_latest_week]
+			-- _lwd is the absolute point change (e.g., from 10% to 12% is a 2% point change)
+			VAR _lwd = [net_profit_margin_latest_week] - [net_profit_margin_prior_latest_week]
+			
+			VAR _arrow = 
+			    SWITCH(
+			        TRUE(),
+			        _og > 0, "▲",  -- Up arrow for growth
+			        _og < 0, "▼",  -- Down arrow for decline
+			        "▬"            -- Neutral dash for no change
+			    )
+			
+			RETURN
+			    _arrow & " " & 
+			    FORMAT(_lw, "0.0%") & " (" & 
+			    FORMAT(_og, "0.0%") & ") vs Previous Week"
+			```
+		displayFolder: [profit_margin]
+		lineageTag: bd15be13-a8b8-4c70-a50c-3b50af35ce72
+
+	measure kpi_net_profit_margin_sparkline = ```
+			
+			// Static line color - use %23 instead of # for Firefox compatibility (Measure Derived from Eldersveld Modified by Kolosko)
+			VAR LineColour = "%236D94C5"
+			VAR PointColour = "white"
+			VAR Defs = "<defs>
+			    <linearGradient id='grad' x1='0' y1='25' x2='0' y2='50' gradientUnits='userSpaceOnUse'>
+			        <stop stop-color='#118DFF' offset='0' />
+			        <stop stop-color='#118DFF' offset='0.3' />
+			        <stop stop-color='white' offset='1' />
+			    </linearGradient>
+			</defs>"
+			// "Date" field used in this example along the X axis
+			VAR XMinDate = MIN(dim_date[date])
+			VAR XMaxDate = MAX(dim_date[date])
+			
+			// Obtain overall min and overall max measure values when evaluated for each date
+			VAR YMinValue = MINX(Values(dim_date[date]),CALCULATE([net_profit_margin]))
+			VAR YMaxValue = MAXX(Values(dim_date[date]),CALCULATE([net_profit_margin]))
+			
+			// Build table of X & Y coordinates and fit to 50 x 150 viewbox
+			VAR SparklineTable = ADDCOLUMNS(
+			    SUMMARIZE('fact_order', dim_date[date]),
+			        "X",INT(150 * DIVIDE(dim_date[date] - XMinDate, XMaxDate - XMinDate)),
+			        "Y",INT(50 * DIVIDE([net_profit_margin] - YMinValue,YMaxValue - YMinValue)))
+			
+			// Concatenate X & Y coordinates to build the sparkline
+			VAR Lines = CONCATENATEX(SparklineTable,[X] & "," & 50-[Y]," ", dim_date[date])
+			
+			// Last data points on the line
+			VAR LastSparkYValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [Y])
+			VAR LastSparkXValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [X])
+			
+			// Add to SVG, and verify Data Category is set to Image URL for this measure
+			VAR SVGImageURL = 
+			    "data:image/svg+xml;utf8," & 
+			    --- gradient---
+			    "<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='-7 -7 164 64'>" & Defs & 
+			     "<polyline fill='url(#grad)' fill-opacity='0.3' stroke='transparent' 
+			      stroke-width='0' points=' 0 50 " & Lines & 
+			      " 150 150 Z '/>" &
+			    --- Lines---
+			    "<polyline 
+			        fill='transparent' stroke='" & LineColour & "' 
+			        stroke-linecap='round' stroke-linejoin='round' 
+			        stroke-width='3' points=' " & Lines & 
+			      " '/>" &
+			    --- Last Point---
+			        "<circle cx='"& LastSparkXValue & "' cy='" & 50 - LastSparkYValue & "' r='4' stroke='" & LineColour & "' stroke-width='3' fill='" & PointColour & "' />" &
+			        "</svg>"
+			RETURN SVGImageURL
+			```
+		displayFolder: [visual_sparklines]
+		lineageTag: 0b007e2e-a647-45de-9740-002b0446664e
+
+	partition _revenue_measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

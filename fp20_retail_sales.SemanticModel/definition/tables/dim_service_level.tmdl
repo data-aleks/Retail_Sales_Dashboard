@@ -1,0 +1,43 @@
+table dim_service_level
+	excludeFromModelRefresh
+	lineageTag: a01eca1e-fc26-4172-9d6f-b9bbfa86443d
+
+	column service_level_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: a843d975-e315-4169-8813-ceda6d91df8b
+		summarizeBy: none
+		sourceColumn: service_level_key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column service_level
+		dataType: string
+		lineageTag: 88c14037-806c-4bbc-85a9-cf8b73df68aa
+		summarizeBy: none
+		sourceColumn: service_level
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_service_level = m
+		mode: import
+		queryGroup: fulfilment_star_schema
+		source =
+				let
+				    Source = Fulfillment,
+				    #"Removed Other Columns" = Table.SelectColumns(Source,{"ServiceLevel"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Removed Duplicates",{{"ServiceLevel", "service_level"}}),
+				    #"Added Index" = Table.AddIndexColumn(#"Renamed Columns", "Index", 0, 1, Int64.Type),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Added Index",{"Index", "service_level"}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Reordered Columns",{{"Index", "service_level_key"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

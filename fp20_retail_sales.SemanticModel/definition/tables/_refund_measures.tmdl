@@ -1,0 +1,140 @@
+table _refund_measures
+	lineageTag: 6b56ebe4-6cfe-4e99-9f48-e7f9e0cee207
+
+	measure total_refund = ```
+			SUM(fact_order[refund])
+			
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: ccd1c44d-23df-4563-9f0b-349694d8abb0
+
+	measure refunds_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR StartDate = LatestSalesDate - 6
+			RETURN
+			CALCULATE(
+			    [total_refund],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], StartDate, LatestSalesDate)
+			)
+		lineageTag: c118d59c-4955-40c5-883e-10f7e380642b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure refunds_prior_latest_week =
+			
+			VAR LatestSalesDate = MAX(fact_order[order_date])
+			VAR CurrentStart = LatestSalesDate - 6
+			
+			-- Shift both dates back by 7 days
+			VAR PriorEnd = CurrentStart - 1
+			VAR PriorStart = PriorEnd - 6
+			
+			RETURN
+			CALCULATE(
+			    [total_refund],
+			    REMOVEFILTERS('dim_date'),
+			    DATESBETWEEN('dim_date'[date], PriorStart, PriorEnd)
+			)
+		lineageTag: 831c989c-96e6-4f2e-830b-3505b23d985a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure refunds_growth = ```
+			
+			    DIVIDE(
+			        [refunds_latest_week] - [refunds_prior_latest_week], 
+			        [refunds_prior_latest_week], 
+			        0
+			    )
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 55bf9b73-8008-4eb1-bf70-69f82bbede00
+
+	measure refunds_growth_label = ```
+			
+			VAR _og = [refunds_growth]
+			VAR _lw = [refunds_latest_week]
+			VAR _lwd = [refunds_latest_week] - [refunds_prior_latest_week]
+			VAR _arrow = 
+			    SWITCH(
+			        TRUE(),
+			        _og > 0, "▲",  -- Up arrow for growth
+			        _og < 0, "▼",  -- Down arrow for decline
+			        "▬"            -- Neutral dash for no change
+			    )
+			
+			RETURN
+			    _arrow & " " & 
+			    FORMAT(_lw, "$#,##0") & " (" & 
+			    FORMAT(_og, "0.0%") & ") vs Previous Week"
+			```
+		lineageTag: dd111abd-3559-4237-9057-415ac6efe94d
+
+	measure kpi_refunds_sparkline = ```
+			
+			// Static line color - use %23 instead of # for Firefox compatibility (Measure Derived from Eldersveld Modified by Kolosko)
+			VAR LineColour = "%236D94C5"
+			VAR PointColour = "white"
+			
+			// "Date" field used in this example along the X axis
+			VAR XMinDate = MIN(dim_date[date])
+			VAR XMaxDate = MAX(dim_date[date])
+			
+			// Obtain overall min and overall max measure values when evaluated for each date
+			VAR YMinValue = MINX(Values(dim_date[date]),CALCULATE([total_refund]))
+			VAR YMaxValue = MAXX(Values(dim_date[date]),CALCULATE([total_refund]))
+			
+			// Build table of X & Y coordinates and fit to 50 x 150 viewbox
+			VAR SparklineTable = ADDCOLUMNS(
+			    SUMMARIZE(fact_order,dim_date[date]),
+			        "X",INT(150 * DIVIDE(dim_date[date] - XMinDate, XMaxDate - XMinDate)),
+			        "Y",INT(50 * DIVIDE([total_refund] - YMinValue,YMaxValue - YMinValue)))
+			
+			// Concatenate X & Y coordinates to build the sparkline
+			VAR Lines = CONCATENATEX(SparklineTable,[X] & "," & 50-[Y]," ", dim_date[date])
+			VAR PointTable=
+			    ADDCOLUMNS(
+			        SUMMARIZE(fact_order,dim_date[date]),
+			            "@Colour",IF([total_refund]=YMaxValue,"Green",IF([total_refund]=YMinValue,"Red",LineColour)),
+			        "@Points", "<circle cx='"&INT(150 * DIVIDE(dim_date[date] - XMinDate, XMaxDate - XMinDate))&"' cy='" & 50 -  INT(50 * DIVIDE([total_refund] - YMinValue,YMaxValue - YMinValue)) & "' r='3' stroke='"&LineColour&"' stroke-width='1'  fill='"&LineColour&"'/>")
+			
+			// Last data points on the line
+			VAR LastSparkYValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [Y])
+			VAR LastSparkXValue = MAXX( FILTER(SparklineTable, dim_date[date] = XMaxDate), [X])
+			
+			// Add to SVG, and verify Data Category is set to Image URL for this measure
+			VAR SVGImageURL = 
+			    "data:image/svg+xml;utf8," & 
+			    --- gradient---
+			    "<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' viewBox='-7 -7 164 64'>" &
+			    --- Lines---
+			    "<polyline 
+			        fill='transparent' stroke='" & LineColour & "' 
+			        stroke-linecap='round' stroke-linejoin='round' 
+			        stroke-width='2' points=' " & Lines & 
+			      " '/>" &
+			    --- Last Point---
+			        CONCATENATEX(PointTable,[@Points]) &
+			        "<circle cx='"& LastSparkXValue & "' cy='" & 50 - LastSparkYValue & "' r='4' stroke='" & LineColour & "' stroke-width='3' fill='" & PointColour & "' />" &
+			        "</svg>"
+			        
+			RETURN SVGImageURL
+			```
+		lineageTag: 2777e2c1-1090-4156-9be8-ff4f741430d2
+
+	partition _refund_measures = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+
