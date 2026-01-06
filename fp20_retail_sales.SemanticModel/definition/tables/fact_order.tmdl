@@ -197,7 +197,7 @@ table fact_order
 		dataType: int64
 		formatString: 0
 		lineageTag: 9adf054a-1090-479d-8848-31b24446a4a6
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: promotion_key
 
 		annotation SummarizationSetBy = Automatic

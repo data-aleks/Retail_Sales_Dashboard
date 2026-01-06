@@ -1,0 +1,161 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "5d5ff42caa03727e0f58",
+  "position": {
+    "x": 9.7990430622009566,
+    "y": 0,
+    "z": 0,
+    "height": 391.96172248803828,
+    "width": 722.67942583732054,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_date"
+                        }
+                      },
+                      "Hierarchy": "date_hierarchy"
+                    }
+                  },
+                  "Level": "date"
+                }
+              },
+              "queryRef": "dim_date.date_hierarchy.date",
+              "nativeQueryRef": "date_hierarchy date",
+              "active": true
+            },
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_date"
+                        }
+                      },
+                      "Hierarchy": "date_hierarchy"
+                    }
+                  },
+                  "Level": "month_name"
+                }
+              },
+              "queryRef": "dim_date.date_hierarchy.month_name",
+              "nativeQueryRef": "date_hierarchy month_name",
+              "active": false
+            },
+            {
+              "field": {
+                "HierarchyLevel": {
+                  "Expression": {
+                    "Hierarchy": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "dim_date"
+                        }
+                      },
+                      "Hierarchy": "date_hierarchy"
+                    }
+                  },
+                  "Level": "day_name"
+                }
+              },
+              "queryRef": "dim_date.date_hierarchy.day_name",
+              "nativeQueryRef": "date_hierarchy day_name",
+              "active": false
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "net_profit_amount"
+                }
+              },
+              "queryRef": "_Measures.net_profit_amount",
+              "nativeQueryRef": "net_profit_amount"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "HierarchyLevel": {
+                "Expression": {
+                  "Hierarchy": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "dim_date"
+                      }
+                    },
+                    "Hierarchy": "date_hierarchy"
+                  }
+                },
+                "Level": "date"
+              }
+            },
+            "direction": "Ascending"
+          },
+          {
+            "field": {
+              "HierarchyLevel": {
+                "Expression": {
+                  "Hierarchy": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "dim_date"
+                      }
+                    },
+                    "Hierarchy": "date_hierarchy"
+                  }
+                },
+                "Level": "month_name"
+              }
+            },
+            "direction": "Ascending"
+          },
+          {
+            "field": {
+              "HierarchyLevel": {
+                "Expression": {
+                  "Hierarchy": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "dim_date"
+                      }
+                    },
+                    "Hierarchy": "date_hierarchy"
+                  }
+                },
+                "Level": "day_name"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

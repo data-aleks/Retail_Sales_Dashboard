@@ -90,3 +90,7 @@ relationship 8af19e55-8eef-f166-8b36-91f268778b24
 	fromColumn: fact_order_return.order_id
 	toColumn: dim_order.order_id
 
+relationship 58e3dcaf-118f-16b0-35d6-58c1782437c1
+	fromColumn: fact_order.promotion_key
+	toColumn: dim_promotion.promotion_key
+

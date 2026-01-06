@@ -7,7 +7,7 @@ table dim_promotion
 		isHidden
 		formatString: 0
 		lineageTag: fc92d850-f124-4202-967b-865221ecac9b
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: promotion_key
 
 		changedProperty = IsHidden
@@ -80,26 +80,28 @@ table dim_promotion
 		dataType: double
 		formatString: 0.00%;-0.00%;0.00%
 		lineageTag: e939c21f-9429-4ccb-9e3e-040b7a4d3f2c
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: planned_lift
 
 		annotation SummarizationSetBy = Automatic
 
 	column planned_budget
 		dataType: double
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
 		lineageTag: e69727b6-9f80-4f8e-9144-fdf6dc48fc2d
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: planned_budget
 
 		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column promotion_duration = ```
 			DATEDIFF(dim_promotion[start_date], dim_promotion[end_date], DAY) 
 			```
 		formatString: 0
 		lineageTag: 4c492f28-906d-48f1-9204-f724fff497c4
-		summarizeBy: sum
+		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
 

@@ -20,14 +20,18 @@ table _Measures
 		lineageTag: aef2b2b5-b7f8-4fdb-a8dc-67b04c2adcc2
 
 	measure total_gross_revenue = SUM('fact_order'[order_revenue])
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
 		displayFolder: [Totals]
 		lineageTag: 48923fdd-1b16-41ae-be3d-9cc0c6e8a198
 
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
 	measure total_product_cost = SUM(fact_order[order_cost])
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
 		displayFolder: [Totals]
 		lineageTag: 142ad69d-363d-4e24-8ab4-75b6665d6958
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	measure total_refunds =
 			
@@ -97,6 +101,17 @@ table _Measures
 		lineageTag: f9a270d2-8ae3-46be-ac5d-6d777e55a507
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure promotion_roi = ```
+			
+			DIVIDE(
+			    [net_profit_amount], 
+			    SUM('dim_promotion'[planned_budget])
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: [Promotions]
+		lineageTag: 1a325509-42d2-446b-b67d-6af6b0cce6b4
 
 	partition _Measures = m
 		mode: import

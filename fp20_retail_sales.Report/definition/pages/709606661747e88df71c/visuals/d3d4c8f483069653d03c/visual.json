@@ -1,0 +1,341 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "d3d4c8f483069653d03c",
+  "position": {
+    "x": 0,
+    "y": 401.76076555023923,
+    "z": 2,
+    "height": 318.46889952153111,
+    "width": 1280,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_promotion"
+                    }
+                  },
+                  "Property": "promotion_name"
+                }
+              },
+              "queryRef": "dim_promotion.promotion_name",
+              "nativeQueryRef": "promotion_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_promotion"
+                    }
+                  },
+                  "Property": "planned_lift"
+                }
+              },
+              "queryRef": "dim_promotion.planned_lift",
+              "nativeQueryRef": "planned_lift"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_promotion"
+                    }
+                  },
+                  "Property": "planned_budget"
+                }
+              },
+              "queryRef": "dim_promotion.planned_budget",
+              "nativeQueryRef": "planned_budget"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "total_gross_revenue"
+                }
+              },
+              "queryRef": "_Measures.total_gross_revenue",
+              "nativeQueryRef": "total_gross_revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "total_product_cost"
+                }
+              },
+              "queryRef": "_Measures.total_product_cost",
+              "nativeQueryRef": "total_product_cost"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "total_shipping_cost"
+                }
+              },
+              "queryRef": "_Measures.total_shipping_cost",
+              "nativeQueryRef": "total_shipping_cost"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "net_profit_amount"
+                }
+              },
+              "queryRef": "_Measures.net_profit_amount",
+              "nativeQueryRef": "net_profit_amount"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "net_profit_margin"
+                }
+              },
+              "queryRef": "_Measures.net_profit_margin",
+              "nativeQueryRef": "net_profit_margin"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "promotion_roi"
+                }
+              },
+              "queryRef": "_Measures.Promotion ROI %",
+              "nativeQueryRef": "promotion_roi"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "net_profit_margin"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "46505c66a7b919acba1a",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_promotion"
+              }
+            },
+            "Property": "promotion_name"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "d",
+              "Entity": "dim_promotion",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "d"
+                              }
+                            },
+                            "Property": "promotion_name"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "null"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "objects": {
+          "general": [
+            {
+              "properties": {
+                "isInvertedSelectionMode": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "true"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "63b375ca0e8285d03cc7",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_promotion"
+              }
+            },
+            "Property": "planned_lift"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "793eb2b234abfd4427f3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "dim_promotion"
+              }
+            },
+            "Property": "planned_budget"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "87b5d13734f320c43d1b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "net_profit_amount"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "34408e8c01d159c8fdf9",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "net_profit_margin"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "0e5988709ff8e70df64a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "total_gross_revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6b6744fad13ae6b7fd47",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "total_product_cost"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d59ab3122ae9b140736a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "total_shipping_cost"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
