@@ -1,5 +1,7 @@
-# FP20 Analytics ZoomCharts Data Challenge - 
-In this challenge we are working with festive season retail dataset covering sales across Web, Stores, and Marketplaces, including Christmas and holiday campaigns from Black Friday to New Year
+## Executive Summary
+The holiday season is busy, competitive, and full of rapid decision making. This dataset gives you a chance to understand how different parts of the business worked during this peak time.Evaluate which holiday campaigns created the most profitable sales uplift. Explore delivery performance to see which carriers and shipping methods met their promised dates. Understand what caused returns and how they affected overall revenue. Support future planning by highlighting what worked well and what should be improved for next year.
+
+[View Dashboard](https://app.powerbi.com/view?r=eyJrIjoiMWJlMTMwMTUtNmFlMy00ZmJjLWIwYzItYmU3OTIzMjM0NzEzIiwidCI6IjQ2NTRiNmYxLTBlNDctNDU3OS1hOGExLTAyZmU5ZDk0M2M3YiIsImMiOjl9)
 
 ## Table of Contents
 - [Executive Summary](#executive-summary)
@@ -7,12 +9,6 @@ In this challenge we are working with festive season retail dataset covering sal
 - [Dashboard Preview](#dashboard-preview)
 - [Dataset Information](#dataset-information)
 - [Credits](#credits)
-
-
-## Executive Summary
-The holiday season is busy, competitive, and full of rapid decision making. This dataset gives you a chance to understand how different parts of the business worked during this peak time.Evaluate which holiday campaigns created the most profitable sales uplift. Explore delivery performance to see which carriers and shipping methods met their promised dates. Understand what caused returns and how they affected overall revenue. Support future planning by highlighting what worked well and what should be improved for next year.
-
-[View Dashboard](https://app.powerbi.com/view?r=eyJrIjoiMWJlMTMwMTUtNmFlMy00ZmJjLWIwYzItYmU3OTIzMjM0NzEzIiwidCI6IjQ2NTRiNmYxLTBlNDctNDU3OS1hOGExLTAyZmU5ZDk0M2M3YiIsImMiOjl9)
 
 ## Key Insights From Data
 The Holiday Performance and Reverse Logistics Audit evaluates the financial impact of fulfillment failures during the 2025 peak season. While major sales events like Black Friday achieved "Star" status with over $1.2M in net profit and 12% ROI, the broader holiday period suffered from significant profit erosion due to a 39.31% return rate and $1.72M in write-offs.
